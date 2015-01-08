@@ -1,0 +1,17 @@
+*********************************************
+*		 Minecraft Utopian Change Log	 	*
+*********************************************
+
+# 0.0.0.1 alpha
+- Splitting the graphic user interfaces packages into small packages.
+- Optimizing the minecraft main GUI.
+
+# 0.0.0.2 alpha
+- Bringing plugin API into utopian, adding hooks into the game.
+- Refactoring the structure of the game api, and fix the installation display list.
+
+# 0.0.0.3 alpha
+- Refactoring block and item information (this is a big project) containers.
+- Refactoring the main classes of the Minecraft Utopian.
+- Adding more events into the game.
+- Having finished the design of the MINECRAFT UTOPIAN DEDICATED SERVER!
