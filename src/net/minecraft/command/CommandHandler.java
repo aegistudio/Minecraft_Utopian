@@ -8,8 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.action.CommandAction;
+import net.aegistudio.minecraft.utopian.event.action.PreCommandAction;
+import net.aegistudio.minecraft.utopian.event.runtime.PreInitEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
+
+/**
+ * This class is patched as being needed by the minecraft utopian.
+ * @author aegistudio
+ */
 
 public class CommandHandler implements ICommandManager
 {
@@ -21,6 +31,16 @@ public class CommandHandler implements ICommandManager
 
     public int executeCommand(ICommandSender par1ICommandSender, String par2Str)
     {
+    	//XXX Begin Minecraft UtopianHook
+    	//XXX Hook PreCommandAction
+    	{
+	    	PreCommandAction precommand_action = new PreCommandAction(par2Str, par1ICommandSender);
+	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(precommand_action);
+	    	par2Str = precommand_action.getRawCommand();
+	    	if(precommand_action.isCancelled()) return 0;
+    	}
+    	//XXX End Of Minecraft UtopianHook
+    	
         par2Str = par2Str.trim();
 
         if (par2Str.startsWith("/"))
@@ -28,37 +48,50 @@ public class CommandHandler implements ICommandManager
             par2Str = par2Str.substring(1);
         }
 
-        String[] var3 = par2Str.split(" ");
-        String var4 = var3[0];
-        var3 = dropFirstString(var3);
-        ICommand var5 = (ICommand)this.commandMap.get(var4);
-        int var6 = this.getUsernameIndex(var5, var3);
+        String[] arguments = par2Str.split(" ");
+        String prefix = arguments[0];
+        arguments = dropFirstString(arguments);
+        ICommand command = (ICommand)this.commandMap.get(prefix);
+        int var6 = this.getUsernameIndex(command, arguments);
         int var7 = 0;
 
+    	//XXX Begin Minecraft UtopianHook
+    	//XXX Hook CommandAction
+    	{
+	    	CommandAction command_action = 
+	    			new CommandAction(command, prefix, arguments, par1ICommandSender);
+	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(command_action);
+	    	command = command_action.getCommand();
+	    	prefix = command_action.getCommandPrefix();
+	    	arguments = command_action.getCommandArguments();
+	    	if(command_action.isCancelled()) return 0;
+    	}
+    	//XXX End Of Minecraft UtopianHook
+        
         try
         {
-            if (var5 == null)
+            if (command == null)
             {
                 throw new CommandNotFoundException();
             }
 
-            if (var5.canCommandSenderUseCommand(par1ICommandSender))
+            if (command.canCommandSenderUseCommand(par1ICommandSender))
             {
                 if (var6 > -1)
                 {
-                    EntityPlayerMP[] var8 = PlayerSelector.matchPlayers(par1ICommandSender, var3[var6]);
-                    String var9 = var3[var6];
+                    EntityPlayerMP[] var8 = PlayerSelector.matchPlayers(par1ICommandSender, arguments[var6]);
+                    String var9 = arguments[var6];
                     EntityPlayerMP[] var10 = var8;
                     int var11 = var8.length;
 
                     for (int var12 = 0; var12 < var11; ++var12)
                     {
                         EntityPlayerMP var13 = var10[var12];
-                        var3[var6] = var13.getEntityName();
+                        arguments[var6] = var13.getEntityName();
 
                         try
                         {
-                            var5.processCommand(par1ICommandSender, var3);
+                            command.processCommand(par1ICommandSender, arguments);
                             ++var7;
                         }
                         catch (CommandException var15)
@@ -67,11 +100,11 @@ public class CommandHandler implements ICommandManager
                         }
                     }
 
-                    var3[var6] = var9;
+                    arguments[var6] = var9;
                 }
                 else
                 {
-                    var5.processCommand(par1ICommandSender, var3);
+                    command.processCommand(par1ICommandSender, arguments);
                     ++var7;
                 }
             }

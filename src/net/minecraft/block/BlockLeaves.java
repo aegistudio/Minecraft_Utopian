@@ -317,7 +317,7 @@ public class BlockLeaves extends BlockLeavesBase
     {
         if (!par1World.isRemote && par2EntityPlayer.getCurrentEquippedItem() != null && par2EntityPlayer.getCurrentEquippedItem().itemID == Item.shears.itemID)
         {
-            par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
+            par2EntityPlayer.addStat(StatList.mineBlockStatArray.get(this.blockID), 1);
             this.dropBlockAsItem_do(par1World, par3, par4, par5, new ItemStack(Block.leaves.blockID, 1, par6 & 3));
         }
         else

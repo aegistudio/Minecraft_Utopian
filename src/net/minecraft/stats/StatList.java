@@ -10,6 +10,8 @@ import java.util.Map;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemInfoContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -94,16 +96,16 @@ public class StatList
     /** counts the number of times you've killed a player */
     public static StatBase playerKillsStat = (new StatBasic(2024, "stat.playerKills")).registerStat();
     public static StatBase fishCaughtStat = (new StatBasic(2025, "stat.fishCaught")).registerStat();
-    public static StatBase[] mineBlockStatArray = initMinableStats("stat.mineBlock", 16777216);
+    public static Map<Integer, StatBase> mineBlockStatArray;
 
     /** Tracks the number of items a given block or item has been crafted. */
-    public static StatBase[] objectCraftStats;
+    public static Map<Integer, StatBase> objectCraftStats;
 
     /** Tracks the number of times a given block or item has been used. */
-    public static StatBase[] objectUseStats;
+    public static Map<Integer, StatBase> objectUseStats;
 
     /** Tracks the number of times a given block or item has been broken. */
-    public static StatBase[] objectBreakStats;
+    public static Map<Integer, StatBase> objectBreakStats;
     private static boolean blockStatsInitialized;
     private static boolean itemStatsInitialized;
 
@@ -121,6 +123,7 @@ public class StatList
         objectBreakStats = initBreakStats(objectBreakStats, "stat.breakItem", 16973824, 0, 256);
         blockStatsInitialized = true;
         initCraftableStats();
+        mineBlockStatArray = initMinableStats("stat.mineBlock", 16777216);
     }
 
     public static void initStats()
@@ -162,7 +165,7 @@ public class StatList
                 var0.add(Integer.valueOf(var4.itemID));
             }
 
-            objectCraftStats = new StatBase[32000];
+            objectCraftStats = new HashMap<Integer, StatBase>();
             var1 = var0.iterator();
 
             while (var1.hasNext())
@@ -172,7 +175,7 @@ public class StatList
                 if (whocallhim.getItem(var5.intValue()) != null)
                 {
                     String var3 = StatCollector.translateToLocalFormatted("stat.craftItem", new Object[] {whocallhim.getItem(var5.intValue()).getStatName()});
-                    objectCraftStats[var5.intValue()] = (new StatCrafting(16842752 + var5.intValue(), var3, var5.intValue())).registerStat();
+                    objectCraftStats.put(var5.intValue(), (new StatCrafting(16842752 + var5.intValue(), var3, var5.intValue())).registerStat());
                 }
             }
 
@@ -183,74 +186,72 @@ public class StatList
     /**
      * Initializes statistic fields related to minable items and blocks.
      */
-    private static StatBase[] initMinableStats(String par0Str, int par1)
+    
+    //XXX there should be some error here!
+    private static Map<Integer, StatBase> initMinableStats(String par0Str, int par1)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
-    	
-        StatBase[] var2 = new StatBase[256];
-
-        for (int var3 = 0; var3 < 256; ++var3)
+    	Block[] blocks = whocallme.getRegisteredBlocks();
+        HashMap<Integer, StatBase> stat = new HashMap<Integer, StatBase>();
+        
+        for (Block block : blocks) if(block != null)
         {
-            if (whocallme.getBlock(var3) != null && whocallme.getBlock(var3).getEnableStats())
+            if (block.getEnableStats())
             {
-                String var4 = StatCollector.translateToLocalFormatted(par0Str, new Object[] {whocallme.getBlock(var3).getLocalizedName()});
-                var2[var3] = (new StatCrafting(par1 + var3, var4, var3)).registerStat();
-                objectMineStats.add((StatCrafting)var2[var3]);
+                String var4 = StatCollector.translateToLocalFormatted(par0Str, new Object[] {block.getLocalizedName()});
+                stat.put(block.blockID, (new StatCrafting(par1 + block.blockID, var4, block.blockID)).registerStat());
+                objectMineStats.add(stat.get(block.blockID));
             }
         }
-
-        replaceAllSimilarBlocks(var2);
-        return var2;
+        
+        replaceAllSimilarBlocks(stat);
+        return stat;
     }
 
     /**
      * Initializes statistic fields related to usable items and blocks.
      */
-    private static StatBase[] initUsableStats(StatBase[] par0ArrayOfStatBase, String par1Str, int par2, int par3, int par4)
+    private static Map<Integer, StatBase> initUsableStats(Map<Integer, StatBase> par0ArrayOfStatBase, String par1Str, int par2, int par3, int par4)
     {
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
     	
         if (par0ArrayOfStatBase == null)
         {
-            par0ArrayOfStatBase = new StatBase[32000];
+            par0ArrayOfStatBase = new HashMap<Integer, StatBase>();
         }
 
-        for (int var5 = par3; var5 < par4; ++var5)
+        Item[] items = whocallhim.getRegisteredItems();
+        		
+        for (Item item : items) if(item != null)
         {
-            if (whocallhim.getItem(var5) != null)
-            {
-                String var6 = StatCollector.translateToLocalFormatted(par1Str, new Object[] {whocallhim.getItem(var5).getStatName()});
-                par0ArrayOfStatBase[var5] = (new StatCrafting(par2 + var5, var6, var5)).registerStat();
+            String var6 = StatCollector.translateToLocalFormatted(par1Str, new Object[] {item.getStatName()});
+            par0ArrayOfStatBase.put(item.itemID, (new StatCrafting(par2 + item.itemID, var6, item.itemID)).registerStat());
 
-                if (var5 >= 256)
-                {
-                    itemStats.add((StatCrafting)par0ArrayOfStatBase[var5]);
-                }
-            }
+            if (!(item instanceof ItemBlock || item instanceof ItemBlockWithMetadata))
+            	itemStats.add((StatCrafting)par0ArrayOfStatBase.get(item.itemID));
         }
 
         replaceAllSimilarBlocks(par0ArrayOfStatBase);
         return par0ArrayOfStatBase;
     }
 
-    private static StatBase[] initBreakStats(StatBase[] par0ArrayOfStatBase, String par1Str, int par2, int par3, int par4)
+    private static Map<Integer, StatBase> initBreakStats(Map<Integer, StatBase> par0ArrayOfStatBase, String par1Str, int par2, int par3, int par4)
     {
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
     	
         if (par0ArrayOfStatBase == null)
         {
-            par0ArrayOfStatBase = new StatBase[32000];
+            par0ArrayOfStatBase = new HashMap<Integer, StatBase>();
         }
 
-        for (int var5 = par3; var5 < par4; ++var5)
+        Item[] items = whocallhim.getRegisteredItems();
+        		
+        for (Item item : items) if(item != null) if(item.isDamageable())
         {
-            if (whocallhim.getItem(var5) != null && whocallhim.getItem(var5).isDamageable())
-            {
-                String var6 = StatCollector.translateToLocalFormatted(par1Str, new Object[] {whocallhim.getItem(var5).getStatName()});
-                par0ArrayOfStatBase[var5] = (new StatCrafting(par2 + var5, var6, var5)).registerStat();
-            }
+            String var6 = StatCollector.translateToLocalFormatted(par1Str, new Object[] {item.getStatName()});
+            par0ArrayOfStatBase.put(item.itemID, (new StatCrafting(par2 + item.itemID, var6, item.itemID)).registerStat());
         }
-
+        
         replaceAllSimilarBlocks(par0ArrayOfStatBase);
         return par0ArrayOfStatBase;
     }
@@ -258,7 +259,7 @@ public class StatList
     /**
      * Forces all dual blocks to count for each other on the stats list
      */
-    private static void replaceAllSimilarBlocks(StatBase[] par0ArrayOfStatBase)
+    private static void replaceAllSimilarBlocks(Map<Integer, StatBase> par0ArrayOfStatBase)
     {
         replaceSimilarBlocks(par0ArrayOfStatBase, Block.waterStill.blockID, Block.waterMoving.blockID);
         replaceSimilarBlocks(par0ArrayOfStatBase, Block.lavaStill.blockID, Block.lavaStill.blockID);
@@ -277,18 +278,18 @@ public class StatList
     /**
      * Forces stats for one block to add to another block, such as idle and active furnaces
      */
-    private static void replaceSimilarBlocks(StatBase[] par0ArrayOfStatBase, int par1, int par2)
+    private static void replaceSimilarBlocks(Map<Integer, StatBase> par0ArrayOfStatBase, int par1, int par2)
     {
-        if (par0ArrayOfStatBase[par1] != null && par0ArrayOfStatBase[par2] == null)
+        if (par0ArrayOfStatBase.get(par1) != null && par0ArrayOfStatBase.get(par2) == null)
         {
-            par0ArrayOfStatBase[par2] = par0ArrayOfStatBase[par1];
+            par0ArrayOfStatBase.put(par2, par0ArrayOfStatBase.get(par1));
         }
         else
         {
-            allStats.remove(par0ArrayOfStatBase[par1]);
-            objectMineStats.remove(par0ArrayOfStatBase[par1]);
-            generalStats.remove(par0ArrayOfStatBase[par1]);
-            par0ArrayOfStatBase[par1] = par0ArrayOfStatBase[par2];
+            allStats.remove(par0ArrayOfStatBase.get(par1));
+            objectMineStats.remove(par0ArrayOfStatBase.get(par1));
+            generalStats.remove(par0ArrayOfStatBase.get(par1));
+            par0ArrayOfStatBase.put(par1, par0ArrayOfStatBase.get(par2));
         }
     }
 

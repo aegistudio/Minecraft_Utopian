@@ -132,7 +132,7 @@ public class BlockSnow extends Block
         int var8 = par6 & 7;
         this.dropBlockAsItem_do(par1World, par3, par4, par5, new ItemStack(var7, var8 + 1, 0));
         par1World.setBlockToAir(par3, par4, par5);
-        par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
+        par2EntityPlayer.addStat(StatList.mineBlockStatArray.get(this.blockID), 1);
     }
 
     /**

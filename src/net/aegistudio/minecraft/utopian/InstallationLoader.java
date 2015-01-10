@@ -121,8 +121,12 @@ public class InstallationLoader
 	{
 		for(Class<?> installation_class : installation_classpathes) try
 		{
+			if(UtopianLoader.is_server && installation_class.isAnnotationPresent(Dedicated.Client.class)) continue;
+			if(!UtopianLoader.is_server && installation_class.isAnnotationPresent(Dedicated.Server.class)) continue;
+			
 			Installation installation_object = (Installation) installation_class.newInstance();
-			Installer.install(installation_object);
+			
+			if(Installer.install(installation_object)) System.out.println(installation_object.getClass().getName());
 		}
 		catch(Exception exception)
 		{

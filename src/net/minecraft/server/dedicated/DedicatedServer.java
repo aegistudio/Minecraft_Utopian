@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.runtime.ShutdownEvent;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.ServerCommand;
 import net.minecraft.crash.CrashReport;
@@ -263,6 +266,13 @@ public class DedicatedServer extends MinecraftServer implements IServer
      */
     protected void systemExitNow()
     {
+    	//XXX Begin Minecraft UtopianHook
+    	//XXX Hook ShutdownEvent
+    	ShutdownEvent shutdown_event = new ShutdownEvent();
+    	EventHandlerRegistry.getEventHandlerRegistry().invoke(shutdown_event);
+    	if(shutdown_event.isCancelled());
+    	//XXX Can't stop!
+    	//XXX End Of Minecraft UtopianHook
         System.exit(0);
     }
 

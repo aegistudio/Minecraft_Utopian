@@ -26,18 +26,18 @@ class SorterStatsItem implements Comparator
 
         if (this.slotStatsItemGUI.field_77264_j == 0)
         {
-            var5 = StatList.objectBreakStats[var3];
-            var6 = StatList.objectBreakStats[var4];
+            var5 = StatList.objectBreakStats.get(var3);
+            var6 = StatList.objectBreakStats.get(var4);
         }
         else if (this.slotStatsItemGUI.field_77264_j == 1)
         {
-            var5 = StatList.objectCraftStats[var3];
-            var6 = StatList.objectCraftStats[var4];
+            var5 = StatList.objectCraftStats.get(var3);
+            var6 = StatList.objectCraftStats.get(var4);
         }
         else if (this.slotStatsItemGUI.field_77264_j == 2)
         {
-            var5 = StatList.objectUseStats[var3];
-            var6 = StatList.objectUseStats[var4];
+            var5 = StatList.objectUseStats.get(var3);
+            var6 = StatList.objectUseStats.get(var4);
         }
 
         if (var5 != null || var6 != null)

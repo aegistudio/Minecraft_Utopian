@@ -3,8 +3,10 @@ package net.aegistudio.minecraft.utopian.patch.core;
 import java.lang.reflect.Field;
 
 import net.aegistudio.json.JSONObject;
+import net.aegistudio.minecraft.utopian.Dedicated;
 import net.aegistudio.minecraft.utopian.patch.Patch;
 
+@Dedicated.Client
 public class Patch_GuiUtopian implements Patch
 {
 

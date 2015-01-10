@@ -4,20 +4,21 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.PostInitEvent;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.PreInitEvent;
-import net.aegistudio.minecraft.utopian.registry.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.runtime.PostInitEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.PreInitEvent;
 import net.minecraft.logging.ILogAgent;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.stats.StatList;
 
 public class Server
 {
-	public static void main(String[] arguments) throws Exception
+	public static void main(String[] arguments)
 	{
 		ILogAgent logger = null;
 		try
 		{
+			UtopianLoader.is_server = true;
 			UtopianLoader.loadUtopian();
 			
 	    	//XXX Begin Minecraft UtopianHook

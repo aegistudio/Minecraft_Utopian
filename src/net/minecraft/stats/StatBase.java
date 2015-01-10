@@ -51,17 +51,13 @@ public class StatBase
      */
     public StatBase registerStat()
     {
-        if (StatList.oneShotStats.containsKey(Integer.valueOf(this.statId)))
-        {
-            throw new RuntimeException("Duplicate stat id: \"" + ((StatBase)StatList.oneShotStats.get(Integer.valueOf(this.statId))).statName + "\" and \"" + this.statName + "\" at id " + this.statId);
-        }
-        else
+        if (!StatList.oneShotStats.containsKey(Integer.valueOf(this.statId)))
         {
             StatList.allStats.add(this);
             StatList.oneShotStats.put(Integer.valueOf(this.statId), this);
             this.statGuid = AchievementMap.getGuid(this.statId);
-            return this;
         }
+        return this;
     }
 
     /**

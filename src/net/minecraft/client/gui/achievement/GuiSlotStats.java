@@ -223,7 +223,7 @@ abstract class GuiSlotStats extends GuiSlot
         {
         	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
             Item var4 = whocallhim.getItem(par1StatCrafting.getItemID());
-            String var5 = ("" + StringTranslate.getInstance().translateNamedKey(var4.getUnlocalizedName())).trim();
+            String var5 = ("" + StringTranslate.getInstance().translateNamedKey(var4.getStatName())).trim();
 
             if (var5.length() > 0)
             {

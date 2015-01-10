@@ -28,11 +28,11 @@ class GuiSlotStatsItem extends GuiSlotStats
             {
                 var4 = true;
             }
-            else if (StatList.objectBreakStats[var5] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectBreakStats[var5]) > 0)
+            else if (StatList.objectBreakStats.get(var5) != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectBreakStats.get(var5)) > 0)
             {
                 var4 = true;
             }
-            else if (StatList.objectCraftStats[var5] != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectCraftStats[var5]) > 0)
+            else if (StatList.objectCraftStats.get(var5) != null && GuiStats.getStatsFileWriter(par1GuiStats).writeStat(StatList.objectCraftStats.get(var5)) > 0)
             {
                 var4 = true;
             }
@@ -83,8 +83,8 @@ class GuiSlotStatsItem extends GuiSlotStats
         StatCrafting var6 = this.func_77257_d(par1);
         int var7 = var6.getItemID();
         GuiStats.drawItemSprite(this.slotGuiStats, par2 + 40, par3, var7);
-        this.func_77260_a((StatCrafting)StatList.objectBreakStats[var7], par2 + 115, par3, par1 % 2 == 0);
-        this.func_77260_a((StatCrafting)StatList.objectCraftStats[var7], par2 + 165, par3, par1 % 2 == 0);
+        this.func_77260_a((StatCrafting)StatList.objectBreakStats.get(var7), par2 + 115, par3, par1 % 2 == 0);
+        this.func_77260_a((StatCrafting)StatList.objectCraftStats.get(var7), par2 + 165, par3, par1 % 2 == 0);
         this.func_77260_a(var6, par2 + 215, par3, par1 % 2 == 0);
     }
 

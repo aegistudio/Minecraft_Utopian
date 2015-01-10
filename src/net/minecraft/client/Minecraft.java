@@ -18,12 +18,12 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.InitResourceEvent;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.PostInitEvent;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.PreInitEvent;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.InitWindowEvent;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.ShutdownEvent;
-import net.aegistudio.minecraft.utopian.registry.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.runtime.InitResourceEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.InitWindowEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.PostInitEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.PreInitEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.ShutdownEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.audio.SoundManager;

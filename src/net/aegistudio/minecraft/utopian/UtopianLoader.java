@@ -10,11 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
-import net.aegistudio.minecraft.utopian.plugin.event.EventHandler;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.InitResourceEvent;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.InitWindowEvent;
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.PostInitEvent;
-import net.aegistudio.minecraft.utopian.registry.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.EventHandler;
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.runtime.InitResourceEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.InitWindowEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.PostInitEvent;
 import net.minecraft.client.Minecraft;
 
 public class UtopianLoader
@@ -81,6 +81,8 @@ public class UtopianLoader
 	private static JFrame startup = null;
 	private static JLabel status = null;
 	private static JProgressBar progress_bar = null;
+	
+	public static boolean is_server = false;
 	
 	public static void createLoadingGUI()
 	{

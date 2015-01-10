@@ -3,8 +3,8 @@ package net.minecraft.client;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import net.aegistudio.minecraft.utopian.plugin.event.runtime.ShutdownEvent;
-import net.aegistudio.minecraft.utopian.registry.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.runtime.ShutdownEvent;
 
 public final class GameWindowListener extends WindowAdapter
 {

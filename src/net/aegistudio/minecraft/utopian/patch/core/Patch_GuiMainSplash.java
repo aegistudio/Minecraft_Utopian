@@ -12,11 +12,12 @@ import java.util.HashMap;
 import java.util.Random;
 
 import net.aegistudio.json.JSONObject;
+import net.aegistudio.minecraft.utopian.Dedicated;
 import net.aegistudio.minecraft.utopian.patch.Patch;
 import net.minecraft.client.gui.main.GuiMainMenu;
 import net.minecraft.client.gui.main.ISplashLoader;
 
-
+@Dedicated.Client
 public class Patch_GuiMainSplash implements Patch, ISplashLoader
 {
 	

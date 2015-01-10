@@ -1044,7 +1044,7 @@ public class Block
      */
     public void harvestBlock(World par1World, EntityPlayer par2EntityPlayer, int par3, int par4, int par5, int par6)
     {
-        par2EntityPlayer.addStat(StatList.mineBlockStatArray[this.blockID], 1);
+        par2EntityPlayer.addStat(StatList.mineBlockStatArray.get(this.blockID), 1);
         par2EntityPlayer.addExhaustion(0.025F);
 
         if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(par2EntityPlayer))

@@ -147,7 +147,7 @@ public final class ItemStack
 
         if (var10)
         {
-            par1EntityPlayer.addStat(StatList.objectUseStats[this.itemID], 1);
+            par1EntityPlayer.addStat(StatList.objectUseStats.get(this.itemID), 1);
         }
 
         return var10;
@@ -344,7 +344,7 @@ public final class ItemStack
 
                     if (par2EntityLiving instanceof EntityPlayer)
                     {
-                        ((EntityPlayer)par2EntityLiving).addStat(StatList.objectBreakStats[this.itemID], 1);
+                        ((EntityPlayer)par2EntityLiving).addStat(StatList.objectBreakStats.get(this.itemID), 1);
                     }
 
                     --this.stackSize;
@@ -370,7 +370,7 @@ public final class ItemStack
 
         if (var3)
         {
-            par2EntityPlayer.addStat(StatList.objectUseStats[this.itemID], 1);
+            par2EntityPlayer.addStat(StatList.objectUseStats.get(this.itemID), 1);
         }
     }
 
@@ -381,7 +381,7 @@ public final class ItemStack
 
         if (var7)
         {
-            par6EntityPlayer.addStat(StatList.objectUseStats[this.itemID], 1);
+            par6EntityPlayer.addStat(StatList.objectUseStats.get(this.itemID), 1);
         }
     }
 
@@ -492,7 +492,7 @@ public final class ItemStack
     public void onCrafting(World par1World, EntityPlayer par2EntityPlayer, int par3)
     {
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
-        par2EntityPlayer.addStat(StatList.objectCraftStats[this.itemID], par3);
+        par2EntityPlayer.addStat(StatList.objectCraftStats.get(this.itemID), par3);
         whocallhim.getItem(this.itemID).onCreated(this, par1World, par2EntityPlayer);
     }
 
