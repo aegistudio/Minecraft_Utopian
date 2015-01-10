@@ -1,7 +1,6 @@
 *********************************************
-*		 Minecraft Utopian Change Log	 	*
+*     Minecraft Utopian Change Log     *
 *********************************************
-
 # 0.0.0.1 alpha
 - Splitting the graphic user interfaces packages into small packages.
 - Optimizing the minecraft main GUI.
