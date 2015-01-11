@@ -36,11 +36,13 @@ public class CommandServerSaveAll extends CommandBase
             WorldServer var5;
             boolean var6;
 
-            for (var4 = 0; var4 < var3.worldServers.length; ++var4)
+            WorldServer[] worlds = var3.worldServers.values().toArray(new WorldServer[0]);
+            
+            for (WorldServer world : worlds)
             {
-                if (var3.worldServers[var4] != null)
+                if (world != null)
                 {
-                    var5 = var3.worldServers[var4];
+                    var5 = world;
                     var6 = var5.canNotSave;
                     var5.canNotSave = false;
                     var5.saveAllChunks(true, (IProgressUpdate)null);
@@ -52,11 +54,11 @@ public class CommandServerSaveAll extends CommandBase
             {
                 par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.save.flushStart", new Object[0]));
 
-                for (var4 = 0; var4 < var3.worldServers.length; ++var4)
+                for (WorldServer world : worlds)
                 {
-                    if (var3.worldServers[var4] != null)
+                    if (world != null)
                     {
-                        var5 = var3.worldServers[var4];
+                        var5 = world;
                         var6 = var5.canNotSave;
                         var5.canNotSave = false;
                         var5.func_104140_m();

@@ -15,6 +15,7 @@ import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
 import net.aegistudio.minecraft.utopian.event.runtime.InitResourceEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.InitWindowEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.PostInitEvent;
+import net.aegistudio.minecraft.utopian.util.SingletonIntruder;
 import net.minecraft.client.Minecraft;
 
 public class UtopianLoader
@@ -38,16 +39,16 @@ public class UtopianLoader
 			@EventHandler(value = InitResourceEvent.class, async = true)
 			public void initResource(InitResourceEvent event)
 			{
-				setLoadingGUI("Installing minecraft resources...", 80);
+				setLoadingGUI("Installing plugins...", 75);
+				InstallationLoader.getInstallationLoader().installPlugins();
+				
+				setLoadingGUI("Installing minecraft resources...", 83);
 				EventHandlerRegistry.getEventHandlerRegistry().unregisterHandler(this, InitResourceEvent.class);
 			}
 			
 			@EventHandler(value = PostInitEvent.class, async = true)
 			public void postInit(PostInitEvent event)
 			{
-				setLoadingGUI("Installing plugins...", 90);
-				InstallationLoader.getInstallationLoader().installPlugins();
-				
 				setLoadingGUI("Welcome to the world of minecraft utopian!", 100);
 				new Thread(this).start();
 				EventHandlerRegistry.getEventHandlerRegistry().unregisterHandler(this, PostInitEvent.class);
@@ -65,8 +66,8 @@ public class UtopianLoader
 		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(jframe_state_renderer, PostInitEvent.class);
 		
 		setLoadingGUI("Loading configuration files...", 10);
-		new SingletonIntruder<Configuration>("instance")
-			.intrude(Configuration.class, Configuration.class)
+		new SingletonIntruder<ClientConfiguration>("instance")
+			.intrude(ClientConfiguration.class, ClientConfiguration.class)
 			.loadConfig(CONFIG_FILENAME);
 		
 		setLoadingGUI("Scanning for plugins and patches...", 20);
@@ -133,7 +134,7 @@ public class UtopianLoader
 	
 	public static void patchMinecraftDirectory() throws Exception
 	{
-		File minecraft_path = new File(Configuration.getConfig().getStringKey(Configuration.MINECRAFT_PATH));
+		File minecraft_path = new File((String) ClientConfiguration.getConfig().getKey(ClientConfiguration.MINECRAFT_PATH));
 		
 		Field minecraft_directory = Minecraft.class.getDeclaredField("minecraftDir");
 		minecraft_directory.setAccessible(true);

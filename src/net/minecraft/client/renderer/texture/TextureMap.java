@@ -22,6 +22,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemInfoContainer;
 import net.minecraft.util.Icon;
 
+/**
+ * This class is modified as is needed by minecraft utopian.
+ * @author aegistudio
+ */
+
 public class TextureMap implements IconRegister
 {
     /** 0 = terrain.png, 1 = items.png */

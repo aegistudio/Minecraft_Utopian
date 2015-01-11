@@ -11,15 +11,15 @@ public class CommandAction extends Event
 	private String[] command_arguments;
 	private ICommand command;
 	
-	private EntityPlayerMP player;
+	private ICommandSender command_sender;
 	
-	public CommandAction(ICommand command, String command_prefix, String[] command_arguments, ICommandSender player)
+	public CommandAction(ICommand command, String command_prefix, String[] command_arguments, ICommandSender command_sender)
 	{
 		this.command = command;
 		this.command_prefix = (this.command != null)? this.command.getCommandName() : command_prefix;
 		this.command_arguments = command_arguments;
 		
-		this.player = (EntityPlayerMP) ((player instanceof EntityPlayerMP)? player : null);
+		this.command_sender = command_sender;
 	}
 	
 	public String getCommandPrefix()
@@ -48,8 +48,13 @@ public class CommandAction extends Event
 		this.command_arguments = command_arguments;
 	}
 	
-	public EntityPlayerMP getCommandSender()
+	public EntityPlayerMP getCommandSenderAsPlayer()
 	{
-		return player;
+		return (EntityPlayerMP)((this.command_sender instanceof EntityPlayerMP)? this.command_sender : null);
+	}
+	
+	public ICommandSender getCommandSender()
+	{
+		return this.command_sender;
 	}
 }

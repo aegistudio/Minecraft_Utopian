@@ -7,8 +7,11 @@ import java.security.KeyPair;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
@@ -37,6 +40,7 @@ import net.minecraft.world.EnumGameType;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldManager;
+import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldServerMulti;
 import net.minecraft.world.WorldSettings;
@@ -71,7 +75,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
     private int serverPort = -1;
 
     /** The server world instances. */
-    public WorldServer[] worldServers;
+    public Map<Integer, WorldServer> worldServers;
 
     /** The ServerConfigurationManager instance. */
     private ServerConfigurationManager serverConfigManager;
@@ -124,7 +128,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
     public final long[] tickTimeArray = new long[100];
 
     /** Stats are [dimension][tick%100] system.nanoTime is stored. */
-    public long[][] timeOfLastDimensionTick;
+    public Map<Integer, long[]> timeOfLastDimensionTick;
     private KeyPair serverKeyPair;
 
     /** Username of the server owner (for integrated servers) */
@@ -198,8 +202,10 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
     {
         this.convertMapIfNeeded(par1Str);
         this.setUserMessage("menu.loadingLevel");
-        this.worldServers = new WorldServer[3];
-        this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
+        Integer[] dimensions = WorldProvider.getRegisteredWorldProviders();
+        this.worldServers = new HashMap<Integer, WorldServer>();
+        this.timeOfLastDimensionTick = new HashMap<Integer, long[]>();
+        
         ISaveHandler var7 = this.anvilConverterForAnvilFile.getSaveLoader(par1Str, true);
         WorldInfo var9 = var7.loadWorldInfo();
         WorldSettings var8;
@@ -219,57 +225,53 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
             var8.enableBonusChest();
         }
 
-        for (int var10 = 0; var10 < this.worldServers.length; ++var10)
+        initializeDimensionWorld(0, var7, var8, par1Str, par2Str, par3, par5WorldType, par6Str);
+        
+        for (Integer dimension : dimensions) if(dimension != 0)
         {
-            byte var11 = 0;
-
-            if (var10 == 1)
-            {
-                var11 = -1;
-            }
-
-            if (var10 == 2)
-            {
-                var11 = 1;
-            }
-
-            if (var10 == 0)
-            {
-                if (this.isDemo())
-                {
-                    this.worldServers[var10] = new DemoWorldServer(this, var7, par2Str, var11, this.theProfiler, this.getLogAgent());
-                }
-                else
-                {
-                    this.worldServers[var10] = new WorldServer(this, var7, par2Str, var11, var8, this.theProfiler, this.getLogAgent());
-                }
-            }
-            else
-            {
-                this.worldServers[var10] = new WorldServerMulti(this, var7, par2Str, var11, var8, this.worldServers[0], this.theProfiler, this.getLogAgent());
-            }
-
-            this.worldServers[var10].addWorldAccess(new WorldManager(this, this.worldServers[var10]));
-
-            if (!this.isSinglePlayer())
-            {
-                this.worldServers[var10].getWorldInfo().setGameType(this.getGameType());
-            }
-
-            this.serverConfigManager.setPlayerManager(this.worldServers);
+        	initializeDimensionWorld(dimension, var7, var8, par1Str, par2Str, par3, par5WorldType, par6Str);
         }
 
         this.setDifficultyForAllWorlds(this.getDifficulty());
         this.initialWorldChunkLoad();
     }
 
+    protected void initializeDimensionWorld(int dimension, ISaveHandler var7, WorldSettings var8, String par1Str, String par2Str, long par3, WorldType par5WorldType, String par6Str)
+    {
+    	if (dimension == 0)
+        {
+        	if (this.isDemo())
+            {
+                this.worldServers.put(0, new DemoWorldServer(this, var7, par2Str, 0, this.theProfiler, this.getLogAgent()));
+            }
+            else
+            {
+                this.worldServers.put(0, new WorldServer(this, var7, par2Str, 0, var8, this.theProfiler, this.getLogAgent()));
+            }
+        }
+        else
+        {
+            this.worldServers.put(dimension, new WorldServerMulti(this, var7, par2Str, dimension, var8, this.worldServers.get(0), this.theProfiler, this.getLogAgent()));
+        }
+
+        this.timeOfLastDimensionTick.put(dimension, new long[100]);
+        this.worldServers.get(dimension).addWorldAccess(new WorldManager(this, this.worldServers.get(dimension)));
+
+        if (!this.isSinglePlayer())
+        {
+            this.worldServers.get(dimension).getWorldInfo().setGameType(this.getGameType());
+        }
+
+        this.serverConfigManager.setPlayerManager(this.worldServers.values().toArray(new WorldServer[0]));
+    }
+    
     protected void initialWorldChunkLoad()
     {
         int var5 = 0;
         this.setUserMessage("menu.generatingTerrain");
-        byte var6 = 0;
+        Integer var6 = 0;
         this.getLogAgent().logInfo("Preparing start region for level " + var6);
-        WorldServer var7 = this.worldServers[var6];
+        WorldServer var7 = this.worldServers.get(var6);
         ChunkCoordinates var8 = var7.getSpawnPoint();
         long var9 = System.currentTimeMillis();
 
@@ -333,7 +335,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
     {
         if (!this.worldIsBeingDeleted)
         {
-            WorldServer[] var2 = this.worldServers;
+            WorldServer[] var2 = this.worldServers.values().toArray(new WorldServer[0]);
             int var3 = var2.length;
 
             for (int var4 = 0; var4 < var3; ++var4)
@@ -384,9 +386,10 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
             this.getLogAgent().logInfo("Saving worlds");
             this.saveAllWorlds(false);
 
-            for (int var1 = 0; var1 < this.worldServers.length; ++var1)
+            Integer[] dimensions = this.worldServers.keySet().toArray(new Integer[0]);
+            for (Integer var1 : dimensions)
             {
-                WorldServer var2 = this.worldServers[var1];
+                WorldServer var2 = this.worldServers.get(var1);
                 var2.flush();
             }
 
@@ -452,7 +455,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                     var50 += var7;
                     var1 = var5;
 
-                    if (this.worldServers[0].areAllPlayersAsleep())
+                    if (this.worldServers.get(0).areAllPlayersAsleep())
                     {
                         this.tick();
                         var50 = 0L;
@@ -592,15 +595,15 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
     public void updateTimeLightAndEntities()
     {
         this.theProfiler.startSection("levels");
-        int var1;
 
-        for (var1 = 0; var1 < this.worldServers.length; ++var1)
+        Integer[] dimensions = this.worldServers.keySet().toArray(new Integer[0]);
+        for (Integer dimension : dimensions)
         {
             long var2 = System.nanoTime();
 
-            if (var1 == 0 || this.getAllowNether())
+            if (dimension == 0 || this.getAllowNether())
             {
-                WorldServer var4 = this.worldServers[var1];
+            	WorldServer var4 = this.worldServers.get(dimension);
                 this.theProfiler.startSection(var4.getWorldInfo().getWorldName());
                 this.theProfiler.startSection("pools");
                 var4.getWorldVec3Pool().clear();
@@ -645,7 +648,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
                 this.theProfiler.endSection();
             }
 
-            this.timeOfLastDimensionTick[var1][this.tickCounter % 100] = System.nanoTime() - var2;
+            this.timeOfLastDimensionTick.get(dimension)[this.tickCounter % 100] = System.nanoTime() - var2;
         }
 
         this.theProfiler.endStartSection("connection");
@@ -654,6 +657,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
         this.serverConfigManager.sendPlayerInfoToAllPlayers();
         this.theProfiler.endStartSection("tickables");
 
+        int var1;
         for (var1 = 0; var1 < this.tickables.size(); ++var1)
         {
             ((IUpdatePlayerListBox)this.tickables.get(var1)).update();
@@ -701,7 +705,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      */
     public WorldServer worldServerForDimension(int par1)
     {
-        return par1 == -1 ? this.worldServers[1] : (par1 == 1 ? this.worldServers[2] : this.worldServers[0]);
+        return worldServers.get(par1);
     }
 
     /**
@@ -814,7 +818,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
     {
         par1CrashReport.func_85056_g().addCrashSectionCallable("Profiler Position", new CallableIsServerModded(this));
 
-        if (this.worldServers != null && this.worldServers.length > 0 && this.worldServers[0] != null)
+        if (this.worldServers != null && this.worldServers.size() > 0 && this.worldServers.get(0) != null)
         {
             par1CrashReport.func_85056_g().addCrashSectionCallable("Vec3 Pool Size", new CallableServerProfiler(this));
         }
@@ -993,9 +997,10 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 
     public void setDifficultyForAllWorlds(int par1)
     {
-        for (int var2 = 0; var2 < this.worldServers.length; ++var2)
+    	Integer[] dimensions = this.worldServers.keySet().toArray(new Integer[0]);
+        for (Integer var2 : dimensions)
         {
-            WorldServer var3 = this.worldServers[var2];
+            WorldServer var3 = this.worldServers.get(var2);
 
             if (var3 != null)
             {
@@ -1058,9 +1063,10 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
         this.worldIsBeingDeleted = true;
         this.getActiveAnvilConverter().flushCache();
 
-        for (int var1 = 0; var1 < this.worldServers.length; ++var1)
+        Integer[] dimensions = this.worldServers.keySet().toArray(new Integer[0]);
+        for (int var1 : dimensions)
         {
-            WorldServer var2 = this.worldServers[var1];
+            WorldServer var2 = this.worldServers.get(var1);
 
             if (var2 != null)
             {
@@ -1068,7 +1074,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
             }
         }
 
-        this.getActiveAnvilConverter().deleteWorldDirectory(this.worldServers[0].getSaveHandler().getWorldDirectoryName());
+        this.getActiveAnvilConverter().deleteWorldDirectory(this.worldServers.get(0).getSaveHandler().getWorldDirectoryName());
         this.initiateShutdown();
     }
 
@@ -1098,11 +1104,12 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
         par1PlayerUsageSnooper.addData("avg_rec_packet_size", Integer.valueOf((int)MathHelper.average(this.receivedPacketSizeArray)));
         int var2 = 0;
 
-        for (int var3 = 0; var3 < this.worldServers.length; ++var3)
+        Integer[] dimensions = this.worldServers.keySet().toArray(new Integer[0]);
+        for (int var3 = 0; var3 < dimensions.length; ++var3)
         {
-            if (this.worldServers[var3] != null)
+            if (this.worldServers.get(var3) != null)
             {
-                WorldServer var4 = this.worldServers[var3];
+                WorldServer var4 = this.worldServers.get(var3);
                 WorldInfo var5 = var4.getWorldInfo();
                 par1PlayerUsageSnooper.addData("world[" + var2 + "][dimension]", Integer.valueOf(var4.provider.dimensionId));
                 par1PlayerUsageSnooper.addData("world[" + var2 + "][mode]", var5.getGameType());
@@ -1240,9 +1247,10 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
      */
     public void setGameType(EnumGameType par1EnumGameType)
     {
-        for (int var2 = 0; var2 < this.worldServers.length; ++var2)
+    	Integer[] dimensions = this.worldServers.keySet().toArray(new Integer[0]);
+        for (Integer var2 : dimensions)
         {
-            getServer().worldServers[var2].getWorldInfo().setGameType(par1EnumGameType);
+            getServer().worldServers.get(var2).getWorldInfo().setGameType(par1EnumGameType);
         }
     }
 

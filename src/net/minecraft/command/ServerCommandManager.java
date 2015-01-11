@@ -69,7 +69,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
     {
         boolean var5 = true;
 
-        if (par1ICommandSender instanceof TileEntityCommandBlock && !MinecraftServer.getServer().worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput"))
+        if (par1ICommandSender instanceof TileEntityCommandBlock && !MinecraftServer.getServer().worldServers.get(0).getGameRules().getGameRuleBooleanValue("commandBlockOutput"))
         {
             var5 = false;
         }

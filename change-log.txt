@@ -1,6 +1,7 @@
 *********************************************
-*     Minecraft Utopian Change Log     *
+*        Minecraft Utopian Change Log       *
 *********************************************
+
 # 0.0.0.1 alpha
 - Splitting the graphic user interfaces packages into small packages.
 - Optimizing the minecraft main GUI.
@@ -14,3 +15,9 @@
 - Refactoring the main classes of the Minecraft Utopian.
 - Adding more events into the game.
 - Having finished the design of the MINECRAFT UTOPIAN DEDICATED SERVER!
+
+# 0.0.0.4 alpha
+- Adding some action events into the game. (Like player use command, etc.)
+- Having Fixed a problem in block statistics which violates the data collection for blocks.
+- Modifying the texture loading classes, adding external images will be possible. (Using "./" under the root of minecraft, and "file://" in the file system.)
+- Refactoring the world provider class, making it possible to generate worlds other than the overworld, the nether, and the end.

@@ -75,9 +75,12 @@ public class CommandTime extends CommandBase
      */
     protected void setTime(ICommandSender par1ICommandSender, int par2)
     {
-        for (int var3 = 0; var3 < MinecraftServer.getServer().worldServers.length; ++var3)
+        MinecraftServer var3 = MinecraftServer.getServer();
+        WorldServer[] worlds = var3.worldServers.values().toArray(new WorldServer[0]);
+        
+        for (WorldServer world : worlds) if(world != null)
         {
-            MinecraftServer.getServer().worldServers[var3].setWorldTime((long)par2);
+            world.setWorldTime((long)par2);
         }
     }
 
@@ -86,10 +89,12 @@ public class CommandTime extends CommandBase
      */
     protected void addTime(ICommandSender par1ICommandSender, int par2)
     {
-        for (int var3 = 0; var3 < MinecraftServer.getServer().worldServers.length; ++var3)
+    	MinecraftServer var3 = MinecraftServer.getServer();
+        WorldServer[] worlds = var3.worldServers.values().toArray(new WorldServer[0]);
+        
+        for (WorldServer world : worlds) if(world != null)
         {
-            WorldServer var4 = MinecraftServer.getServer().worldServers[var3];
-            var4.setWorldTime(var4.getWorldTime() + (long)par2);
+            world.setWorldTime(world.getWorldTime() + (long)par2);
         }
     }
 }

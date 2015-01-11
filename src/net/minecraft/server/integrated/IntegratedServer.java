@@ -2,6 +2,8 @@ package net.minecraft.server.integrated;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ThreadLanServerPing;
 import net.minecraft.crash.CrashReport;
@@ -13,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.CryptManager;
 import net.minecraft.world.EnumGameType;
 import net.minecraft.world.WorldManager;
+import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldServerMulti;
 import net.minecraft.world.WorldSettings;
@@ -59,48 +62,46 @@ public class IntegratedServer extends MinecraftServer
     protected void loadAllWorlds(String par1Str, String par2Str, long par3, WorldType par5WorldType, String par6Str)
     {
         this.convertMapIfNeeded(par1Str);
-        this.worldServers = new WorldServer[3];
-        this.timeOfLastDimensionTick = new long[this.worldServers.length][100];
+        
+        Integer[] dimensions = WorldProvider.getRegisteredWorldProviders();
+        this.worldServers = new HashMap<Integer, WorldServer>();
+        this.timeOfLastDimensionTick = new HashMap<Integer, long[]>();
         ISaveHandler var7 = this.getActiveAnvilConverter().getSaveLoader(par1Str, true);
 
-        for (int var8 = 0; var8 < this.worldServers.length; ++var8)
+        initializeWorldServer(0, var7, par2Str);
+        
+        for (Integer dimension : dimensions) if(dimension != 0)
         {
-            byte var9 = 0;
-
-            if (var8 == 1)
-            {
-                var9 = -1;
-            }
-
-            if (var8 == 2)
-            {
-                var9 = 1;
-            }
-
-            if (var8 == 0)
-            {
-                if (this.isDemo())
-                {
-                    this.worldServers[var8] = new DemoWorldServer(this, var7, par2Str, var9, this.theProfiler, this.getLogAgent());
-                }
-                else
-                {
-                    this.worldServers[var8] = new WorldServer(this, var7, par2Str, var9, this.theWorldSettings, this.theProfiler, this.getLogAgent());
-                }
-            }
-            else
-            {
-                this.worldServers[var8] = new WorldServerMulti(this, var7, par2Str, var9, this.theWorldSettings, this.worldServers[0], this.theProfiler, this.getLogAgent());
-            }
-
-            this.worldServers[var8].addWorldAccess(new WorldManager(this, this.worldServers[var8]));
-            this.getConfigurationManager().setPlayerManager(this.worldServers);
+        	initializeWorldServer(dimension, var7, par2Str);
         }
 
         this.setDifficultyForAllWorlds(this.getDifficulty());
         this.initialWorldChunkLoad();
     }
 
+    protected void initializeWorldServer(int dimension, ISaveHandler var7, String par2Str)
+    {
+    	 if (dimension == 0)
+         {
+             if (this.isDemo())
+             {
+                 this.worldServers.put(dimension, new DemoWorldServer(this, var7, par2Str, dimension, this.theProfiler, this.getLogAgent()));
+             }
+             else
+             {
+                 this.worldServers.put(dimension, new WorldServer(this, var7, par2Str, dimension, this.theWorldSettings, this.theProfiler, this.getLogAgent()));
+             }
+         }
+         else
+         {
+             this.worldServers.put(dimension, new WorldServerMulti(this, var7, par2Str, dimension, this.theWorldSettings, this.worldServers.get(0), this.theProfiler, this.getLogAgent()));
+         }
+
+         this.timeOfLastDimensionTick.put(dimension, new long[100]);
+         this.worldServers.get(dimension).addWorldAccess(new WorldManager(this, this.worldServers.get(dimension)));
+         this.getConfigurationManager().setPlayerManager(this.worldServers.values().toArray(new WorldServer[0]));
+    }
+    
     /**
      * Initialises the server and starts it.
      */
@@ -115,7 +116,7 @@ public class IntegratedServer extends MinecraftServer
         this.serverLogAgent.logInfo("Generating keypair");
         this.setKeyPair(CryptManager.createNewKeyPair());
         this.loadAllWorlds(this.getFolderName(), this.getWorldName(), this.theWorldSettings.getSeed(), this.theWorldSettings.getTerrainType(), this.theWorldSettings.func_82749_j());
-        this.setMOTD(this.getServerOwner() + " - " + this.worldServers[0].getWorldInfo().getWorldName());
+        this.setMOTD(this.getServerOwner() + " - " + this.worldServers.get(0).getWorldInfo().getWorldName());
         return true;
     }
 

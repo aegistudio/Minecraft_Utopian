@@ -70,7 +70,7 @@ public class WorldServer extends World
     /** is false if there are no players */
     private boolean allPlayersSleeping;
     private int updateEntityTick = 0;
-    private final Teleporter field_85177_Q;
+    private final Teleporter teleporter;
 
     /**
      * Double buffer of ServerBlockEventList[] for holding pending BlockEventData's
@@ -88,9 +88,9 @@ public class WorldServer extends World
     /** An IntHashMap of entity IDs (integers) to their Entity objects. */
     private IntHashMap entityIdMap;
 
-    public WorldServer(MinecraftServer par1MinecraftServer, ISaveHandler par2ISaveHandler, String par3Str, int par4, WorldSettings par5WorldSettings, Profiler par6Profiler, ILogAgent par7ILogAgent)
+    public WorldServer(MinecraftServer par1MinecraftServer, ISaveHandler par2ISaveHandler, String par3Str, int dimension, WorldSettings par5WorldSettings, Profiler par6Profiler, ILogAgent par7ILogAgent)
     {
-        super(par2ISaveHandler, par3Str, par5WorldSettings, WorldProvider.getProviderForDimension(par4), par6Profiler, par7ILogAgent);
+        super(par2ISaveHandler, par3Str, par5WorldSettings, WorldProvider.getProviderForDimension(dimension), par6Profiler, par7ILogAgent);
         this.mcServer = par1MinecraftServer;
         this.theEntityTracker = new EntityTracker(this);
         this.thePlayerManager = new PlayerManager(this, par1MinecraftServer.getConfigurationManager().getViewDistance());
@@ -110,7 +110,7 @@ public class WorldServer extends World
             this.pendingTickListEntries = new TreeSet();
         }
 
-        this.field_85177_Q = new Teleporter(this);
+        this.teleporter = new Teleporter(this);
         this.worldScoreboard = new ServerScoreboard(par1MinecraftServer);
         ScoreboardSaveData var8 = (ScoreboardSaveData)this.mapStorage.loadData(ScoreboardSaveData.class, "scoreboard");
 
@@ -183,7 +183,7 @@ public class WorldServer extends World
         this.villageCollectionObj.tick();
         this.villageSiegeObj.tick();
         this.theProfiler.endStartSection("portalForcer");
-        this.field_85177_Q.removeStalePortalLocations(this.getTotalWorldTime());
+        this.teleporter.removeStalePortalLocations(this.getTotalWorldTime());
         this.theProfiler.endSection();
         this.sendAndApplyBlockEvents();
     }
@@ -1084,6 +1084,6 @@ public class WorldServer extends World
 
     public Teleporter getDefaultTeleporter()
     {
-        return this.field_85177_Q;
+        return this.teleporter;
     }
 }

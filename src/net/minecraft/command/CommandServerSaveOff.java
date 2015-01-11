@@ -22,11 +22,12 @@ public class CommandServerSaveOff extends CommandBase
     {
         MinecraftServer var3 = MinecraftServer.getServer();
 
-        for (int var4 = 0; var4 < var3.worldServers.length; ++var4)
+        WorldServer[] worlds = var3.worldServers.values().toArray(new WorldServer[0]);
+        for (WorldServer world : worlds)
         {
-            if (var3.worldServers[var4] != null)
+            if (world != null)
             {
-                WorldServer var5 = var3.worldServers[var4];
+                WorldServer var5 = world;
                 var5.canNotSave = true;
             }
         }

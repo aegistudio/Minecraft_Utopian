@@ -36,7 +36,7 @@ public class CommandWeather extends CommandBase
                 var3 = parseIntBounded(par1ICommandSender, par2ArrayOfStr[1], 1, 1000000) * 20;
             }
 
-            WorldServer var4 = MinecraftServer.getServer().worldServers[0];
+            WorldServer var4 = MinecraftServer.getServer().worldServers.get(0);
             WorldInfo var5 = var4.getWorldInfo();
             var5.setRainTime(var3);
             var5.setThunderTime(var3);

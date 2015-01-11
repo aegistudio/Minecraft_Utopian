@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.aegistudio.json.JSONObject;
-import net.aegistudio.minecraft.utopian.JSONFile;
 import net.aegistudio.minecraft.utopian.event.EventHandler;
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
 import net.aegistudio.minecraft.utopian.event.runtime.ShutdownEvent;
 import net.aegistudio.minecraft.utopian.patch.Patch;
+import net.aegistudio.minecraft.utopian.util.JSONFile;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemInfoContainer;
 

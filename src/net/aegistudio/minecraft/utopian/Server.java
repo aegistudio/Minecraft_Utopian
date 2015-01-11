@@ -5,14 +5,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.runtime.InitResourceEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.PostInitEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.PreInitEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.ShutdownEvent;
 import net.minecraft.logging.ILogAgent;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.stats.StatList;
 
-public class Server
+public class Server extends DedicatedServer
 {
+	public Server(File par1File)
+	{
+		super(par1File);
+	}
+
 	public static void main(String[] arguments)
 	{
 		ILogAgent logger = null;
@@ -33,8 +40,18 @@ public class Server
 	    	
 	    	StatList.nopInit();
 	    	
-	    	File minecraftPath = new File(Configuration.getConfig().getStringKey(Configuration.MINECRAFT_PATH));
-	    	DedicatedServer dedicatedServer = new DedicatedServer(minecraftPath);
+	    	//XXX Begin Minecraft UtopianHook
+	    	//XXX Hook InitResourceEvent
+	    	{
+		    	InitResourceEvent initresource_event = new InitResourceEvent();
+		    	EventHandlerRegistry.getEventHandlerRegistry().invoke(initresource_event);
+		    	if(initresource_event.isCancelled()) return;
+	    	}
+	    	//XXX End Of Minecraft UtopianHook
+	    	
+	    	//XXX the configuration may be changed to server config?
+	    	File minecraftPath = new File((String) ClientConfiguration.getConfig().getKey(ClientConfiguration.MINECRAFT_PATH));
+	    	DedicatedServer server = new Server(minecraftPath);
 	    	
 	    	//XXX Begin Minecraft UtopianHook
 	    	//XXX Hook PostInitEvent
@@ -45,9 +62,8 @@ public class Server
 	    	}
 	    	//XXX End Of Minecraft UtopianHook
 	    	
-	    	logger = dedicatedServer.getLogAgent();
-	    	dedicatedServer.setServerPort(80);
-	    	dedicatedServer.startServerThread();
+	    	logger = server.getLogAgent();
+	    	server.startServerThread();
 		}
     	catch(Exception exception)
 		{
@@ -56,4 +72,16 @@ public class Server
     		else Logger.getAnonymousLogger().log(Level.SEVERE, failureInfo, exception);
 		}
 	}
+	
+    protected void systemExitNow()
+    {
+    	//XXX Begin Minecraft UtopianHook
+    	//XXX Hook ShutdownEvent
+    	ShutdownEvent shutdown_event = new ShutdownEvent();
+    	EventHandlerRegistry.getEventHandlerRegistry().invoke(shutdown_event);
+    	if(shutdown_event.isCancelled());
+    	//XXX Can't stop!
+    	//XXX End Of Minecraft UtopianHook
+        super.systemExitNow();
+    }
 }

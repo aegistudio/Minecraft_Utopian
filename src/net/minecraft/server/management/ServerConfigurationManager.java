@@ -215,7 +215,7 @@ public abstract class ServerConfigurationManager
      */
     public NBTTagCompound readPlayerDataFromFile(EntityPlayerMP par1EntityPlayerMP)
     {
-        NBTTagCompound var2 = this.mcServer.worldServers[0].getWorldInfo().getPlayerNBTTagCompound();
+        NBTTagCompound var2 = this.mcServer.worldServers.get(0).getWorldInfo().getPlayerNBTTagCompound();
         NBTTagCompound var3;
 
         if (par1EntityPlayerMP.getCommandSenderName().equals(this.mcServer.getServerOwner()) && var2 != null)
@@ -667,7 +667,7 @@ public abstract class ServerConfigurationManager
      */
     public boolean areCommandsAllowed(String par1Str)
     {
-        return this.ops.contains(par1Str.trim().toLowerCase()) || this.mcServer.isSinglePlayer() && this.mcServer.worldServers[0].getWorldInfo().areCommandsAllowed() && this.mcServer.getServerOwner().equalsIgnoreCase(par1Str) || this.commandsAllowedForAll;
+        return this.ops.contains(par1Str.trim().toLowerCase()) || this.mcServer.isSinglePlayer() && this.mcServer.worldServers.get(0).getWorldInfo().areCommandsAllowed() && this.mcServer.getServerOwner().equalsIgnoreCase(par1Str) || this.commandsAllowedForAll;
     }
 
     public EntityPlayerMP getPlayerForUsername(String par1Str)
@@ -952,7 +952,7 @@ public abstract class ServerConfigurationManager
      */
     public String[] getAvailablePlayerDat()
     {
-        return this.mcServer.worldServers[0].getSaveHandler().getSaveHandler().getAvailablePlayerDat();
+        return this.mcServer.worldServers.get(0).getSaveHandler().getSaveHandler().getAvailablePlayerDat();
     }
 
     public boolean isWhiteListEnabled()

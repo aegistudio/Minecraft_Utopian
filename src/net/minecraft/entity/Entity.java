@@ -2346,33 +2346,33 @@ public abstract class Entity
     /**
      * Teleports the entity to another dimension. Params: Dimension number to teleport to
      */
-    public void travelToDimension(int par1)
+    public void travelToDimension(int dimension)
     {
         if (!this.worldObj.isRemote && !this.isDead)
         {
             this.worldObj.theProfiler.startSection("changeDimension");
-            MinecraftServer var2 = MinecraftServer.getServer();
-            int var3 = this.dimension;
-            WorldServer var4 = var2.worldServerForDimension(var3);
-            WorldServer var5 = var2.worldServerForDimension(par1);
-            this.dimension = par1;
+            MinecraftServer server = MinecraftServer.getServer();
+            int origin_dimension = this.dimension;
+            WorldServer origin_world = server.worldServerForDimension(origin_dimension);
+            WorldServer new_world = server.worldServerForDimension(dimension);
+            this.dimension = dimension;
             this.worldObj.removeEntity(this);
             this.isDead = false;
             this.worldObj.theProfiler.startSection("reposition");
-            var2.getConfigurationManager().transferEntityToWorld(this, var3, var4, var5);
+            server.getConfigurationManager().transferEntityToWorld(this, origin_dimension, origin_world, new_world);
             this.worldObj.theProfiler.endStartSection("reloading");
-            Entity var6 = EntityList.createEntityByName(EntityList.getEntityString(this), var5);
+            Entity theEntity = EntityList.createEntityByName(EntityList.getEntityString(this), new_world);
 
-            if (var6 != null)
+            if (theEntity != null)
             {
-                var6.copyDataFrom(this, true);
-                var5.spawnEntityInWorld(var6);
+                theEntity.copyDataFrom(this, true);
+                new_world.spawnEntityInWorld(theEntity);
             }
 
             this.isDead = true;
             this.worldObj.theProfiler.endSection();
-            var4.resetUpdateEntityTick();
-            var5.resetUpdateEntityTick();
+            origin_world.resetUpdateEntityTick();
+            new_world.resetUpdateEntityTick();
             this.worldObj.theProfiler.endSection();
         }
     }

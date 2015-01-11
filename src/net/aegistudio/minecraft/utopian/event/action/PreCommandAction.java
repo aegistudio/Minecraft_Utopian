@@ -7,12 +7,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 public class PreCommandAction extends Event
 {
 	private String raw_command;
-	private EntityPlayerMP player;
+	private ICommandSender command_sender;
 	
-	public PreCommandAction(String command, ICommandSender player)
+	public PreCommandAction(String command, ICommandSender commandsender)
 	{
 		this.raw_command = command;
-		this.player = (EntityPlayerMP) ((player instanceof EntityPlayerMP)? player : null);
+		this.command_sender = commandsender;
 	}
 	
 	public String getRawCommand()
@@ -25,8 +25,13 @@ public class PreCommandAction extends Event
 		this.raw_command = command;
 	}
 	
-	public EntityPlayerMP getCommandSender()
+	public EntityPlayerMP getCommandSenderAsPlayer()
 	{
-		return player;
+		return (EntityPlayerMP)((this.command_sender instanceof EntityPlayerMP)? this.command_sender : null);
+	}
+	
+	public ICommandSender getCommandSender()
+	{
+		return command_sender;
 	}
 }

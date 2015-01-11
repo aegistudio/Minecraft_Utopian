@@ -1,5 +1,7 @@
 package net.minecraft.world;
 
+import java.util.TreeMap;
+
 import net.minecraft.block.Block;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
@@ -11,6 +13,11 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderFlat;
 import net.minecraft.world.gen.ChunkProviderGenerate;
 import net.minecraft.world.gen.FlatGeneratorInfo;
+
+/**
+ * This method ought to be modified as adding more world into the game is possible.
+ * @author aegistudio
+ */
 
 public abstract class WorldProvider
 {
@@ -197,11 +204,39 @@ public abstract class WorldProvider
         return true;
     }
 
+    //XXX this method will be modified!
     public static WorldProvider getProviderForDimension(int par0)
     {
-        return (WorldProvider)(par0 == -1 ? new WorldProviderHell() : (par0 == 0 ? new WorldProviderSurface() : (par0 == 1 ? new WorldProviderEnd() : null)));
+    	try
+    	{
+    		return (WorldProvider)(worldProviderRegistry.get(par0).newInstance());
+    	}
+    	catch(Exception exception)
+    	{
+    		return null;
+    	}
     }
-
+    
+    private static final TreeMap<Integer, Class<? extends WorldProvider>> worldProviderRegistry = new TreeMap<Integer, Class<? extends WorldProvider>>();
+    
+    public static void registerWorldProvider(int dimension, Class<? extends WorldProvider> worldProvider)
+    {
+    	if(worldProvider == null) return;
+    	worldProviderRegistry.put(dimension, worldProvider);
+    }
+    
+    static
+    {
+    	registerWorldProvider(-1, WorldProviderHell.class);
+    	registerWorldProvider(0, WorldProviderSurface.class);
+    	registerWorldProvider(1, WorldProviderEnd.class);
+    }
+    
+    public static Integer[] getRegisteredWorldProviders()
+    {
+    	return worldProviderRegistry.keySet().toArray(new Integer[0]);
+    }
+    
     /**
      * the y level at which clouds are rendered.
      */

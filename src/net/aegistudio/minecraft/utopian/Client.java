@@ -13,6 +13,6 @@ public class Client
 		UtopianLoader.patchMinecraftDirectory();
 		
 		UtopianLoader.setLoadingGUI("Launching minecraft main class...", 60);
-		Minecraft.main(new String[]{Configuration.getConfig().getStringKey(Configuration.PLAYER_NAME)});
+		Minecraft.main(new String[]{(String) ClientConfiguration.getConfig().getKey(ClientConfiguration.PLAYER_NAME)});
 	}
 }

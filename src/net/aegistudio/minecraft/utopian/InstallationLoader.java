@@ -12,6 +12,7 @@ import javax.sound.midi.Patch;
 
 import net.aegistudio.json.JSONObject;
 import net.aegistudio.minecraft.utopian.plugin.Plugin;
+import net.aegistudio.minecraft.utopian.util.JSONFile;
 
 public class InstallationLoader
 {
@@ -54,8 +55,8 @@ public class InstallationLoader
 	
 	void scanningPluginsAndPatches() throws Exception
 	{
-		File patches_path = new File(Configuration.getConfig().getStringKey(Configuration.PATCHES_PATH));
-		File plugins_path = new File(Configuration.getConfig().getStringKey(Configuration.PLUGINS_PATH));
+		File patches_path = new File((String) ClientConfiguration.getConfig().getKey(ClientConfiguration.PATCHES_PATH));
+		File plugins_path = new File((String) ClientConfiguration.getConfig().getKey(ClientConfiguration.PLUGINS_PATH));
 		
 		if(!patches_path.isDirectory() || !patches_path.exists()) patches_path.mkdir();
 		if(!plugins_path.isDirectory() || !plugins_path.exists()) plugins_path.mkdir();

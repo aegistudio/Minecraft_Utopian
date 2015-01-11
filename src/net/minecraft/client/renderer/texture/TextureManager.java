@@ -61,51 +61,77 @@ public class TextureManager
         return new Stitcher(par1Str, var2, var2, true);
     }
 
-    public List createTexture(String par1Str)
+    public List createTexture(String filename)
     {
-        ArrayList var2 = new ArrayList();
-        ITexturePack var3 = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
+        ArrayList createdTextures = new ArrayList();
+        ITexturePack texturepack = Minecraft.getMinecraft().texturePackList.getSelectedTexturePack();
 
         try
         {
-            BufferedImage var9 = ImageIO.read(var3.getResourceAsStream("/" + par1Str));
-            int var10 = var9.getHeight();
-            int var11 = var9.getWidth();
-            String var12 = this.getBasename(par1Str);
+        	BufferedImage image = null;
+        	String var12 = null;
+        	try
+        	{
+        		image = ImageIO.read(texturepack.getResourceAsStream("/" + filename));
+        		var12 = this.getBasename(filename);
+        	}
+        	catch(IOException e)
+        	{
+        		int index = -1;
+        		if((index = filename.indexOf("./")) >= 0)
+        		{
+        			
+        			filename = filename.substring(index + "./".length());
+        			var12 = "./" + filename.substring(0, filename.lastIndexOf('.'));
+        			filename = filename.replace('/', File.separatorChar);
+        			image = ImageIO.read(new File(Minecraft.getMinecraftDir(), filename));
+        		}
+        		else if((index = filename.indexOf("file://")) >= 0)
+        		{
+        			filename = filename.substring(index + "file://".length());
+        			var12 = "file://" + filename.substring(0, filename.lastIndexOf('.'));
+        			filename = filename.replace('/', File.separatorChar);
+        			image = ImageIO.read(new File(filename));
+        		}
+        		else throw e;
+        	}
+        	
+            int height = image.getHeight();
+            int width = image.getWidth();
 
-            if (this.hasAnimationTxt(par1Str, var3))
+            if (this.hasAnimationTxt(filename, texturepack))
             {
-                int var13 = var11;
-                int var14 = var11;
-                int var15 = var10 / var11;
+                int var13 = width;
+                int var14 = width;
+                int var15 = height / width;
 
                 for (int var16 = 0; var16 < var15; ++var16)
                 {
-                    Texture var17 = this.makeTexture(var12, 2, var13, var14, 10496, 6408, 9728, 9728, false, var9.getSubimage(0, var14 * var16, var13, var14));
-                    var2.add(var17);
+                    Texture var17 = this.makeTexture(var12, 2, var13, var14, 10496, 6408, 9728, 9728, false, image.getSubimage(0, var14 * var16, var13, var14));
+                    createdTextures.add(var17);
                 }
             }
-            else if (var11 == var10)
+            else if (width == height)
             {
-                var2.add(this.makeTexture(var12, 2, var11, var10, 10496, 6408, 9728, 9728, false, var9));
+                createdTextures.add(this.makeTexture(var12, 2, width, height, 10496, 6408, 9728, 9728, false, image));
             }
             else
             {
-                Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture: Skipping " + par1Str + " because of broken aspect ratio and not animation");
+                Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture: Skipping " + filename + " because of broken aspect ratio and not animation");
             }
 
-            return var2;
+            return createdTextures;
         }
         catch (FileNotFoundException var18)
         {
-            Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture called for file " + par1Str + ", but that file does not exist. Ignoring.");
+            Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture called for file " + filename + ", but that file does not exist. Ignoring.");
         }
         catch (IOException var19)
         {
-            Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture encountered an IOException when trying to read file " + par1Str + ". Ignoring.");
+            Minecraft.getMinecraft().getLogAgent().logWarning("TextureManager.createTexture encountered an IOException when trying to read file " + filename + ". Ignoring.");
         }
 
-        return var2;
+        return createdTextures;
     }
 
     /**
