@@ -4,7 +4,7 @@ import net.aegistudio.minecraft.utopian.event.Event;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public class PreCommandAction extends Event
+public class PreCommandAction extends Event implements Action
 {
 	private String raw_command;
 	private ICommandSender command_sender;
@@ -25,7 +25,7 @@ public class PreCommandAction extends Event
 		this.raw_command = command;
 	}
 	
-	public EntityPlayerMP getCommandSenderAsPlayer()
+	public EntityPlayerMP getEventPlayer()
 	{
 		return (EntityPlayerMP)((this.command_sender instanceof EntityPlayerMP)? this.command_sender : null);
 	}

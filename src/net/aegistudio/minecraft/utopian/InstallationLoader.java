@@ -55,8 +55,9 @@ public class InstallationLoader
 	
 	void scanningPluginsAndPatches() throws Exception
 	{
-		File patches_path = new File((String) ClientConfiguration.getConfig().getKey(ClientConfiguration.PATCHES_PATH));
-		File plugins_path = new File((String) ClientConfiguration.getConfig().getKey(ClientConfiguration.PLUGINS_PATH));
+		File minecraft_path = new File((String) ClientConfiguration.getConfig().getKey(ClientConfiguration.MINECRAFT_PATH));
+		File patches_path = new File(minecraft_path, (String) ClientConfiguration.getConfig().getKey(ClientConfiguration.PATCHES_PATH));
+		File plugins_path = new File(minecraft_path, (String) ClientConfiguration.getConfig().getKey(ClientConfiguration.PLUGINS_PATH));
 		
 		if(!patches_path.isDirectory() || !patches_path.exists()) patches_path.mkdir();
 		if(!plugins_path.isDirectory() || !plugins_path.exists()) plugins_path.mkdir();

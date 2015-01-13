@@ -2350,11 +2350,14 @@ public abstract class Entity
     {
         if (!this.worldObj.isRemote && !this.isDead)
         {
-            this.worldObj.theProfiler.startSection("changeDimension");
             MinecraftServer server = MinecraftServer.getServer();
             int origin_dimension = this.dimension;
             WorldServer origin_world = server.worldServerForDimension(origin_dimension);
+            if(origin_world == null) return;
             WorldServer new_world = server.worldServerForDimension(dimension);
+            if(new_world == null) return;
+            
+            this.worldObj.theProfiler.startSection("changeDimension");
             this.dimension = dimension;
             this.worldObj.removeEntity(this);
             this.isDead = false;

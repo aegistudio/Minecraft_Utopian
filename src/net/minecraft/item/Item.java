@@ -243,7 +243,7 @@ public class Item
             System.out.println("CONFLICT @ " + par1);
         }
 
-        whocallhim.setItem(256 + par1, this);
+        whocallhim.setItem(this);
     }
 
     public Item setMaxStackSize(int par1)

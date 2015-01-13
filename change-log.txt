@@ -1,5 +1,5 @@
 *********************************************
-*        Minecraft Utopian Change Log       *
+*		 Minecraft Utopian Change Log	 	*
 *********************************************
 
 # 0.0.0.1 alpha
@@ -21,3 +21,10 @@
 - Having Fixed a problem in block statistics which violates the data collection for blocks.
 - Modifying the texture loading classes, adding external images will be possible. (Using "./" under the root of minecraft, and "file://" in the file system.)
 - Refactoring the world provider class, making it possible to generate worlds other than the overworld, the nether, and the end.
+- Changing the phase where plugins are loaded. (From post init phase to init resource phase.)
+
+# 0.0.0.5 alpha
+- Using quotes to parameterize the commands, making it possible to submit commands where spaces is in one(s) of the arguments.
+- Adding some block and entity events into the game. (Like interact with entities, placing blocks, etc.)
+- Refactoring the original structure of action package.
+- Refactoring the client launcher / wrapper class, making it capable of being launched by other launchers.

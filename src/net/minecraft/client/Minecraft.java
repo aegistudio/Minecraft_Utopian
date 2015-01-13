@@ -1273,16 +1273,16 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
      * Called whenever the mouse is clicked. Button clicked is 0 for left clicking and 1 for right clicking. Args:
      * buttonClicked
      */
-    private void clickMouse(int par1)
+    private void clickMouse(int left_right_click)
     {
-        if (par1 != 0 || this.leftClickCounter <= 0)
+        if (left_right_click != 0 || this.leftClickCounter <= 0)
         {
-            if (par1 == 0)
+            if (left_right_click == 0)
             {
                 this.thePlayer.swingItem();
             }
 
-            if (par1 == 1)
+            if (left_right_click == 1)
             {
                 this.rightClickDelayTimer = 4;
             }
@@ -1292,19 +1292,19 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
 
             if (this.objectMouseOver == null)
             {
-                if (par1 == 0 && this.playerController.isNotCreative())
+                if (left_right_click == 0 && this.playerController.isNotCreative())
                 {
                     this.leftClickCounter = 10;
                 }
             }
             else if (this.objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY)
             {
-                if (par1 == 0)
+                if (left_right_click == 0)
                 {
                     this.playerController.attackEntity(this.thePlayer, this.objectMouseOver.entityHit);
                 }
 
-                if (par1 == 1 && this.playerController.func_78768_b(this.thePlayer, this.objectMouseOver.entityHit))
+                if (left_right_click == 1 && this.playerController.onInteractEntity(this.thePlayer, this.objectMouseOver.entityHit))
                 {
                     var2 = false;
                 }
@@ -1316,7 +1316,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
                 int var6 = this.objectMouseOver.blockZ;
                 int var7 = this.objectMouseOver.sideHit;
 
-                if (par1 == 0)
+                if (left_right_click == 0)
                 {
                     this.playerController.clickBlock(var4, var5, var6, this.objectMouseOver.sideHit);
                 }
@@ -1346,11 +1346,11 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
                 }
             }
 
-            if (var2 && par1 == 1)
+            if (var2 && left_right_click == 1)
             {
-                ItemStack var9 = this.thePlayer.inventory.getCurrentItem();
+                ItemStack current_item = this.thePlayer.inventory.getCurrentItem();
 
-                if (var9 != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, var9))
+                if (current_item != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, current_item))
                 {
                     this.entityRenderer.itemRenderer.resetEquippedProgress2();
                 }

@@ -1,5 +1,11 @@
 package net.minecraft.client.multiplayer;
 
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.action.BlockActivateAction;
+import net.aegistudio.minecraft.utopian.event.action.BlockPlacingAction;
+import net.aegistudio.minecraft.utopian.event.action.EntityAttackAction;
+import net.aegistudio.minecraft.utopian.event.action.EntityInteractAction;
+import net.aegistudio.minecraft.utopian.event.action.PreCommandAction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.Minecraft;
@@ -171,41 +177,41 @@ public class PlayerControllerMP
     /**
      * Called by Minecraft class when the player is hitting a block with an item. Args: x, y, z, side
      */
-    public void clickBlock(int par1, int par2, int par3, int par4)
+    public void clickBlock(int x, int y, int z, int side)
     {
-        if (!this.currentGameType.isAdventure() || this.mc.thePlayer.canCurrentToolHarvestBlock(par1, par2, par3))
+        if (!this.currentGameType.isAdventure() || this.mc.thePlayer.canCurrentToolHarvestBlock(x, y, z))
         {
             if (this.currentGameType.isCreative())
             {
-                this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, par1, par2, par3, par4));
-                clickBlockCreative(this.mc, this, par1, par2, par3, par4);
+                this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side));
+                clickBlockCreative(this.mc, this, x, y, z, side);
                 this.blockHitDelay = 5;
             }
-            else if (!this.isHittingBlock || !this.sameToolAndBlock(par1, par2, par3))
+            else if (!this.isHittingBlock || !this.sameToolAndBlock(x, y, z))
             {
                 if (this.isHittingBlock)
                 {
-                    this.netClientHandler.addToSendQueue(new Packet14BlockDig(1, this.currentBlockX, this.currentBlockY, this.currentblockZ, par4));
+                    this.netClientHandler.addToSendQueue(new Packet14BlockDig(1, this.currentBlockX, this.currentBlockY, this.currentblockZ, side));
                 }
 
-                this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, par1, par2, par3, par4));
-                int var5 = this.mc.theWorld.getBlockId(par1, par2, par3);
+                this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side));
+                int var5 = this.mc.theWorld.getBlockId(x, y, z);
 
                 if (var5 > 0 && this.curBlockDamageMP == 0.0F)
                 {
-                    BlockInfoContainer.getBlockInfoContainer().getBlock(var5).onBlockClicked(this.mc.theWorld, par1, par2, par3, this.mc.thePlayer);
+                    BlockInfoContainer.getBlockInfoContainer().getBlock(var5).onBlockClicked(this.mc.theWorld, x, y, z, this.mc.thePlayer);
                 }
 
-                if (var5 > 0 && BlockInfoContainer.getBlockInfoContainer().getBlock(var5).getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, par1, par2, par3) >= 1.0F)
+                if (var5 > 0 && BlockInfoContainer.getBlockInfoContainer().getBlock(var5).getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, x, y, z) >= 1.0F)
                 {
-                    this.onPlayerDestroyBlock(par1, par2, par3, par4);
+                    this.onPlayerDestroyBlock(x, y, z, side);
                 }
                 else
                 {
                     this.isHittingBlock = true;
-                    this.currentBlockX = par1;
-                    this.currentBlockY = par2;
-                    this.currentblockZ = par3;
+                    this.currentBlockX = x;
+                    this.currentBlockY = y;
+                    this.currentblockZ = z;
                     this.field_85183_f = this.mc.thePlayer.getHeldItem();
                     this.curBlockDamageMP = 0.0F;
                     this.stepSoundTickCounter = 0.0F;
@@ -332,57 +338,68 @@ public class PlayerControllerMP
     /**
      * Handles a players right click. Args: player, world, x, y, z, side, hitVec
      */
-    public boolean onPlayerRightClick(EntityPlayer par1EntityPlayer, World par2World, ItemStack par3ItemStack, int par4, int par5, int par6, int par7, Vec3 par8Vec3)
+    public boolean onPlayerRightClick(EntityPlayer player, World world, ItemStack itemstack, int x, int y, int z, int side, Vec3 hitVec)
     {
         this.syncCurrentPlayItem();
-        float var9 = (float)par8Vec3.xCoord - (float)par4;
-        float var10 = (float)par8Vec3.yCoord - (float)par5;
-        float var11 = (float)par8Vec3.zCoord - (float)par6;
+        float var9 = (float)hitVec.xCoord - (float)x;
+        float var10 = (float)hitVec.yCoord - (float)y;
+        float var11 = (float)hitVec.zCoord - (float)z;
         boolean var12 = false;
-        int var13;
 
-        if (!par1EntityPlayer.isSneaking() || par1EntityPlayer.getHeldItem() == null)
+        if (!player.isSneaking() || player.getHeldItem() == null)
         {
-            var13 = par2World.getBlockId(par4, par5, par6);
+            int blockid = world.getBlockId(x, y, z);
 
-            if (var13 > 0 && BlockInfoContainer.getBlockInfoContainer().getBlock(var13).onBlockActivated(par2World, par4, par5, par6, par1EntityPlayer, par7, var9, var10, var11))
-            {
-                var12 = true;
-            }
+        	//XXX Begin Minecraft UtopianHook
+        	//XXX Hook BlockActivateAction
+        	{
+    	    	BlockActivateAction blockactivate_action = new BlockActivateAction(player, world, x, y, z, side, itemstack);
+    	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(blockactivate_action);
+    	    	if(blockactivate_action.isCancelled()) return false;
+        	}
+        	//XXX End Of Minecraft UtopianHook
+            
+            if (blockid > 0 && BlockInfoContainer.getBlockInfoContainer().getBlock(blockid).onBlockActivated(world, x, y, z, player, side, var9, var10, var11)) var12 = true;
         }
 
-        if (!var12 && par3ItemStack != null && par3ItemStack.getItem() instanceof ItemBlock)
+        if (!var12 && itemstack != null && itemstack.getItem() instanceof ItemBlock)
         {
-            ItemBlock var16 = (ItemBlock)par3ItemStack.getItem();
+        	//XXX Begin Minecraft UtopianHook
+        	//XXX Hook BlockPlacingAction
+        	{
+    	    	BlockPlacingAction blockplacing_action = new BlockPlacingAction(player, world, x, y, z, side, itemstack);
+    	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(blockplacing_action);
+    	    	if(blockplacing_action.isCancelled()) return false;
+        	}
+        	//XXX End Of Minecraft UtopianHook
+        	
+            ItemBlock var16 = (ItemBlock)itemstack.getItem();
 
-            if (!var16.canPlaceItemBlockOnSide(par2World, par4, par5, par6, par7, par1EntityPlayer, par3ItemStack))
-            {
-                return false;
-            }
+            if (!var16.canPlaceItemBlockOnSide(world, x, y, z, side, player, itemstack)) return false;
         }
 
-        this.netClientHandler.addToSendQueue(new Packet15Place(par4, par5, par6, par7, par1EntityPlayer.inventory.getCurrentItem(), var9, var10, var11));
+        this.netClientHandler.addToSendQueue(new Packet15Place(x, y, z, side, player.inventory.getCurrentItem(), var9, var10, var11));
 
         if (var12)
         {
             return true;
         }
-        else if (par3ItemStack == null)
+        else if (itemstack == null)
         {
             return false;
         }
         else if (this.currentGameType.isCreative())
         {
-            var13 = par3ItemStack.getItemDamage();
-            int var14 = par3ItemStack.stackSize;
-            boolean var15 = par3ItemStack.tryPlaceItemIntoWorld(par1EntityPlayer, par2World, par4, par5, par6, par7, var9, var10, var11);
-            par3ItemStack.setItemDamage(var13);
-            par3ItemStack.stackSize = var14;
+            int damage = itemstack.getItemDamage();
+            int var14 = itemstack.stackSize;
+            boolean var15 = itemstack.tryPlaceItemIntoWorld(player, world, x, y, z, side, var9, var10, var11);
+            itemstack.setItemDamage(damage);
+            itemstack.stackSize = var14;
             return var15;
         }
         else
         {
-            return par3ItemStack.tryPlaceItemIntoWorld(par1EntityPlayer, par2World, par4, par5, par6, par7, var9, var10, var11);
+            return itemstack.tryPlaceItemIntoWorld(player, world, x, y, z, side, var9, var10, var11);
         }
     }
 
@@ -424,13 +441,33 @@ public class PlayerControllerMP
     public void attackEntity(EntityPlayer par1EntityPlayer, Entity par2Entity)
     {
         this.syncCurrentPlayItem();
+        
+    	//XXX Begin Minecraft UtopianHook
+    	//XXX Hook EntityAttackAction
+    	{
+	    	EntityAttackAction entityattack_action = new EntityAttackAction(par1EntityPlayer, par2Entity);
+	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(entityattack_action);
+	    	if(entityattack_action.isCancelled()) return;
+    	}
+    	//XXX End Of Minecraft UtopianHook
+    	
         this.netClientHandler.addToSendQueue(new Packet7UseEntity(par1EntityPlayer.entityId, par2Entity.entityId, 1));
         par1EntityPlayer.attackTargetEntityWithCurrentItem(par2Entity);
     }
 
-    public boolean func_78768_b(EntityPlayer par1EntityPlayer, Entity par2Entity)
+    public boolean onInteractEntity(EntityPlayer par1EntityPlayer, Entity par2Entity)
     {
         this.syncCurrentPlayItem();
+        
+    	//XXX Begin Minecraft UtopianHook
+    	//XXX Hook EntityInteractAction
+    	{
+	    	EntityInteractAction entityinteract_action = new EntityInteractAction(par1EntityPlayer, par2Entity);
+	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(entityinteract_action);
+	    	if(entityinteract_action.isCancelled()) return false;
+    	}
+    	//XXX End Of Minecraft UtopianHook
+    	
         this.netClientHandler.addToSendQueue(new Packet7UseEntity(par1EntityPlayer.entityId, par2Entity.entityId, 0));
         return par1EntityPlayer.interactWith(par2Entity);
     }

@@ -57,9 +57,9 @@ public class Patch_ItemInfoContainer extends ItemInfoContainer implements Patch
 	}
 
 	@Override
-	public void setItem(int itemid, Item item)
+	public void setItem(Item item)
 	{
-		itemsList.put(itemid, item);
+		itemsList.put(item.itemID, item);
 	}
 
 	@Override

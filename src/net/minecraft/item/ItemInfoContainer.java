@@ -11,7 +11,7 @@ public abstract class ItemInfoContainer
 	
 	public abstract Item getItem(int itemid);
 	
-	public abstract void setItem(int itemid, Item item);
+	public abstract void setItem(Item item);
 	
 	public abstract Item[] getRegisteredItems();
 	

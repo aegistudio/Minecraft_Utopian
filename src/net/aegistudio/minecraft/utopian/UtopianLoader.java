@@ -22,7 +22,7 @@ public class UtopianLoader
 {
 	public static final String CONFIG_FILENAME = "utopian-config.json";
 	
-	public static void loadUtopian() throws Exception
+	public static void initUtopian() throws Exception
 	{
 		new SingletonIntruder<EventHandlerRegistry>("instance")
 		.intrude(EventHandlerRegistry.class, EventHandlerRegistry.class);
@@ -64,17 +64,26 @@ public class UtopianLoader
 		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(jframe_state_renderer, InitWindowEvent.class);
 		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(jframe_state_renderer, InitResourceEvent.class);
 		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(jframe_state_renderer, PostInitEvent.class);
-		
+	}
+	
+	public static void loadConfig() throws Exception
+	{
 		setLoadingGUI("Loading configuration files...", 10);
 		new SingletonIntruder<ClientConfiguration>("instance")
 			.intrude(ClientConfiguration.class, ClientConfiguration.class)
 			.loadConfig(CONFIG_FILENAME);
-		
+	}
+	
+	public static void scanningPluginsAndPatches() throws Exception
+	{
 		setLoadingGUI("Scanning for plugins and patches...", 20);
 		new SingletonIntruder<InstallationLoader>("loader")
 			.intrude(InstallationLoader.class, InstallationLoader.class)
 			.scanningPluginsAndPatches();
-		
+	}
+	
+	public static void installPatches() throws Exception
+	{
 		setLoadingGUI("Installing patches...", 35);
 		InstallationLoader.getInstallationLoader().installPatches();
 	}

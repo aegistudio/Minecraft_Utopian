@@ -45,4 +45,17 @@ public class Configuration
 		if(return_value == null) return_value = this.default_config.get(keyname);
 		return return_value;
 	}
+	
+	public void setKey(String keyname, String object)
+	{
+		config.set(keyname, object);
+	}
+	
+	public void saveConfig(String config) throws Exception
+	{
+		File config_file = new File(config);
+		PrintStream config_printer = new PrintStream(new FileOutputStream(config_file));
+		config_printer.print(this.config.toString(FORMAT_BUILDER));
+		config_printer.close();
+	}
 }

@@ -5,7 +5,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public class CommandAction extends Event
+public class CommandAction extends Event implements Action
 {
 	private String command_prefix;
 	private String[] command_arguments;
@@ -48,7 +48,7 @@ public class CommandAction extends Event
 		this.command_arguments = command_arguments;
 	}
 	
-	public EntityPlayerMP getCommandSenderAsPlayer()
+	public EntityPlayerMP getEventPlayer()
 	{
 		return (EntityPlayerMP)((this.command_sender instanceof EntityPlayerMP)? this.command_sender : null);
 	}

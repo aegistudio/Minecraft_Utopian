@@ -29,6 +29,34 @@ public class CommandHandler implements ICommandManager
     /** The set of ICommand objects currently loaded. */
     private final Set commandSet = new HashSet();
 
+    public static String[] processCommandSplitting(String command) throws Exception
+    {
+    	ArrayList<String> splittedCommands = new ArrayList<String>();
+    	char[] commandCharArray = command.toCharArray();
+    	
+    	boolean insideQuote = false;
+    	StringBuilder stringbuilder = new StringBuilder();
+    	for(int i = 0; i < commandCharArray.length; i ++)
+    	{
+    		if(commandCharArray[i] == ' ')
+    		{
+    			if(insideQuote) stringbuilder.append(' ');
+    			else
+    			{
+    				splittedCommands.add(new String(stringbuilder));
+    				stringbuilder = new StringBuilder();
+    			}
+    		}
+    		else if(commandCharArray[i] == '\"') insideQuote = !insideQuote;
+    		else stringbuilder.append(commandCharArray[i]);
+    	}
+    	if(stringbuilder.length() > 0) splittedCommands.add(new String(stringbuilder));
+    	
+    	if(insideQuote) throw new Exception("Unexpected end of command string, another quote is expected!");
+    	
+    	return splittedCommands.toArray(new String[0]);
+    }
+    
     public int executeCommand(ICommandSender par1ICommandSender, String par2Str)
     {
     	//XXX Begin Minecraft UtopianHook
@@ -48,28 +76,30 @@ public class CommandHandler implements ICommandManager
             par2Str = par2Str.substring(1);
         }
 
-        String[] arguments = par2Str.split(" ");
-        String prefix = arguments[0];
-        arguments = dropFirstString(arguments);
-        ICommand command = (ICommand)this.commandMap.get(prefix);
-        int var6 = this.getUsernameIndex(command, arguments);
         int var7 = 0;
-
-    	//XXX Begin Minecraft UtopianHook
-    	//XXX Hook CommandAction
-    	{
-	    	CommandAction command_action = 
-	    			new CommandAction(command, prefix, arguments, par1ICommandSender);
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(command_action);
-	    	command = command_action.getCommand();
-	    	prefix = command_action.getCommandPrefix();
-	    	arguments = command_action.getCommandArguments();
-	    	if(command_action.isCancelled()) return 0;
-    	}
-    	//XXX End Of Minecraft UtopianHook
         
         try
         {
+	        String[] arguments = processCommandSplitting(par2Str);
+	        String prefix = arguments[0];
+	        arguments = dropFirstString(arguments);
+	        ICommand command = (ICommand)this.commandMap.get(prefix);
+	        int var6 = this.getUsernameIndex(command, arguments);
+	
+	    	//XXX Begin Minecraft UtopianHook
+	    	//XXX Hook CommandAction
+	    	{
+		    	CommandAction command_action = 
+		    			new CommandAction(command, prefix, arguments, par1ICommandSender);
+		    	EventHandlerRegistry.getEventHandlerRegistry().invoke(command_action);
+		    	command = command_action.getCommand();
+		    	prefix = command_action.getCommandPrefix();
+		    	arguments = command_action.getCommandArguments();
+		    	if(command_action.isCancelled()) return 0;
+	    	}
+	    	//XXX End Of Minecraft UtopianHook
+        
+        
             if (command == null)
             {
                 throw new CommandNotFoundException();

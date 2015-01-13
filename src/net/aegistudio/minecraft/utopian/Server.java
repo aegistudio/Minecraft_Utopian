@@ -26,7 +26,10 @@ public class Server extends DedicatedServer
 		try
 		{
 			UtopianLoader.is_server = true;
-			UtopianLoader.loadUtopian();
+			UtopianLoader.initUtopian();
+			UtopianLoader.loadConfig();
+			UtopianLoader.scanningPluginsAndPatches();
+			UtopianLoader.installPatches();
 			
 	    	//XXX Begin Minecraft UtopianHook
 	    	//XXX Hook PreInitEvent
