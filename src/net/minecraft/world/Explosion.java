@@ -57,8 +57,8 @@ public class Explosion
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	
-        float var1 = this.explosionSize;
-        HashSet var2 = new HashSet();
+        float explosionSize = this.explosionSize;
+        HashSet affectedBlocksPos = new HashSet();
         int var3;
         int var4;
         int var5;
@@ -66,55 +66,59 @@ public class Explosion
         double var17;
         double var19;
 
-        for (var3 = 0; var3 < this.field_77289_h; ++var3)
+        if(this.worldObj.getGameRules().getGameRuleBooleanValue("doExplosionDestroyBlocks"))
         {
-            for (var4 = 0; var4 < this.field_77289_h; ++var4)
-            {
-                for (var5 = 0; var5 < this.field_77289_h; ++var5)
-                {
-                    if (var3 == 0 || var3 == this.field_77289_h - 1 || var4 == 0 || var4 == this.field_77289_h - 1 || var5 == 0 || var5 == this.field_77289_h - 1)
-                    {
-                        double var6 = (double)((float)var3 / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-                        double var8 = (double)((float)var4 / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-                        double var10 = (double)((float)var5 / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
-                        double var12 = Math.sqrt(var6 * var6 + var8 * var8 + var10 * var10);
-                        var6 /= var12;
-                        var8 /= var12;
-                        var10 /= var12;
-                        float var14 = this.explosionSize * (0.7F + this.worldObj.rand.nextFloat() * 0.6F);
-                        var15 = this.explosionX;
-                        var17 = this.explosionY;
-                        var19 = this.explosionZ;
-
-                        for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
-                        {
-                            int var22 = MathHelper.floor_double(var15);
-                            int var23 = MathHelper.floor_double(var17);
-                            int var24 = MathHelper.floor_double(var19);
-                            int var25 = this.worldObj.getBlockId(var22, var23, var24);
-
-                            if (var25 > 0)
-                            {
-                                Block var26 = whocallme.getBlock(var25);
-                                float var27 = this.exploder != null ? this.exploder.func_82146_a(this, this.worldObj, var22, var23, var24, var26) : var26.getExplosionResistance(this.exploder);
-                                var14 -= (var27 + 0.3F) * var21;
-                            }
-
-                            if (var14 > 0.0F && (this.exploder == null || this.exploder.func_96091_a(this, this.worldObj, var22, var23, var24, var25, var14)))
-                            {
-                                var2.add(new ChunkPosition(var22, var23, var24));
-                            }
-
-                            var15 += var6 * (double)var21;
-                            var17 += var8 * (double)var21;
-                            var19 += var10 * (double)var21;
-                        }
-                    }
-                }
-            }
-        }
-
-        this.affectedBlockPositions.addAll(var2);
+	        for (var3 = 0; var3 < this.field_77289_h; ++var3)
+	        {
+	            for (var4 = 0; var4 < this.field_77289_h; ++var4)
+	            {
+	                for (var5 = 0; var5 < this.field_77289_h; ++var5)
+	                {
+	                    if (var3 == 0 || var3 == this.field_77289_h - 1 || var4 == 0 || var4 == this.field_77289_h - 1 || var5 == 0 || var5 == this.field_77289_h - 1)
+	                    {
+	                        double var6 = (double)((float)var3 / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
+	                        double var8 = (double)((float)var4 / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
+	                        double var10 = (double)((float)var5 / ((float)this.field_77289_h - 1.0F) * 2.0F - 1.0F);
+	                        double var12 = Math.sqrt(var6 * var6 + var8 * var8 + var10 * var10);
+	                        var6 /= var12;
+	                        var8 /= var12;
+	                        var10 /= var12;
+	                        float var14 = this.explosionSize * (0.7F + this.worldObj.rand.nextFloat() * 0.6F);
+	                        var15 = this.explosionX;
+	                        var17 = this.explosionY;
+	                        var19 = this.explosionZ;
+	
+	                        for (float var21 = 0.3F; var14 > 0.0F; var14 -= var21 * 0.75F)
+	                        {
+	                            int var22 = MathHelper.floor_double(var15);
+	                            int var23 = MathHelper.floor_double(var17);
+	                            int var24 = MathHelper.floor_double(var19);
+	                            int var25 = this.worldObj.getBlockId(var22, var23, var24);
+	
+	                            if (var25 > 0)
+	                            {
+	                                Block block = whocallme.getBlock(var25);
+	                                float var27 = this.exploder != null ? this.exploder.func_82146_a(this, this.worldObj, var22, var23, var24, block) : block.getExplosionResistance(this.exploder);
+	                                var14 -= (var27 + 0.3F) * var21;
+	                            }
+	
+	                            if (var14 > 0.0F && (this.exploder == null || this.exploder.func_96091_a(this, this.worldObj, var22, var23, var24, var25, var14)))
+	                            {
+	                                affectedBlocksPos.add(new ChunkPosition(var22, var23, var24));
+	                            }
+	
+	                            var15 += var6 * (double)var21;
+	                            var17 += var8 * (double)var21;
+	                            var19 += var10 * (double)var21;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	
+	        this.affectedBlockPositions.addAll(affectedBlocksPos);
+    	}
+        
         this.explosionSize *= 2.0F;
         var3 = MathHelper.floor_double(this.explosionX - (double)this.explosionSize - 1.0D);
         var4 = MathHelper.floor_double(this.explosionX + (double)this.explosionSize + 1.0D);
@@ -158,7 +162,7 @@ public class Explosion
             }
         }
 
-        this.explosionSize = var1;
+        this.explosionSize = explosionSize;
     }
 
     /**

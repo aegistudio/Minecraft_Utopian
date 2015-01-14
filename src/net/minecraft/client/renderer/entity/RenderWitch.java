@@ -4,7 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelWitch;
-import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityWitch;

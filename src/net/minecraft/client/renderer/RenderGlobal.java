@@ -40,6 +40,7 @@ import net.minecraft.client.particle.EntitySnowShovelFX;
 import net.minecraft.client.particle.EntitySpellParticleFX;
 import net.minecraft.client.particle.EntitySplashFX;
 import net.minecraft.client.particle.EntitySuspendFX;
+import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.IconRegister;

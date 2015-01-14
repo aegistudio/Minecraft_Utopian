@@ -1,9 +1,10 @@
 package net.minecraft.client.renderer.entity;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
+
 import org.lwjgl.opengl.GL11;
 
 public class RenderTNTPrimed extends Render

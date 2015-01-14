@@ -3,7 +3,7 @@ package net.minecraft.client.renderer.entity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.model.ModelSnowMan;
-import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.item.ItemStack;

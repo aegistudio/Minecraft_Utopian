@@ -3,11 +3,12 @@ package net.minecraft.client.renderer.entity;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelMinecart;
-import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
+
 import org.lwjgl.opengl.GL11;
 
 public class RenderMinecart extends Render

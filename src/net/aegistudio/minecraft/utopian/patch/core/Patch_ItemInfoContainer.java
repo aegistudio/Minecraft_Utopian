@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import net.aegistudio.json.JSONObject;
@@ -15,6 +14,7 @@ import net.aegistudio.minecraft.utopian.patch.Patch;
 import net.aegistudio.minecraft.utopian.util.JSONFile;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemInfoContainer;
+import net.minecraft.util.BiMap;
 
 public class Patch_ItemInfoContainer extends ItemInfoContainer implements Patch
 {
@@ -48,7 +48,8 @@ public class Patch_ItemInfoContainer extends ItemInfoContainer implements Patch
 		return iteminfocontainer;
 	}
 
-	final Map<Integer, Item> itemsList = new HashMap<Integer, Item>();
+	//final Map<Integer, Item> itemsList = new HashMap<Integer, Item>();
+	final Map<Integer, Item> itemsList = new BiMap<Item>();
 	
 	@Override
 	public Item getItem(int itemid)

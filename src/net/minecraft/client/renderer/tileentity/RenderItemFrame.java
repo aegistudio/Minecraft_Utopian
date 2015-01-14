@@ -1,8 +1,8 @@
 package net.minecraft.client.renderer.tileentity;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -18,6 +18,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.storage.MapData;
+
 import org.lwjgl.opengl.GL11;
 
 public class RenderItemFrame extends Render

@@ -3,7 +3,7 @@ package net.aegistudio.minecraft.utopian.patch.core;
 import java.io.File;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.Map;
 
 import net.aegistudio.json.JSONObject;
@@ -13,36 +13,43 @@ import net.aegistudio.minecraft.utopian.event.runtime.ShutdownEvent;
 import net.aegistudio.minecraft.utopian.patch.Patch;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
+import net.minecraft.util.BiMap;
 
 public class Patch_BlockInfoContainer extends BlockInfoContainer implements Patch
 {
     /** List of ly/ff (BlockType) containing the already registered blocks. */
     //final Block[] blocksList = new Block[4096];
-    final Map<Integer, Block> blocksListHashmap = new HashMap<Integer, Block>();
+	//final Map<Integer, Block> blocksListHashmap = new HashMap<Integer, Block>();
+	final Map<Integer, Block> blocksListHashmap = new BiMap<Block>();
     
     /**
      * An array of 4096 booleans corresponding to the result of the isOpaqueCube() method for each block ID
      */
     //final boolean[] opaqueCubeLookup = new boolean[4096];
-    final Map<Integer, Boolean> opaqueCubeLookupHashmap = new HashMap<Integer, Boolean>();
+    //final Map<Integer, Boolean> opaqueCubeLookupHashmap = new HashMap<Integer, Boolean>();
+	final Map<Integer, Boolean> opaqueCubeLookupHashmap = new BiMap<Boolean>();
     
     /** How much light is subtracted for going through this block */
     //final int[] lightOpacity = new int[4096];
-    final Map<Integer, Integer> lightOpacityHashmap = new HashMap<Integer, Integer>();
+    //final Map<Integer, Integer> lightOpacityHashmap = new HashMap<Integer, Integer>();
+	final Map<Integer, Integer> lightOpacityHashmap = new BiMap<Integer>();
 
     /** Array of booleans that tells if a block can grass */
     //final boolean[] canBlockGrass = new boolean[4096];
-    final Map<Integer, Boolean> canBlockGrassHashmap = new HashMap<Integer, Boolean>();
+    //final Map<Integer, Boolean> canBlockGrassHashmap = new HashMap<Integer, Boolean>();
+	final Map<Integer, Boolean> canBlockGrassHashmap = new BiMap<Boolean>();
 
     /** Amount of light emitted */
     //final int[] lightValue = new int[4096];
-    final Map<Integer, Integer> lightValueHashmap = new HashMap<Integer, Integer>();
+    //final Map<Integer, Integer> lightValueHashmap = new HashMap<Integer, Integer>();
+    final Map<Integer, Integer> lightValueHashmap = new BiMap<Integer>();
 
     /**
      * Flag if block ID should use the brightest neighbor light value as its own
      */
     //final boolean[] useNeighborBrightness = new boolean[4096];
-    final Map<Integer, Boolean> useNeighborBrightnessHashmap = new HashMap<Integer, Boolean>();
+    //final Map<Integer, Boolean> useNeighborBrightnessHashmap = new HashMap<Integer, Boolean>();
+    final Map<Integer, Boolean> useNeighborBrightnessHashmap = new BiMap<Boolean>();
 	
 	@Override
 	public Block getBlock(int blockid)	{	return blocksListHashmap.get(blockid); /*return blocksList[blockid];*/	}
@@ -162,7 +169,7 @@ public class Patch_BlockInfoContainer extends BlockInfoContainer implements Patc
 				"cells for just not up to 256 blocks? ",
 				"isn't it a waste? What should I do ",
 				"if I want to change the limit? so ",
-				"I use hash map instead."
+				"I've used a optimized map instead."
 		});
 	}
 	
