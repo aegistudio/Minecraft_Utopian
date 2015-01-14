@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.action.BlockActivateAction;
+import net.aegistudio.minecraft.utopian.event.action.ChatAction;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
@@ -658,28 +661,28 @@ public class NetServerHandler extends NetHandler
         }
         else
         {
-            String var2 = par1Packet3Chat.message;
+            String chat = par1Packet3Chat.message;
 
-            if (var2.length() > 100)
+            if (chat.length() > 100)
             {
                 this.kickPlayerFromServer("Chat message too long");
             }
             else
             {
-                var2 = var2.trim();
+                chat = chat.trim();
 
-                for (int var3 = 0; var3 < var2.length(); ++var3)
+                for (int var3 = 0; var3 < chat.length(); ++var3)
                 {
-                    if (!ChatAllowedCharacters.isAllowedCharacter(var2.charAt(var3)))
+                    if (!ChatAllowedCharacters.isAllowedCharacter(chat.charAt(var3)))
                     {
                         this.kickPlayerFromServer("Illegal characters in chat");
                         return;
                     }
                 }
 
-                if (var2.startsWith("/"))
+                if (chat.startsWith("/"))
                 {
-                    this.handleSlashCommand(var2);
+                    this.handleSlashCommand(chat);
                 }
                 else
                 {
@@ -689,9 +692,20 @@ public class NetServerHandler extends NetHandler
                         return;
                     }
 
-                    var2 = "<" + this.playerEntity.getTranslatedEntityName() + "> " + var2;
-                    this.mcServer.getLogAgent().logInfo(var2);
-                    this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new Packet3Chat(var2, false));
+                    chat = "<" + this.playerEntity.getTranslatedEntityName() + "> " + chat;
+                    
+                	//XXX Begin Minecraft UtopianHook
+                	//XXX Hook BlockActivateAction
+                	{
+            	    	ChatAction chat_action = new ChatAction(this.playerEntity, chat, true);
+            	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(chat_action);
+            	    	if(chat_action.isCancelled()) return;
+            	    	chat = chat_action.getChatMessage();
+                	}
+                	//XXX End Of Minecraft UtopianHook
+                    
+                    this.mcServer.getLogAgent().logInfo(chat);
+                    this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new Packet3Chat(chat, false));
                 }
 
                 this.chatSpamThresholdCount += 20;

@@ -5,6 +5,12 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+/**
+ * Raised when the command handler is to process a command. The actual command has been determined at this phase, and the arguments have been splitted.
+ * @side <b>Server Only</b>
+ * @author aegistudio
+ */
+
 public class CommandAction extends Event implements Action
 {
 	private String command_prefix;
@@ -56,5 +62,10 @@ public class CommandAction extends Event implements Action
 	public ICommandSender getCommandSender()
 	{
 		return this.command_sender;
+	}
+	
+	public boolean isServerAction()
+	{
+		return true;
 	}
 }

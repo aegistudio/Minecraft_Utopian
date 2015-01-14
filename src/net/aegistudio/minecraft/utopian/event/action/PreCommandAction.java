@@ -4,6 +4,13 @@ import net.aegistudio.minecraft.utopian.event.Event;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+/**
+ * Raised when the command handler is to process a command. But the actual command handler
+ * is not determined, you've only got the raw command.
+ * @side <b>Server Only</b>
+ * @author aegistudio
+ */
+
 public class PreCommandAction extends Event implements Action
 {
 	private String raw_command;
@@ -33,5 +40,10 @@ public class PreCommandAction extends Event implements Action
 	public ICommandSender getCommandSender()
 	{
 		return command_sender;
+	}
+	
+	public boolean isServerAction()
+	{
+		return true;
 	}
 }

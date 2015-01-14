@@ -27,9 +27,20 @@ public class Configuration
 
 	protected JSONObject config;
 	
+	public void loadConfig(String config, File parent) throws Exception
+	{
+		File config_file = new File(parent, config);
+		this.loadConfigInternal(config_file);
+	}
+	
 	public void loadConfig(String config) throws Exception
 	{
 		File config_file = new File(config);
+		this.loadConfigInternal(config_file);
+	}
+	
+	private void loadConfigInternal(File config_file) throws Exception
+	{
 		if(!config_file.exists())
 		{
 			PrintStream default_config_printer = new PrintStream(new FileOutputStream(config_file));

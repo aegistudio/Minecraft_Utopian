@@ -6,9 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 public class EntityAttackAction extends EntityAction
 {
 
-	public EntityAttackAction(EntityPlayer player, Entity targetEntity)
+	public EntityAttackAction(EntityPlayer player, Entity targetEntity,
+			boolean serverAction)
 	{
-		super(player, targetEntity);
+		super(player, targetEntity, serverAction);
 	}
 	
 }

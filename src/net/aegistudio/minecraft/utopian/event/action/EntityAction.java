@@ -9,12 +9,14 @@ public abstract class EntityAction extends Event implements Action
 	
 	private EntityPlayer player;
 	private Entity targetEntity;
+	private boolean serverAction;
 	
-	public EntityAction(EntityPlayer player, Entity targetEntity)
+	public EntityAction(EntityPlayer player, Entity targetEntity, boolean serverAction)
 	{
 		super();
 		this.player = player;
 		this.targetEntity = targetEntity;
+		this.serverAction = serverAction;
 	}
 	
 	@Override
@@ -26,5 +28,10 @@ public abstract class EntityAction extends Event implements Action
 	public Entity getTargetEntity()
 	{
 		return this.targetEntity;
+	}
+	
+	public boolean isServerAction()
+	{
+		return this.serverAction;
 	}
 }

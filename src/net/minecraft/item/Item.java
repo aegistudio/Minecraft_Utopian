@@ -24,6 +24,8 @@ import net.minecraft.world.World;
 
 public class Item
 {
+	public static int ITEMBLOCK_BIAS = 256;
+	
     private CreativeTabs tabToDisplayOn = null;
 
     /** The RNG used by the Item subclasses. */
@@ -233,14 +235,14 @@ public class Item
     /** Icon index in the icons table. */
     protected Icon itemIcon;
 
-    protected Item(int par1)
+    protected Item(int itemid)
     {
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
-        this.itemID = 256 + par1;
+        this.itemID = ITEMBLOCK_BIAS + itemid;
 
-        if (whocallhim.getItem(256 + par1) != null)
+        if (whocallhim.getItem(ITEMBLOCK_BIAS + itemid) != null)
         {
-            System.out.println("CONFLICT @ " + par1);
+            System.out.println("CONFLICT @ " + itemid);
         }
 
         whocallhim.setItem(this);
@@ -646,7 +648,7 @@ public class Item
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
      */
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List)
     {
         par3List.add(new ItemStack(par1, 1, 0));
     }

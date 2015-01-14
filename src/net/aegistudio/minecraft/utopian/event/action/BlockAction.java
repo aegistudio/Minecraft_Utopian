@@ -11,14 +11,16 @@ public abstract class BlockAction extends Event implements Action
 	private World world;
 	private int x, y, z, side;
 	private ItemStack itemstack;
+	private boolean serverAction;
 	
-	public BlockAction(EntityPlayer player, World world, int x, int y, int z, int side, ItemStack itemstack)
+	public BlockAction(EntityPlayer player, World world, int x, int y, int z, int side, ItemStack itemstack, boolean serverAction)
 	{
 		super();
 		this.player = player;
 		this.world = world;
 		this.x = x; this.y = y; this.z = z; this.side = side;
 		this.itemstack = itemstack;
+		this.serverAction = serverAction;
 	}
 	
 	public EntityPlayer getEventPlayer()
@@ -54,5 +56,10 @@ public abstract class BlockAction extends Event implements Action
 	public ItemStack getUsingItem()
 	{
 		return this.itemstack;
+	}
+	
+	public boolean isServerAction()
+	{
+		return this.serverAction;
 	}
 }

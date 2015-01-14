@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemAnvilBlock;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemCloth;
@@ -1327,26 +1328,26 @@ public class Block
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
     	
-        whocallhim.setItem((new ItemCloth(cloth.blockID - 256)).setUnlocalizedName("cloth"));
-        whocallhim.setItem((new ItemMultiTextureTile(wood.blockID - 256, wood, BlockLog.woodType)).setUnlocalizedName("log"));
-        whocallhim.setItem((new ItemMultiTextureTile(planks.blockID - 256, planks, BlockWood.woodType)).setUnlocalizedName("wood"));
-        whocallhim.setItem((new ItemMultiTextureTile(silverfish.blockID - 256, silverfish, BlockSilverfish.silverfishStoneTypes)).setUnlocalizedName("monsterStoneEgg"));
-        whocallhim.setItem((new ItemMultiTextureTile(stoneBrick.blockID - 256, stoneBrick, BlockStoneBrick.STONE_BRICK_TYPES)).setUnlocalizedName("stonebricksmooth"));
-        whocallhim.setItem((new ItemMultiTextureTile(sandStone.blockID - 256, sandStone, BlockSandStone.SAND_STONE_TYPES)).setUnlocalizedName("sandStone"));
-        whocallhim.setItem((new ItemMultiTextureTile(blockNetherQuartz.blockID - 256, blockNetherQuartz, BlockQuartz.quartzBlockTypes)).setUnlocalizedName("quartzBlock"));
-        whocallhim.setItem((new ItemSlab(stoneSingleSlab.blockID - 256, stoneSingleSlab, stoneDoubleSlab, false)).setUnlocalizedName("stoneSlab"));
-        whocallhim.setItem((new ItemSlab(stoneDoubleSlab.blockID - 256, stoneSingleSlab, stoneDoubleSlab, true)).setUnlocalizedName("stoneSlab"));
-        whocallhim.setItem((new ItemSlab(woodSingleSlab.blockID - 256, woodSingleSlab, woodDoubleSlab, false)).setUnlocalizedName("woodSlab"));
-        whocallhim.setItem((new ItemSlab(woodDoubleSlab.blockID - 256, woodSingleSlab, woodDoubleSlab, true)).setUnlocalizedName("woodSlab"));
-        whocallhim.setItem((new ItemMultiTextureTile(sapling.blockID - 256, sapling, BlockSapling.WOOD_TYPES)).setUnlocalizedName("sapling"));
-        whocallhim.setItem((new ItemLeaves(leaves.blockID - 256)).setUnlocalizedName("leaves"));
-        whocallhim.setItem(new ItemColored(vine.blockID - 256, false));
-        whocallhim.setItem((new ItemColored(tallGrass.blockID - 256, true)).setBlockNames(new String[] {"shrub", "grass", "fern"}));
-        whocallhim.setItem(new ItemSnow(snow.blockID - 256, snow));
-        whocallhim.setItem(new ItemLilyPad(waterlily.blockID - 256));
-        whocallhim.setItem(new ItemPiston(pistonBase.blockID - 256));
-        whocallhim.setItem(new ItemPiston(pistonStickyBase.blockID - 256));
-        whocallhim.setItem((new ItemMultiTextureTile(cobblestoneWall.blockID - 256, cobblestoneWall, BlockWall.types)).setUnlocalizedName("cobbleWall"));
+        whocallhim.setItem((new ItemCloth(cloth.blockID - Item.ITEMBLOCK_BIAS)).setUnlocalizedName("cloth"));
+        whocallhim.setItem((new ItemMultiTextureTile(wood.blockID - Item.ITEMBLOCK_BIAS, wood, BlockLog.woodType)).setUnlocalizedName("log"));
+        whocallhim.setItem((new ItemMultiTextureTile(planks.blockID - Item.ITEMBLOCK_BIAS, planks, BlockWood.woodType)).setUnlocalizedName("wood"));
+        whocallhim.setItem((new ItemMultiTextureTile(silverfish.blockID - Item.ITEMBLOCK_BIAS, silverfish, BlockSilverfish.silverfishStoneTypes)).setUnlocalizedName("monsterStoneEgg"));
+        whocallhim.setItem((new ItemMultiTextureTile(stoneBrick.blockID - Item.ITEMBLOCK_BIAS, stoneBrick, BlockStoneBrick.STONE_BRICK_TYPES)).setUnlocalizedName("stonebricksmooth"));
+        whocallhim.setItem((new ItemMultiTextureTile(sandStone.blockID - Item.ITEMBLOCK_BIAS, sandStone, BlockSandStone.SAND_STONE_TYPES)).setUnlocalizedName("sandStone"));
+        whocallhim.setItem((new ItemMultiTextureTile(blockNetherQuartz.blockID - Item.ITEMBLOCK_BIAS, blockNetherQuartz, BlockQuartz.quartzBlockTypes)).setUnlocalizedName("quartzBlock"));
+        whocallhim.setItem((new ItemSlab(stoneSingleSlab.blockID - Item.ITEMBLOCK_BIAS, stoneSingleSlab, stoneDoubleSlab, false)).setUnlocalizedName("stoneSlab"));
+        whocallhim.setItem((new ItemSlab(stoneDoubleSlab.blockID - Item.ITEMBLOCK_BIAS, stoneSingleSlab, stoneDoubleSlab, true)).setUnlocalizedName("stoneSlab"));
+        whocallhim.setItem((new ItemSlab(woodSingleSlab.blockID - Item.ITEMBLOCK_BIAS, woodSingleSlab, woodDoubleSlab, false)).setUnlocalizedName("woodSlab"));
+        whocallhim.setItem((new ItemSlab(woodDoubleSlab.blockID - Item.ITEMBLOCK_BIAS, woodSingleSlab, woodDoubleSlab, true)).setUnlocalizedName("woodSlab"));
+        whocallhim.setItem((new ItemMultiTextureTile(sapling.blockID - Item.ITEMBLOCK_BIAS, sapling, BlockSapling.WOOD_TYPES)).setUnlocalizedName("sapling"));
+        whocallhim.setItem((new ItemLeaves(leaves.blockID - Item.ITEMBLOCK_BIAS)).setUnlocalizedName("leaves"));
+        whocallhim.setItem(new ItemColored(vine.blockID - Item.ITEMBLOCK_BIAS, false));
+        whocallhim.setItem((new ItemColored(tallGrass.blockID - Item.ITEMBLOCK_BIAS, true)).setBlockNames(new String[] {"shrub", "grass", "fern"}));
+        whocallhim.setItem(new ItemSnow(snow.blockID - Item.ITEMBLOCK_BIAS, snow));
+        whocallhim.setItem(new ItemLilyPad(waterlily.blockID - Item.ITEMBLOCK_BIAS));
+        whocallhim.setItem(new ItemPiston(pistonBase.blockID - Item.ITEMBLOCK_BIAS));
+        whocallhim.setItem(new ItemPiston(pistonStickyBase.blockID - Item.ITEMBLOCK_BIAS));
+        whocallhim.setItem((new ItemMultiTextureTile(cobblestoneWall.blockID - Item.ITEMBLOCK_BIAS, cobblestoneWall, BlockWall.types)).setUnlocalizedName("cobbleWall"));
         whocallhim.setItem((new ItemAnvilBlock(anvil)).setUnlocalizedName("anvil"));
 
         for (int var0 = 0; var0 < 256; ++var0)
@@ -1356,7 +1357,7 @@ public class Block
             {
                 if (whocallhim.getItem(var0) == null)
                 {
-                    whocallhim.setItem(new ItemBlock(var0 - 256));
+                    whocallhim.setItem(new ItemBlock(var0 - Item.ITEMBLOCK_BIAS));
                     block.initializeBlock();
                 }
 

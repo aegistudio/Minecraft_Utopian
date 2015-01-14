@@ -1,6 +1,9 @@
 package net.minecraft.block;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.AxisAlignedBB;
@@ -12,13 +15,14 @@ import net.minecraft.world.WorldProviderEnd;
 public class BlockFire extends Block
 {
     /** The chance this block will encourage nearby blocks to catch on fire */
-    private int[] chanceToEncourageFire = new int[256];
+    private Map<Integer, Integer> chanceToEncourageFire = new HashMap<Integer, Integer>();
 
     /**
      * This is an array indexed by block ID the larger the number in the array the more likely a block type will catch
      * fires
      */
-    private int[] abilityToCatchFire = new int[256];
+    private Map<Integer, Integer> abilityToCatchFire = new HashMap<Integer, Integer>();
+    
     private Icon[] iconArray;
 
     protected BlockFire(int par1)
@@ -57,8 +61,8 @@ public class BlockFire extends Block
      */
     private void setBurnRate(int par1, int par2, int par3)
     {
-        this.chanceToEncourageFire[par1] = par2;
-        this.abilityToCatchFire[par1] = par3;
+        this.chanceToEncourageFire.put(par1, par2);
+        this.abilityToCatchFire.put(par1, par3);
     }
 
     /**
@@ -225,9 +229,23 @@ public class BlockFire extends Block
         return false;
     }
 
+    public int getAbilityToCatchFire(int blockid)
+    {
+    	Integer returnValue = this.abilityToCatchFire.get(blockid);
+    	if(returnValue == null) return 0;
+    	else return returnValue;
+    }
+    
+    public int getChanceToEncourageFire(int blockid)
+    {
+    	Integer returnValue = this.chanceToEncourageFire.get(blockid);
+    	if(returnValue == null) return 0;
+    	else return returnValue;
+    }
+    
     private void tryToCatchBlockOnFire(World par1World, int par2, int par3, int par4, int par5, Random par6Random, int par7)
     {
-        int var8 = this.abilityToCatchFire[par1World.getBlockId(par2, par3, par4)];
+        int var8 = this.getAbilityToCatchFire(par1World.getBlockId(par2, par3, par4));
 
         if (par6Random.nextInt(par5) < var8)
         {
@@ -300,7 +318,8 @@ public class BlockFire extends Block
      */
     public boolean canBlockCatchFire(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
-        return this.chanceToEncourageFire[par1IBlockAccess.getBlockId(par2, par3, par4)] > 0;
+    	
+        return this.getChanceToEncourageFire(par1IBlockAccess.getBlockId(par2, par3, par4)) > 0;
     }
 
     /**
@@ -310,7 +329,7 @@ public class BlockFire extends Block
      */
     public int getChanceToEncourageFire(World par1World, int par2, int par3, int par4, int par5)
     {
-        int var6 = this.chanceToEncourageFire[par1World.getBlockId(par2, par3, par4)];
+        int var6 = this.getChanceToEncourageFire(par1World.getBlockId(par2, par3, par4));
         return var6 > par5 ? var6 : par5;
     }
 

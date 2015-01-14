@@ -1,5 +1,8 @@
 package net.minecraft.client.entity;
 
+import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.action.BlockActivateAction;
+import net.aegistudio.minecraft.utopian.event.action.ChatAction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.NetClientHandler;
 import net.minecraft.entity.item.EntityItem;
@@ -179,9 +182,18 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     /**
      * Sends a chat message from the player. Args: chatMessage
      */
-    public void sendChatMessage(String par1Str)
+    public void sendChatMessage(String chat)
     {
-        this.sendQueue.addToSendQueue(new Packet3Chat(par1Str));
+    	//XXX Begin Minecraft UtopianHook
+    	//XXX Hook BlockActivateAction
+    	{
+	    	ChatAction chat_action = new ChatAction(this, chat, false);
+	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(chat_action);
+	    	if(chat_action.isCancelled()) return;
+	    	chat = chat_action.getChatMessage();
+    	}
+    	//XXX End Of Minecraft UtopianHook
+        this.sendQueue.addToSendQueue(new Packet3Chat(chat));
     }
 
     /**

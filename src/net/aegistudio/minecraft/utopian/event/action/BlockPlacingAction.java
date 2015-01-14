@@ -8,9 +8,10 @@ public class BlockPlacingAction extends BlockAction
 {
 
 	public BlockPlacingAction(EntityPlayer player, World world, int x, int y,
-			int z, int side, ItemStack itemstack)
+			int z, int side, ItemStack itemstack, boolean serverAction)
 	{
-		super(player, world, x, y, z, side, itemstack);
+		super(player, world, x, y, z, side, itemstack, serverAction);
 	}
+
 	
 }

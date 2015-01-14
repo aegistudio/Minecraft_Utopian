@@ -5,7 +5,6 @@ import net.aegistudio.minecraft.utopian.event.action.BlockActivateAction;
 import net.aegistudio.minecraft.utopian.event.action.BlockPlacingAction;
 import net.aegistudio.minecraft.utopian.event.action.EntityAttackAction;
 import net.aegistudio.minecraft.utopian.event.action.EntityInteractAction;
-import net.aegistudio.minecraft.utopian.event.action.PreCommandAction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.Minecraft;
@@ -353,7 +352,7 @@ public class PlayerControllerMP
         	//XXX Begin Minecraft UtopianHook
         	//XXX Hook BlockActivateAction
         	{
-    	    	BlockActivateAction blockactivate_action = new BlockActivateAction(player, world, x, y, z, side, itemstack);
+    	    	BlockActivateAction blockactivate_action = new BlockActivateAction(player, world, x, y, z, side, itemstack, false);
     	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(blockactivate_action);
     	    	if(blockactivate_action.isCancelled()) return false;
         	}
@@ -367,7 +366,7 @@ public class PlayerControllerMP
         	//XXX Begin Minecraft UtopianHook
         	//XXX Hook BlockPlacingAction
         	{
-    	    	BlockPlacingAction blockplacing_action = new BlockPlacingAction(player, world, x, y, z, side, itemstack);
+    	    	BlockPlacingAction blockplacing_action = new BlockPlacingAction(player, world, x, y, z, side, itemstack, false);
     	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(blockplacing_action);
     	    	if(blockplacing_action.isCancelled()) return false;
         	}
@@ -445,7 +444,7 @@ public class PlayerControllerMP
     	//XXX Begin Minecraft UtopianHook
     	//XXX Hook EntityAttackAction
     	{
-	    	EntityAttackAction entityattack_action = new EntityAttackAction(par1EntityPlayer, par2Entity);
+	    	EntityAttackAction entityattack_action = new EntityAttackAction(par1EntityPlayer, par2Entity, false);
 	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(entityattack_action);
 	    	if(entityattack_action.isCancelled()) return;
     	}
@@ -462,7 +461,7 @@ public class PlayerControllerMP
     	//XXX Begin Minecraft UtopianHook
     	//XXX Hook EntityInteractAction
     	{
-	    	EntityInteractAction entityinteract_action = new EntityInteractAction(par1EntityPlayer, par2Entity);
+	    	EntityInteractAction entityinteract_action = new EntityInteractAction(par1EntityPlayer, par2Entity, false);
 	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(entityinteract_action);
 	    	if(entityinteract_action.isCancelled()) return false;
     	}
