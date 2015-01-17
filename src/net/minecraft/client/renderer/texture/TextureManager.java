@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.imageio.ImageIO;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.texturepacks.ITexturePack;
+import net.minecraft.util.ExtendedImageHelper;
 
 public class TextureManager
 {
@@ -77,23 +80,8 @@ public class TextureManager
         	}
         	catch(IOException e)
         	{
-        		int index = -1;
-        		if((index = filename.indexOf("./")) >= 0)
-        		{
-        			
-        			filename = filename.substring(index + "./".length());
-        			var12 = "./" + filename.substring(0, filename.lastIndexOf('.'));
-        			filename = filename.replace('/', File.separatorChar);
-        			image = ImageIO.read(new File(Minecraft.getMinecraftDir(), filename));
-        		}
-        		else if((index = filename.indexOf("file://")) >= 0)
-        		{
-        			filename = filename.substring(index + "file://".length());
-        			var12 = "file://" + filename.substring(0, filename.lastIndexOf('.'));
-        			filename = filename.replace('/', File.separatorChar);
-        			image = ImageIO.read(new File(filename));
-        		}
-        		else throw e;
+        		image = ExtendedImageHelper.getExtendedImage(filename, e);
+        		var12 = ExtendedImageHelper.trimTextureName(filename);
         	}
         	
             int height = image.getHeight();

@@ -7,12 +7,12 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 
-public class BlockRendererFluids extends BlockRenderer
+public class BlockRenderer004_Fluids extends BlockRenderer
 {
 
-	public static BlockRenderer renderer = new BlockRendererFluids();
+	public static final BlockRenderer renderer = new BlockRenderer004_Fluids();
 	
-	private BlockRendererFluids()
+	private BlockRenderer004_Fluids()
 	{
 		super(4);
 	}

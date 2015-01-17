@@ -17,7 +17,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockPistonBase extends Block
+public class BlockPistonBase extends Block implements IBlockPistonBase
 {
     /** This pistons is the sticky one? */
     private final boolean isSticky;

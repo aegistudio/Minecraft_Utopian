@@ -26,7 +26,7 @@ public abstract class BlockRenderer
 	protected BlockRenderer(int rendererId, boolean checkExistence)
 	{
 		if(checkExistence) if(blockRenderers.get(rendererId) != null) throw new IllegalArgumentException("Already registered renderer #" + rendererId);
-		Minecraft.getMinecraft().getLogAgent().logInfo("registered block renderer @" + this.getClass().getName());
+		Minecraft.getMinecraft().getLogAgent().logInfo("Registered block renderer @" + this.getClass().getName());
 		blockRenderers.put(rendererId, this);
 	}
 	

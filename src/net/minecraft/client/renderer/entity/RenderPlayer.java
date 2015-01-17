@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelBiped;
@@ -27,7 +26,6 @@ public class RenderPlayer extends RenderLiving
     private ModelBiped modelBipedMain;
     private ModelBiped modelArmorChestplate;
     private ModelBiped modelArmor;
-    private static final String[] armorFilenamePrefix = new String[] {"cloth", "chain", "iron", "diamond", "gold"};
 
     public RenderPlayer()
     {
@@ -56,7 +54,7 @@ public class RenderPlayer extends RenderLiving
             if (var5 instanceof ItemArmor)
             {
                 ItemArmor var6 = (ItemArmor)var5;
-                this.loadTexture("/armor/" + armorFilenamePrefix[var6.renderIndex] + "_" + (par2 == 2 ? 2 : 1) + ".png");
+                this.loadTexture(var6.getArmorTexture(par2));
                 ModelBiped var7 = par2 == 2 ? this.modelArmor : this.modelArmorChestplate;
                 var7.bipedHead.showModel = par2 == 0;
                 var7.bipedHeadwear.showModel = par2 == 0;
@@ -125,7 +123,7 @@ public class RenderPlayer extends RenderLiving
             if (var5 instanceof ItemArmor)
             {
                 ItemArmor var6 = (ItemArmor)var5;
-                this.loadTexture("/armor/" + armorFilenamePrefix[var6.renderIndex] + "_" + (par2 == 2 ? 2 : 1) + "_b.png");
+                this.loadTexture(var6.getArmorTextureB(par2));
                 float var7 = 1.0F;
                 GL11.glColor3f(var7, var7, var7);
             }

@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldProviderEnd;
 
-public class BlockFire extends Block
+public class BlockFire extends Block implements IBlockFire
 {
     /** The chance this block will encourage nearby blocks to catch on fire */
     private Map<Integer, Integer> chanceToEncourageFire = new HashMap<Integer, Integer>();

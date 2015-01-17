@@ -12,6 +12,11 @@ import net.minecraft.world.World;
 
 public class ItemArmor extends Item
 {
+	public static final int ARMORTYPE_HELMET = 0;
+	public static final int ARMORTYPE_CHESTPLATE = 1;
+	public static final int ARMORTYPE_LEGGINGS = 2;
+	public static final int ARMORTYPE_BOOTS = 3;
+	
     /** Holds the 'base' maxDamage that each armorType have. */
     private static final int[] maxDamageArray = new int[] {11, 16, 15, 13};
     private static final String[] field_94606_cu = new String[] {"helmetCloth_overlay", "chestplateCloth_overlay", "leggingsCloth_overlay", "bootsCloth_overlay"};
@@ -37,14 +42,14 @@ public class ItemArmor extends Item
     private Icon field_94605_cw;
     private Icon field_94604_cx;
 
-    public ItemArmor(int par1, EnumArmorMaterial par2EnumArmorMaterial, int par3, int par4)
+    public ItemArmor(int par1, EnumArmorMaterial armorMaterial, int renderIndex, int armorType)
     {
         super(par1);
-        this.material = par2EnumArmorMaterial;
-        this.armorType = par4;
-        this.renderIndex = par3;
-        this.damageReduceAmount = par2EnumArmorMaterial.getDamageReductionAmount(par4);
-        this.setMaxDamage(par2EnumArmorMaterial.getDurability(par4));
+        this.material = armorMaterial;
+        this.armorType = armorType;
+        this.renderIndex = renderIndex;
+        this.damageReduceAmount = armorMaterial.getDamageReductionAmount(armorType);
+        this.setMaxDamage(armorMaterial.getDurability(armorType));
         this.maxStackSize = 1;
         this.setCreativeTab(CreativeTabs.tabCombat);
         BlockDispenser.dispenseBehaviorRegistry.putObject(this, field_96605_cw);
@@ -152,7 +157,7 @@ public class ItemArmor extends Item
         }
     }
 
-    public void func_82813_b(ItemStack par1ItemStack, int par2)
+    public void dye(ItemStack par1ItemStack, int par2)
     {
         if (this.material != EnumArmorMaterial.CLOTH)
         {
@@ -244,5 +249,17 @@ public class ItemArmor extends Item
     static int[] getMaxDamageArray()
     {
         return maxDamageArray;
+    }
+    
+    private static final String[] armorFilenamePrefix = new String[] {"cloth", "chain", "iron", "diamond", "gold"};
+    
+    public String getArmorTexture(int par2)
+    {
+    	return "/armor/" + armorFilenamePrefix[this.renderIndex] + "_" + (par2 == 2 ? 2 : 1) + ".png";
+    }
+    
+    public String getArmorTextureB(int par2)
+    {
+    	return "/armor/" + armorFilenamePrefix[this.renderIndex] + "_" + (par2 == 2 ? 2 : 1) + "_b.png";
     }
 }

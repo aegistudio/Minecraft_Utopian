@@ -9,7 +9,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockFence extends Block
+public class BlockFence extends Block implements IBlockFence
 {
     private final String field_94464_a;
 

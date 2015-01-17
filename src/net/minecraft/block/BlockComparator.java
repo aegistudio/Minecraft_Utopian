@@ -11,7 +11,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockComparator extends BlockRedstoneLogic implements ITileEntityProvider
+public class BlockComparator extends BlockRedstoneLogic implements ITileEntityProvider, IBlockComparator
 {
     public BlockComparator(int par1, boolean par2)
     {

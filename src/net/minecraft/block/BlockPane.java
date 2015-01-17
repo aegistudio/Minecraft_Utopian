@@ -12,7 +12,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockPane extends Block
+public class BlockPane extends Block implements IBlockPane
 {
     /**
      * Holds the texture index of the side of the pane (the thin lateral side)
@@ -25,7 +25,7 @@ public class BlockPane extends Block
      */
     private final boolean canDropItself;
     private final String field_94402_c;
-    private Icon theIcon;
+    protected Icon theIcon;
 
     protected BlockPane(int par1, String par2Str, String par3Str, Material par4Material, boolean par5)
     {

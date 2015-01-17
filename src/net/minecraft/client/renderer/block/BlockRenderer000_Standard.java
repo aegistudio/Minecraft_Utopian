@@ -8,11 +8,11 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 
-public class BlockRendererStandard extends BlockRenderer
+public class BlockRenderer000_Standard extends BlockRenderer
 {
-	public static BlockRenderer renderer = new BlockRendererStandard();
+	public static final BlockRenderer renderer = new BlockRenderer000_Standard();
 	
-	private BlockRendererStandard()
+	private BlockRenderer000_Standard()
 	{
 		super(0);
 	}

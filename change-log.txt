@@ -1,5 +1,5 @@
 *********************************************
-*		 Minecraft Utopian Change Log	 	*
+*        Minecraft Utopian Change Log       *
 *********************************************
 
 # 0.0.0.1 alpha
@@ -28,3 +28,9 @@
 - Adding some block and entity events into the game. (Like interact with entities, placing blocks, etc.)
 - Refactoring the original structure of action package.
 - Refactoring the client launcher / wrapper class, making it capable of being launched by other launchers.
+
+# 0.0.0.6 alpha
+- Adding "Ease" (a template class collection for minecraft) into the game, which will simplify the developments.
+- Changing the visibility of the crafting recipes manager through on the fly method. (Without modifying the source)
+- Optimize the map that is used in the game, which is a trade off between space and performance. (Actually more space but better performance.)
+- Block renderers updates. Use a more optimized way to write it. Adding more block renderers will become true.

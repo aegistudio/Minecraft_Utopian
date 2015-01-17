@@ -9,7 +9,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class BlockRailBase extends Block
+public abstract class BlockRailBase extends Block implements IBlockRailBase
 {
     /** Power related rails have this field at true. */
     protected final boolean isPowered;

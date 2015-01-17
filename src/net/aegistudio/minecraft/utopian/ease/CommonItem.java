@@ -2,13 +2,11 @@ package net.aegistudio.minecraft.utopian.ease;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
 public class CommonItem extends Item
 {
-	protected ItemBlock itemCommonBlock;
 	protected String displayName;
 	protected String[] texturePaths;
 	

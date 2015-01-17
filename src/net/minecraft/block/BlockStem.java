@@ -10,7 +10,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockStem extends BlockFlower
+public class BlockStem extends BlockFlower implements IBlockStem
 {
     /** Defines if it is a Melon or a Pumpkin that the stem is producing. */
     private final Block fruitType;

@@ -109,14 +109,8 @@ public abstract class CommandBase implements ICommand
      */
     public static EntityPlayerMP getCommandSenderAsPlayer(ICommandSender par0ICommandSender)
     {
-        if (par0ICommandSender instanceof EntityPlayerMP)
-        {
-            return (EntityPlayerMP)par0ICommandSender;
-        }
-        else
-        {
-            throw new PlayerNotFoundException("You must specify which player you wish to perform this action on.", new Object[0]);
-        }
+        if (par0ICommandSender instanceof EntityPlayerMP) return (EntityPlayerMP)par0ICommandSender;
+        else throw new PlayerNotFoundException("You must specify which player you wish to perform this action on.", new Object[0]);
     }
 
     public static EntityPlayerMP func_82359_c(ICommandSender par0ICommandSender, String par1Str)

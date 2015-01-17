@@ -9,14 +9,18 @@ import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import javax.imageio.ImageIO;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.texturepacks.ITexturePack;
 import net.minecraft.client.texturepacks.TexturePackList;
+import net.minecraft.util.ExtendedImageHelper;
 import net.minecraft.util.Icon;
 import net.minecraft.util.IntHashMap;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -187,11 +191,30 @@ public class RenderEngine
                         par1Str = par1Str.substring(7);
                     }
 
-                    InputStream var6 = this.texturePack.getSelectedTexturePack().getResourceAsStream(par1Str);
+                    InputStream var6 = null;
+                    boolean triedLoadExtension = false;
+                    try
+                    {
+                    	var6 = this.texturePack.getSelectedTexturePack().getResourceAsStream(par1Str);
+                    }
+                    catch(Exception e)
+                    {
+                    	this.setupTextureExt(ExtendedImageHelper.getExtendedImage(par1Str + ".png", new IOException("Texture " + par1Str + ".png could not be resolved!")), var3, var9, var5);
+                    	triedLoadExtension = true;
+                    }
 
                     if (var6 == null)
                     {
-                        this.setupTextureExt(this.missingTextureImage, var3, var9, var5);
+                    	try
+                    	{
+                    		if(triedLoadExtension) this.setupTextureExt(ExtendedImageHelper.getExtendedImage(par1Str + ".png", new IOException("Texture " + par1Str + "could not be resolved!")), var3, var9, var5);
+                    		else this.setupTextureExt(this.missingTextureImage, var3, var9, var5);
+                    	}
+                    	catch(IOException e)
+                    	{
+                    		this.setupTextureExt(this.missingTextureImage, var3, var9, var5);
+                    	}
+                    	
                     }
                     else
                     {

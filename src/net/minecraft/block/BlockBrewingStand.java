@@ -18,7 +18,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class BlockBrewingStand extends BlockContainer
+public class BlockBrewingStand extends BlockContainer implements IBlockBrewingStand
 {
     private Random rand = new Random();
     private Icon theIcon;

@@ -4,11 +4,11 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.Tessellator;
 
-public class BlockRendererCrossedSquares extends BlockRenderer
+public class BlockRenderer001_CrossedSquares extends BlockRenderer
 {
-	public static BlockRenderer renderer = new BlockRendererCrossedSquares();
+	public static final BlockRenderer renderer = new BlockRenderer001_CrossedSquares();
 	
-	private BlockRendererCrossedSquares()
+	private BlockRenderer001_CrossedSquares()
 	{
 		super(1);
 	}

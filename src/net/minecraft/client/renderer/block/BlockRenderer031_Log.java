@@ -2,11 +2,11 @@ package net.minecraft.client.renderer.block;
 
 import net.minecraft.block.Block;
 
-public class BlockRendererLog extends BlockRenderer
+public class BlockRenderer031_Log extends BlockRenderer
 {
-	public static BlockRenderer renderer = new BlockRendererLog();
+	public static final BlockRenderer renderer = new BlockRenderer031_Log();
 	
-	private BlockRendererLog()
+	private BlockRenderer031_Log()
 	{
 		super(31);
 	}
@@ -34,7 +34,7 @@ public class BlockRendererLog extends BlockRenderer
             renderBlocks.uvRotateNorth = 1;
         }
 
-        boolean var7 = BlockRendererStandard.renderer.onRenderBlock(renderBlocks, par1Block, par2, par3, par4);
+        boolean var7 = BlockRenderer000_Standard.renderer.onRenderBlock(renderBlocks, par1Block, par2, par3, par4);
         renderBlocks.uvRotateSouth = 0;
         renderBlocks.uvRotateEast = 0;
         renderBlocks.uvRotateWest = 0;

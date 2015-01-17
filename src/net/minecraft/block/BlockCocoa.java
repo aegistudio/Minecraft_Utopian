@@ -13,7 +13,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCocoa extends BlockDirectional
+public class BlockCocoa extends BlockDirectional implements IBlockCocoa
 {
     public static final String[] cocoaIcons = new String[] {"cocoa_0", "cocoa_1", "cocoa_2"};
     private Icon[] iconArray;

@@ -6,6 +6,8 @@ import net.minecraft.block.BlockPistonBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.block.BlockRenderer016_PistonBase;
+import net.minecraft.client.renderer.block.BlockRenderer017_PistonExtension;
 import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityPiston;
@@ -47,15 +49,15 @@ public class TileEntityRendererPiston extends TileEntitySpecialRenderer
 
             if (var9 == Block.pistonExtension && par1TileEntityPiston.getProgress(par8) < 0.5F)
             {
-                this.blockRenderer.renderPistonExtensionAllFaces(var9, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord, false);
+                ((BlockRenderer017_PistonExtension)BlockRenderer017_PistonExtension.renderer).renderPistonExtensionAllFaces(this.blockRenderer, var9, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord, false);
             }
             else if (par1TileEntityPiston.shouldRenderHead() && !par1TileEntityPiston.isExtending())
             {
                 Block.pistonExtension.setHeadTexture(((BlockPistonBase)var9).getPistonExtensionTexture());
-                this.blockRenderer.renderPistonExtensionAllFaces(Block.pistonExtension, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord, par1TileEntityPiston.getProgress(par8) < 0.5F);
+                ((BlockRenderer017_PistonExtension)BlockRenderer017_PistonExtension.renderer).renderPistonExtensionAllFaces(this.blockRenderer, Block.pistonExtension, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord, par1TileEntityPiston.getProgress(par8) < 0.5F);
                 Block.pistonExtension.clearHeadTexture();
                 var10.setTranslation((double)((float)par2 - (float)par1TileEntityPiston.xCoord), (double)((float)par4 - (float)par1TileEntityPiston.yCoord), (double)((float)par6 - (float)par1TileEntityPiston.zCoord));
-                this.blockRenderer.renderPistonBaseAllFaces(var9, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord);
+                ((BlockRenderer016_PistonBase)BlockRenderer016_PistonBase.renderer).renderPistonBaseAllFaces(this.blockRenderer, var9, par1TileEntityPiston.xCoord, par1TileEntityPiston.yCoord, par1TileEntityPiston.zCoord);
             }
             else
             {

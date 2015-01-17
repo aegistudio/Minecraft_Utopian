@@ -135,7 +135,7 @@ public class RecipesArmorDyes implements IRecipe
             var9 = (int)((float)var9 * var10 / var11);
             var17 = (var7 << 8) + var13;
             var17 = (var17 << 8) + var9;
-            var6.func_82813_b(var2, var17);
+            var6.dye(var2, var17);
             return var2;
         }
     }

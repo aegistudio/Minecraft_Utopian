@@ -294,7 +294,7 @@ public class Block
     private String unlocalizedName;
     protected Icon blockIcon;
 
-    public Block(int par1, Material par2Material)
+    public Block(int id, Material material)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	
@@ -302,20 +302,20 @@ public class Block
         this.blockParticleGravity = 1.0F;
         this.slipperiness = 0.6F;
 
-        if(whocallme.getBlock(par1) != null)
+        if(whocallme.getBlock(id) != null)
         {
-            throw new IllegalArgumentException("Slot " + par1 + " is already occupied by " + whocallme.getBlock(par1) + " when adding " + this);
+            throw new IllegalArgumentException("Slot " + id + " is already occupied by " + whocallme.getBlock(id) + " when adding " + this);
         }
         else
         {
-            this.blockMaterial = par2Material;
-            this.blockID = par1;
+            this.blockMaterial = material;
+            this.blockID = id;
             whocallme.setBlock(this);
             
             this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
-            whocallme.setLookupOpaqueCube(par1, this.isOpaqueCube());
-            whocallme.setLookupOpacity(par1, this.isOpaqueCube() ? 255 : 0);
-            whocallme.setCanBlockGrass(par1, par2Material.getCanBlockGrass());
+            whocallme.setLookupOpaqueCube(id, this.isOpaqueCube());
+            whocallme.setLookupOpacity(id, this.isOpaqueCube() ? 255 : 0);
+            whocallme.setCanBlockGrass(id, material.getCanBlockGrass());
         }
     }
 
@@ -328,18 +328,18 @@ public class Block
     /**
      * Sets the footstep sound for the block. Returns the object for convenience in constructing.
      */
-    protected Block setStepSound(StepSound par1StepSound)
+    protected Block setStepSound(StepSound stepSound)
     {
-        this.stepSound = par1StepSound;
+        this.stepSound = stepSound;
         return this;
     }
 
     /**
      * Sets how much light is blocked going through this block. Returns the object for convenience in constructing.
      */
-    protected Block setLightOpacity(int par1)
+    protected Block setLightOpacity(int opacity)
     {
-        BlockInfoContainer.getBlockInfoContainer().setLookupOpacity(this.blockID, par1);
+        BlockInfoContainer.getBlockInfoContainer().setLookupOpacity(this.blockID, opacity);
         return this;
     }
 
@@ -347,25 +347,26 @@ public class Block
      * Sets the amount of light emitted by a block from 0.0f to 1.0f (converts internally to 0-15). Returns the object
      * for convenience in constructing.
      */
-    protected Block setLightValue(float par1)
+    protected Block setLightValue(float lightValue)
     {
-    	BlockInfoContainer.getBlockInfoContainer().setLookupLightValue(this.blockID, (int)(15.0F * par1));
+    	BlockInfoContainer.getBlockInfoContainer().setLookupLightValue(this.blockID, (int)(15.0F * lightValue));
         return this;
     }
 
     /**
      * Sets the the blocks resistance to explosions. Returns the object for convenience in constructing.
      */
-    protected Block setResistance(float par1)
+    protected Block setResistance(float resistence)
     {
-        this.blockResistance = par1 * 3.0F;
+        this.blockResistance = resistence * 3.0F;
         return this;
     }
 
-    public static boolean isNormalCube(int par0)
+    public static boolean isNormalCube(int id)
     {
-        Block var1 = BlockInfoContainer.getBlockInfoContainer().getBlock(par0);
-        return var1 == null ? false : var1.blockMaterial.isOpaque() && var1.renderAsNormalBlock() && !var1.canProvidePower();
+        Block block = BlockInfoContainer.getBlockInfoContainer().getBlock(id);
+        if(block == null) return false;
+        return block.blockMaterial.isOpaque() && block.renderAsNormalBlock() && !block.canProvidePower();
     }
 
     /**

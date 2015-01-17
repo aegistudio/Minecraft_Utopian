@@ -25,7 +25,7 @@ public final class CraftingManagerHelper
 		{
 			Class<?>[] types = method.getParameterTypes();
 			Class<?> returnType = method.getReturnType();
-			if(types.length == 2 && types[0].equals(ItemStack.class) && types[1].equals(Object[].class) && returnType == null)
+			if(types.length == 2 && types[0].equals(ItemStack.class) && types[1].equals(Object[].class) && returnType.equals(Void.class))
 				this.addShapelessRecipe = method;
 			else if(types.length == 2 && types[0].equals(ItemStack.class) && types[1].equals(Object[].class) && returnType.equals(ShapedRecipes.class))
 				this.addRecipe = method;

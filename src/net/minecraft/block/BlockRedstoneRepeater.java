@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockRedstoneRepeater extends BlockRedstoneLogic
+public class BlockRedstoneRepeater extends BlockRedstoneLogic implements IBlockRedstoneRepeater
 {
     /** The offsets for the two torches in redstone repeater blocks. */
     public static final double[] repeaterTorchOffset = new double[] { -0.0625D, 0.0625D, 0.1875D, 0.3125D};

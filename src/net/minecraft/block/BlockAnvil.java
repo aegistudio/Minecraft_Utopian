@@ -13,12 +13,18 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockAnvil extends BlockSand
+public class BlockAnvil extends BlockSand implements IBlockAnvil
 {
     /** List of types/statues the Anvil can be in. */
     public static final String[] statuses = new String[] {"intact", "slightlyDamaged", "veryDamaged"};
     private static final String[] anvilIconNames = new String[] {"anvil_top", "anvil_top_damaged_1", "anvil_top_damaged_2"};
     public int field_82521_b = 0;
+    
+	public void set_field_82521_b(int par5)
+	{
+		this.field_82521_b = par5;
+	}
+	
     private Icon[] iconArray;
 
     protected BlockAnvil(int par1)
@@ -159,7 +165,7 @@ public class BlockAnvil extends BlockSand
     /**
      * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
      */
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List)
     {
         par3List.add(new ItemStack(par1, 1, 0));
         par3List.add(new ItemStack(par1, 1, 1));
@@ -190,4 +196,5 @@ public class BlockAnvil extends BlockSand
     {
         return true;
     }
+
 }

@@ -11,7 +11,7 @@ import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class BlockBeacon extends BlockContainer
+public class BlockBeacon extends BlockContainer implements IBlockBeacon
 {
     private Icon theIcon;
 
@@ -104,4 +104,16 @@ public class BlockBeacon extends BlockContainer
             ((TileEntityBeacon)par1World.getBlockTileEntity(par2, par3, par4)).func_94047_a(par6ItemStack.getDisplayName());
         }
     }
+
+	@Override
+	public Block getShellBlock()
+	{
+		return Block.glass;
+	}
+
+	@Override
+	public Block getBaseBlock()
+	{
+		return Block.obsidian;
+	}
 }

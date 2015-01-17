@@ -8,7 +8,7 @@ public class Client
 	{
 		UtopianLoader.createLoadingGUI();
 		UtopianLoader.initUtopian();
-		
+		 
 		UtopianLoader.loadConfig();
 		
 		if(arguments.length > 0) for(int i = 0; i < arguments.length; i ++)

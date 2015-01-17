@@ -12,7 +12,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class BlockEndPortalFrame extends Block
+public class BlockEndPortalFrame extends Block implements IBlockEndPortalFrame
 {
     private Icon field_94400_a;
     private Icon field_94399_b;

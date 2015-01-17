@@ -10,7 +10,7 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockWall extends Block
+public class BlockWall extends Block implements IBlockWall
 {
     /** The types of the wall. */
     public static final String[] types = new String[] {"normal", "mossy"};
