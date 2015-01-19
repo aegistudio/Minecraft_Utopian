@@ -12,23 +12,23 @@ public class GuiConnecting extends GuiScreen
 
     /** True if the connection attempt has been cancelled. */
     private boolean cancelled = false;
-    private final GuiScreen field_98098_c;
+    private final GuiScreen parentGui;
 
-    public GuiConnecting(GuiScreen par1GuiScreen, Minecraft par2Minecraft, ServerData par3ServerData)
+    public GuiConnecting(GuiScreen parentGui, Minecraft minecraft, ServerData par3ServerData)
     {
-        this.mc = par2Minecraft;
-        this.field_98098_c = par1GuiScreen;
+        this.mc = minecraft;
+        this.parentGui = parentGui;
         ServerAddress var4 = ServerAddress.func_78860_a(par3ServerData.serverIP);
-        par2Minecraft.loadWorld((WorldClient)null);
-        par2Minecraft.setServerData(par3ServerData);
+        minecraft.loadWorld((WorldClient)null);
+        minecraft.setServerData(par3ServerData);
         this.spawnNewServerThread(var4.getIP(), var4.getPort());
     }
 
-    public GuiConnecting(GuiScreen par1GuiScreen, Minecraft par2Minecraft, String par3Str, int par4)
+    public GuiConnecting(GuiScreen parentGui, Minecraft minecraft, String par3Str, int par4)
     {
-        this.mc = par2Minecraft;
-        this.field_98098_c = par1GuiScreen;
-        par2Minecraft.loadWorld((WorldClient)null);
+        this.mc = minecraft;
+        this.parentGui = parentGui;
+        minecraft.loadWorld((WorldClient)null);
         this.spawnNewServerThread(par3Str, par4);
     }
 
@@ -78,7 +78,7 @@ public class GuiConnecting extends GuiScreen
                 this.clientHandler.disconnect();
             }
 
-            this.mc.displayGuiScreen(this.field_98098_c);
+            this.mc.displayGuiScreen(this.parentGui);
         }
     }
 
@@ -137,7 +137,7 @@ public class GuiConnecting extends GuiScreen
 
     static GuiScreen func_98097_e(GuiConnecting par0GuiConnecting)
     {
-        return par0GuiConnecting.field_98098_c;
+        return par0GuiConnecting.parentGui;
     }
 
     static Minecraft func_74250_f(GuiConnecting par0GuiConnecting)

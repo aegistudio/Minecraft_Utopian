@@ -16,4 +16,6 @@ public abstract class ItemInfoContainer
 	public abstract Item[] getRegisteredItems();
 	
 	public abstract int getMaximumItemId();
+	
+	public abstract void removeItem(int itemid);
 }

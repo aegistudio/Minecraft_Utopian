@@ -96,6 +96,14 @@ public class BlockRenderer002_Torch extends BlockRenderer
         var13.addVertexWithUV(var41 + par8, par4 + 0.0D, par6 - var47 + par10, var15, var21);
         var13.addVertexWithUV(var39 + par8, par4 + 0.0D, par6 - var47 + par10, var19, var21);
         var13.addVertexWithUV(var39, par4 + 1.0D, par6 - var47, var19, var17);
+        
     }
 
+    public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+    {
+	    tess.startDrawingQuads();
+	    tess.setNormal(0.0F, -1.0F, 0.0F);
+	    this.renderTorchAtAngle(renderBlocks, block, -0.5D, -0.5D, -0.5D, 0.0D, 0.0D, 0);
+	    tess.draw();
+    }
 }

@@ -1,7 +1,10 @@
 package net.minecraft.client.renderer.block;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IBlockStair;
+import net.minecraft.client.renderer.Tessellator;
 
 public class BlockRenderer010_Stairs extends BlockRenderer
 {
@@ -35,4 +38,47 @@ public class BlockRenderer010_Stairs extends BlockRenderer
 
         return true;
     }
+	
+	public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+	{
+		for (int var14 = 0; var14 < 2; ++var14)
+        {
+            if (var14 == 0)
+            {
+                renderBlocks.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5D);
+            }
+
+            if (var14 == 1)
+            {
+                renderBlocks.setRenderBounds(0.0D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
+            }
+
+            GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+            tess.startDrawingQuads();
+            tess.setNormal(0.0F, -1.0F, 0.0F);
+            renderBlocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 0));
+            tess.draw();
+            tess.startDrawingQuads();
+            tess.setNormal(0.0F, 1.0F, 0.0F);
+            renderBlocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 1));
+            tess.draw();
+            tess.startDrawingQuads();
+            tess.setNormal(0.0F, 0.0F, -1.0F);
+            renderBlocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 2));
+            tess.draw();
+            tess.startDrawingQuads();
+            tess.setNormal(0.0F, 0.0F, 1.0F);
+            renderBlocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 3));
+            tess.draw();
+            tess.startDrawingQuads();
+            tess.setNormal(-1.0F, 0.0F, 0.0F);
+            renderBlocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 4));
+            tess.draw();
+            tess.startDrawingQuads();
+            tess.setNormal(1.0F, 0.0F, 0.0F);
+            renderBlocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 5));
+            tess.draw();
+            GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+        }
+	}
 }

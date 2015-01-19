@@ -37,10 +37,13 @@ public class EventHandlerRegistry
 	{
 		if(obj == null || event_class == null) return false;
 		Method[] methods = obj.getClass().getDeclaredMethods();
+		boolean registered = false;
 		for(Method method : methods) 
 		{
-			if(UtopianLoader.is_server && method.isAnnotationPresent(Dedicated.Client.class)) continue;
-			if(!UtopianLoader.is_server && method.isAnnotationPresent(Dedicated.Server.class)) continue;
+			if(UtopianLoader.is_server && (method.isAnnotationPresent(Dedicated.Client.class) || event_class.isAnnotationPresent(Dedicated.Client.class))) continue;
+			if(!UtopianLoader.is_server && (method.isAnnotationPresent(Dedicated.Server.class) || event_class.isAnnotationPresent(Dedicated.Server.class))) continue;
+			Class<?>[] parameters = method.getParameterTypes();
+			if(parameters.length != 1) continue;
 			
 			EventHandler event_handler = method.getAnnotation(EventHandler.class);
 			if(event_handler == null) continue;
@@ -48,7 +51,9 @@ public class EventHandlerRegistry
 			HashMap<Class<?>, HashMap<Method, ArrayList<Object>>> operating_handler_list = this.handler_list;
 			if(event_handler.async()) operating_handler_list = this.async_handler_list;
 			
-			if(event_handler.value().equals(event_class))
+			Class<?> annotated_class = parameters[0];
+			
+			if(annotated_class.equals(event_class))
 			{
 				HashMap<Method, ArrayList<Object>> handler_object_map;
 				if((handler_object_map = operating_handler_list.get(event_class)) == null)
@@ -63,10 +68,10 @@ public class EventHandlerRegistry
 					object_list = new ArrayList<Object>();
 					handler_object_map.put(method, object_list);
 				}
-				if(!object_list.add(obj)) return false;
+				if(object_list.add(obj)) registered = true;
 			}
 		}
-		return true;
+		return registered;
 	}
 
 	/**

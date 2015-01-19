@@ -15,12 +15,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
 import net.aegistudio.minecraft.utopian.event.runtime.InitResourceEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.InitWindowEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.KeyboardEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.MouseClickEvent;
+import net.aegistudio.minecraft.utopian.event.runtime.MouseMoveEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.PostInitEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.PreInitEvent;
 import net.aegistudio.minecraft.utopian.event.runtime.ShutdownEvent;
@@ -88,6 +92,7 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.stats.StatFileWriter;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BiMap;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.EnumOS;
 import net.minecraft.util.HttpUtil;
@@ -1547,12 +1552,30 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
 
             while (Mouse.next())
             {
-                KeyBinding.setKeyBindState(Mouse.getEventButton() - 100, Mouse.getEventButtonState());
+            	int mouseEventButton = Mouse.getEventButton();
+            	
+            	if(mouseEventButton != -1)
+            	{
+                	//XXX Begin Minecraft UtopianHook
+                	//XXX Hook MouseButtonEvent
+        	    	MouseClickEvent mousebtn_event = new MouseClickEvent(mouseEventButton, Mouse.getEventButtonState());
+        	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(mousebtn_event);
+        	    	if(mousebtn_event.isCancelled()) continue;
+                	//XXX End Of Minecraft UtopianHook
+            	}
+            	else 
+            	{
+                	//XXX Begin Minecraft UtopianHook
+                	//XXX Hook MouseMoveEvent
+                	MouseMoveEvent mousemov_event = new MouseMoveEvent();
+            	    EventHandlerRegistry.getEventHandlerRegistry().invoke(mousemov_event);
+            	    if(mousemov_event.isCancelled()) continue;
+                	//XXX End Of Minecraft UtopianHook
+            	}
+            	
+                KeyBinding.setKeyBindState(mouseEventButton - 100, Mouse.getEventButtonState());
 
-                if (Mouse.getEventButtonState())
-                {
-                    KeyBinding.onTick(Mouse.getEventButton() - 100);
-                }
+                if (Mouse.getEventButtonState()) KeyBinding.onTick(mouseEventButton - 100);
 
                 long var1 = getSystemTime() - this.systemTime;
 
@@ -1598,171 +1621,8 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
             {
                 --this.leftClickCounter;
             }
-
-            this.mcProfiler.endStartSection("keyboard");
-            boolean var8;
-
-            while (Keyboard.next())
-            {
-                KeyBinding.setKeyBindState(Keyboard.getEventKey(), Keyboard.getEventKeyState());
-
-                if (Keyboard.getEventKeyState())
-                {
-                    KeyBinding.onTick(Keyboard.getEventKey());
-                }
-
-                if (this.field_83002_am > 0L)
-                {
-                    if (getSystemTime() - this.field_83002_am >= 6000L)
-                    {
-                        throw new ReportedException(new CrashReport("Manually triggered debug crash", new Throwable()));
-                    }
-
-                    if (!Keyboard.isKeyDown(46) || !Keyboard.isKeyDown(61))
-                    {
-                        this.field_83002_am = -1L;
-                    }
-                }
-                else if (Keyboard.isKeyDown(46) && Keyboard.isKeyDown(61))
-                {
-                    this.field_83002_am = getSystemTime();
-                }
-
-                if (Keyboard.getEventKeyState())
-                {
-                    if (Keyboard.getEventKey() == 87)
-                    {
-                        this.toggleFullscreen();
-                    }
-                    else
-                    {
-                        if (this.currentScreen != null)
-                        {
-                            this.currentScreen.handleKeyboardInput();
-                        }
-                        else
-                        {
-                            if (Keyboard.getEventKey() == 1)
-                            {
-                                this.displayInGameMenu();
-                            }
-
-                            if (Keyboard.getEventKey() == 31 && Keyboard.isKeyDown(61))
-                            {
-                                this.forceReload();
-                            }
-
-                            if (Keyboard.getEventKey() == 20 && Keyboard.isKeyDown(61))
-                            {
-                                this.renderEngine.refreshTextures();
-                                this.renderGlobal.loadRenderers();
-                            }
-
-                            if (Keyboard.getEventKey() == 33 && Keyboard.isKeyDown(61))
-                            {
-                                var8 = Keyboard.isKeyDown(42) | Keyboard.isKeyDown(54);
-                                this.gameSettings.setOptionValue(EnumOptions.RENDER_DISTANCE, var8 ? -1 : 1);
-                            }
-
-                            if (Keyboard.getEventKey() == 30 && Keyboard.isKeyDown(61))
-                            {
-                                this.renderGlobal.loadRenderers();
-                            }
-
-                            if (Keyboard.getEventKey() == 35 && Keyboard.isKeyDown(61))
-                            {
-                                this.gameSettings.advancedItemTooltips = !this.gameSettings.advancedItemTooltips;
-                                this.gameSettings.saveOptions();
-                            }
-
-                            if (Keyboard.getEventKey() == 48 && Keyboard.isKeyDown(61))
-                            {
-                                RenderManager.field_85095_o = !RenderManager.field_85095_o;
-                            }
-
-                            if (Keyboard.getEventKey() == 25 && Keyboard.isKeyDown(61))
-                            {
-                                this.gameSettings.pauseOnLostFocus = !this.gameSettings.pauseOnLostFocus;
-                                this.gameSettings.saveOptions();
-                            }
-
-                            if (Keyboard.getEventKey() == 59)
-                            {
-                                this.gameSettings.hideGUI = !this.gameSettings.hideGUI;
-                            }
-
-                            if (Keyboard.getEventKey() == 61)
-                            {
-                                this.gameSettings.showDebugInfo = !this.gameSettings.showDebugInfo;
-                                this.gameSettings.showDebugProfilerChart = GuiScreen.isShiftKeyDown();
-                            }
-
-                            if (Keyboard.getEventKey() == 63)
-                            {
-                                ++this.gameSettings.thirdPersonView;
-
-                                if (this.gameSettings.thirdPersonView > 2)
-                                {
-                                    this.gameSettings.thirdPersonView = 0;
-                                }
-                            }
-
-                            if (Keyboard.getEventKey() == 66)
-                            {
-                                this.gameSettings.smoothCamera = !this.gameSettings.smoothCamera;
-                            }
-                        }
-
-                        int var9;
-
-                        for (var9 = 0; var9 < 9; ++var9)
-                        {
-                            if (Keyboard.getEventKey() == 2 + var9)
-                            {
-                                this.thePlayer.inventory.currentItem = var9;
-                            }
-                        }
-
-                        if (this.gameSettings.showDebugInfo && this.gameSettings.showDebugProfilerChart)
-                        {
-                            if (Keyboard.getEventKey() == 11)
-                            {
-                                this.updateDebugProfilerName(0);
-                            }
-
-                            for (var9 = 0; var9 < 9; ++var9)
-                            {
-                                if (Keyboard.getEventKey() == 2 + var9)
-                                {
-                                    this.updateDebugProfilerName(var9 + 1);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            var8 = this.gameSettings.chatVisibility != 2;
-
-            while (this.gameSettings.keyBindInventory.isPressed())
-            {
-                this.displayGuiScreen(new GuiInventory(this.thePlayer));
-            }
-
-            while (this.gameSettings.keyBindDrop.isPressed())
-            {
-                this.thePlayer.dropOneItem(GuiScreen.isCtrlKeyDown());
-            }
-
-            while (this.gameSettings.keyBindChat.isPressed() && var8)
-            {
-                this.displayGuiScreen(new GuiChat());
-            }
-
-            if (this.currentScreen == null && this.gameSettings.keyBindCommand.isPressed() && var8)
-            {
-                this.displayGuiScreen(new GuiChat("/"));
-            }
+            
+            this.processKeyboardEvents();
 
             if (this.thePlayer.isUsingItem())
             {
@@ -1888,16 +1748,11 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
             this.mcProfiler.endStartSection("animateTick");
 
             if (!this.isGamePaused && this.theWorld != null)
-            {
                 this.theWorld.doVoidFogParticles(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
-            }
 
             this.mcProfiler.endStartSection("particles");
 
-            if (!this.isGamePaused)
-            {
-                this.effectRenderer.updateEffects();
-            }
+            if (!this.isGamePaused) this.effectRenderer.updateEffects();
         }
         else if (this.myNetworkManager != null)
         {
@@ -1909,6 +1764,308 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
         this.systemTime = getSystemTime();
     }
 
+    public void processKeyboardEvents()
+    {
+        this.mcProfiler.endStartSection("keyboard");
+        boolean chatVisibility;
+
+        while (Keyboard.next())
+        {
+        	//XXX Begin Minecraft UtopianHook
+        	//XXX Hook KeyboardEvent
+        	{
+    	    	KeyboardEvent keyboard_event = new KeyboardEvent(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+    	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(keyboard_event);
+    	    	if(keyboard_event.isCancelled()) continue;
+        	}
+        	//XXX End Of Minecraft UtopianHook
+        	
+            KeyBinding.setKeyBindState(Keyboard.getEventKey(), Keyboard.getEventKeyState());
+
+            if (Keyboard.getEventKeyState())
+            {
+                KeyBinding.onTick(Keyboard.getEventKey());
+            }
+
+            if (this.field_83002_am > 0L)
+            {
+                if (getSystemTime() - this.field_83002_am >= 6000L)
+                {
+                    throw new ReportedException(new CrashReport("Manually triggered debug crash", new Throwable()));
+                }
+
+                if (!Keyboard.isKeyDown(46) || !Keyboard.isKeyDown(61))
+                {
+                    this.field_83002_am = -1L;
+                }
+            }
+            else if (Keyboard.isKeyDown(46) && Keyboard.isKeyDown(61))
+            {
+                this.field_83002_am = getSystemTime();
+            }
+
+            if (Keyboard.getEventKeyState())
+            {
+                this.processKey(Keyboard.getEventKey());
+
+                if (this.gameSettings.showDebugInfo && this.gameSettings.showDebugProfilerChart)
+                {
+                    if (Keyboard.getEventKey() == 11)
+                    {
+                        this.updateDebugProfilerName(0);
+                    }
+
+                    int var9;
+                    for (var9 = 0; var9 < 9; ++var9)
+                    {
+                        if (Keyboard.getEventKey() == 2 + var9)
+                        {
+                            this.updateDebugProfilerName(var9 + 1);
+                        }
+                    }
+                }
+            }
+            
+        }
+
+        chatVisibility = this.gameSettings.chatVisibility != 2;
+
+        while (this.gameSettings.keyBindInventory.isPressed())
+        {
+            this.displayGuiScreen(new GuiInventory(this.thePlayer));
+        }
+
+        while (this.gameSettings.keyBindDrop.isPressed())
+        {
+            this.thePlayer.dropOneItem(GuiScreen.isCtrlKeyDown());
+        }
+
+        while (this.gameSettings.keyBindChat.isPressed() && chatVisibility)
+        {
+            this.displayGuiScreen(new GuiChat());
+        }
+
+        if (this.currentScreen == null && this.gameSettings.keyBindCommand.isPressed() && chatVisibility)
+        {
+            this.displayGuiScreen(new GuiChat("/"));
+        }
+    }
+    
+    //XXX This is written by aegistudio inorder to increase the processing rate of minecraft game tick.
+    public final Map<Integer, Runnable> keyProcessors = new BiMap<Runnable>(8, 4);
+    
+    public void processKey(int key)
+    {
+    	Runnable processor = keyProcessors.get(key);
+    	if(processor != null) processor.run();
+    }
+    
+    {
+    	//ESC
+    	this.keyProcessors.put(Keyboard.KEY_ESCAPE, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			Minecraft.this.displayInGameMenu();
+    		}
+    	});
+    	
+    	//S + F3
+    	this.keyProcessors.put(31, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			if(Keyboard.isKeyDown(61)) Minecraft.this.forceReload();
+    		}
+    	});
+    	
+    	//H + F3
+    	this.keyProcessors.put(35, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			if(Keyboard.isKeyDown(61))
+    			{
+                    Minecraft.this.gameSettings.advancedItemTooltips = !Minecraft.this.gameSettings.advancedItemTooltips;
+                    Minecraft.this.gameSettings.saveOptions();
+    			}
+    		}
+    	});
+    	
+    	//A + F3
+    	this.keyProcessors.put(30, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			if(Keyboard.isKeyDown(61)) Minecraft.this.renderGlobal.loadRenderers();
+    		}
+    	});
+    	
+    	//T + F3
+    	this.keyProcessors.put(20, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			if(Keyboard.isKeyDown(61))
+    			{
+                    Minecraft.this.renderEngine.refreshTextures();
+                    Minecraft.this.renderGlobal.loadRenderers();
+    			}
+    		}
+    	});
+    	
+    	//B + F3
+    	this.keyProcessors.put(48, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			if(Keyboard.isKeyDown(61)) RenderManager.field_85095_o = !RenderManager.field_85095_o;
+    		}
+    	});
+    	
+    	//F + F3
+    	this.keyProcessors.put(33, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			if(Keyboard.isKeyDown(61))
+    			{
+                    boolean renderingDistance = Keyboard.isKeyDown(42) | Keyboard.isKeyDown(54);
+                    Minecraft.this.gameSettings.setOptionValue(EnumOptions.RENDER_DISTANCE, renderingDistance ? -1 : 1);
+    			}
+    		}
+    	});
+    	
+    	this.keyProcessors.put(25, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			if(Keyboard.isKeyDown(61))
+    			{
+    				Minecraft.this.gameSettings.pauseOnLostFocus = !Minecraft.this.gameSettings.pauseOnLostFocus;
+                    Minecraft.this.gameSettings.saveOptions();
+    			}
+    		}
+    	});
+    	
+    	this.keyProcessors.put(59, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			Minecraft.this.gameSettings.hideGUI = !Minecraft.this.gameSettings.hideGUI;
+    		}
+    	});
+    	
+    	this.keyProcessors.put(61, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+                Minecraft.this.gameSettings.showDebugInfo = !Minecraft.this.gameSettings.showDebugInfo;
+                Minecraft.this.gameSettings.showDebugProfilerChart = GuiScreen.isShiftKeyDown();
+    		}
+    	});
+    	
+    	this.keyProcessors.put(63, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+                ++Minecraft.this.gameSettings.thirdPersonView;
+                if (Minecraft.this.gameSettings.thirdPersonView > 2) Minecraft.this.gameSettings.thirdPersonView = 0;
+    		}
+    	});
+    	
+    	this.keyProcessors.put(66, new Runnable()
+    	{
+    		public void run()
+    		{
+    			if (Minecraft.this.currentScreen != null) Minecraft.this.currentScreen.handleKeyboardInput();
+    			else 
+    			/**
+    			 * Used when no gui screen is presented.
+    			 */
+    			Minecraft.this.gameSettings.smoothCamera = !Minecraft.this.gameSettings.smoothCamera;
+    		}
+    	});
+    	
+    	this.keyProcessors.put(87, new Runnable()
+    	{
+    		public void run()
+    		{
+    			Minecraft.this.toggleFullscreen();
+    		}
+    	});
+    	
+        
+        for (int var9 = 0; var9 < 9; ++var9)
+        {
+        	final int pointer = var9;
+        	this.keyProcessors.put(pointer + 2, new Runnable()
+        	{
+        		public void run()
+        		{
+        			Minecraft.this.thePlayer.inventory.currentItem = pointer;
+        		}
+        	});
+        }
+    }
+    
+    //XXX --------------------------------------------------------------------------------------------
+    
     /**
      * Forces a reload of the sound manager and all the resources. Called in game by holding 'F3' and pressing 'S'.
      */

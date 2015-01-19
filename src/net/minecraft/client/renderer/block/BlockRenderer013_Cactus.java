@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.Tessellator;
@@ -121,5 +123,45 @@ public class BlockRenderer013_Cactus extends BlockRenderer
         }
 
         return var9;
+    }
+    
+    public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+    {
+        block.setBlockBoundsForItemRender();
+        GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+        float var7 = 0.0625F;
+        tess.startDrawingQuads();
+        tess.setNormal(0.0F, -1.0F, 0.0F);
+        renderBlocks.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 0));
+        tess.draw();
+        tess.startDrawingQuads();
+        tess.setNormal(0.0F, 1.0F, 0.0F);
+        renderBlocks.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 1));
+        tess.draw();
+        tess.startDrawingQuads();
+        tess.setNormal(0.0F, 0.0F, -1.0F);
+        tess.addTranslation(0.0F, 0.0F, var7);
+        renderBlocks.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 2));
+        tess.addTranslation(0.0F, 0.0F, -var7);
+        tess.draw();
+        tess.startDrawingQuads();
+        tess.setNormal(0.0F, 0.0F, 1.0F);
+        tess.addTranslation(0.0F, 0.0F, -var7);
+        renderBlocks.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 3));
+        tess.addTranslation(0.0F, 0.0F, var7);
+        tess.draw();
+        tess.startDrawingQuads();
+        tess.setNormal(-1.0F, 0.0F, 0.0F);
+        tess.addTranslation(var7, 0.0F, 0.0F);
+        renderBlocks.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 4));
+        tess.addTranslation(-var7, 0.0F, 0.0F);
+        tess.draw();
+        tess.startDrawingQuads();
+        tess.setNormal(1.0F, 0.0F, 0.0F);
+        tess.addTranslation(-var7, 0.0F, 0.0F);
+        renderBlocks.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, renderBlocks.getBlockIconFromSide(block, 5));
+        tess.addTranslation(var7, 0.0F, 0.0F);
+        tess.draw();
+        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
     }
 }

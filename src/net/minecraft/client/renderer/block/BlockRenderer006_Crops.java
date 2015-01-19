@@ -84,9 +84,8 @@ public class BlockRenderer006_Crops extends BlockRenderer
         var9.addVertexWithUV(var21, par5 + 1.0D, var25, var15, var13);
     }
     
-    public void renderBlockAsItem(RenderBlocks renderBlocks, Block block, int par2, float par3)
+    public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
     {
-    	Tessellator tess = Tessellator.instance;
         tess.startDrawingQuads();
         tess.setNormal(0.0F, -1.0F, 0.0F);
         this.renderBlockCropsImpl(renderBlocks, block, par2, -0.5D, -0.5D, -0.5D);

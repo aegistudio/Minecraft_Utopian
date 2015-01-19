@@ -155,9 +155,8 @@ public class BlockRenderer019_Stem extends BlockRenderer
     /**
      * Is called to render the image of a block on an inventory, as a held item, or as a an item on the ground
      */
-    public void renderBlockAsItem(RenderBlocks renderBlocks, Block par1Block, int par2, float par3)
+    public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block par1Block, int par2, float par3)
     {
-    	Tessellator tess = Tessellator.instance;
     	tess.startDrawingQuads();
         tess.setNormal(0.0F, -1.0F, 0.0F);
         par1Block.setBlockBoundsForItemRender();

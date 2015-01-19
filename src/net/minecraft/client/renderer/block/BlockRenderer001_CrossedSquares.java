@@ -55,4 +55,12 @@ public class BlockRenderer001_CrossedSquares extends BlockRenderer
         renderBlocks.drawCrossedSquares(par1Block, renderBlocks.blockAccess.getBlockMetadata(par2, par3, par4), var19, var20, var15, 1.0F);
         return true;
     }
+	
+    public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block par1Block, int par2, float par3)
+    {
+        tess.startDrawingQuads();
+        tess.setNormal(0.0F, -1.0F, 0.0F);
+        renderBlocks.drawCrossedSquares(par1Block, par2, -0.5D, -0.5D, -0.5D, 1.0F);
+        tess.draw();
+    }
 }

@@ -1,5 +1,7 @@
 package net.minecraft.entity.monster;
 
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.entity.Entity;
@@ -7,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BiMap;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -16,7 +19,13 @@ import net.minecraft.world.World;
 
 public class EntityEnderman extends EntityMob
 {
-    private static boolean[] carriableBlocks = new boolean[256];
+    private static Map<Integer, Boolean> carriableBlocks = new BiMap<Boolean>();
+    private static boolean canCarryBlock(int blockid)
+    {
+    	 Boolean couldcarry = carriableBlocks.get(blockid);
+    	 if(couldcarry == null) return false;
+    	 else return couldcarry;
+    }
 
     /**
      * Counter to delay the teleportation of an enderman towards the currently attacked target
@@ -155,7 +164,7 @@ public class EntityEnderman extends EntityMob
                     var3 = MathHelper.floor_double(this.posZ - 2.0D + this.rand.nextDouble() * 4.0D);
                     var4 = this.worldObj.getBlockId(var1, var2, var3);
 
-                    if (carriableBlocks[var4])
+                    if (canCarryBlock(var4))
                     {
                         this.setCarried(this.worldObj.getBlockId(var1, var2, var3));
                         this.setCarryingData(this.worldObj.getBlockMetadata(var1, var2, var3));
@@ -491,19 +500,19 @@ public class EntityEnderman extends EntityMob
 
     static
     {
-        carriableBlocks[Block.grass.blockID] = true;
-        carriableBlocks[Block.dirt.blockID] = true;
-        carriableBlocks[Block.sand.blockID] = true;
-        carriableBlocks[Block.gravel.blockID] = true;
-        carriableBlocks[Block.plantYellow.blockID] = true;
-        carriableBlocks[Block.plantRed.blockID] = true;
-        carriableBlocks[Block.mushroomBrown.blockID] = true;
-        carriableBlocks[Block.mushroomRed.blockID] = true;
-        carriableBlocks[Block.tnt.blockID] = true;
-        carriableBlocks[Block.cactus.blockID] = true;
-        carriableBlocks[Block.blockClay.blockID] = true;
-        carriableBlocks[Block.pumpkin.blockID] = true;
-        carriableBlocks[Block.melon.blockID] = true;
-        carriableBlocks[Block.mycelium.blockID] = true;
+        carriableBlocks.put(Block.grass.blockID, true);
+        carriableBlocks.put(Block.dirt.blockID, true);
+        carriableBlocks.put(Block.sand.blockID, true);
+        carriableBlocks.put(Block.gravel.blockID, true);
+        carriableBlocks.put(Block.plantYellow.blockID, true);
+        carriableBlocks.put(Block.plantRed.blockID, true);
+        carriableBlocks.put(Block.mushroomBrown.blockID, true);
+        carriableBlocks.put(Block.mushroomRed.blockID, true);
+        carriableBlocks.put(Block.tnt.blockID, true);
+        carriableBlocks.put(Block.cactus.blockID, true);
+        carriableBlocks.put(Block.blockClay.blockID, true);
+        carriableBlocks.put(Block.pumpkin.blockID, true);
+        carriableBlocks.put(Block.melon.blockID, true);
+        carriableBlocks.put(Block.mycelium.blockID, true);
     }
 }

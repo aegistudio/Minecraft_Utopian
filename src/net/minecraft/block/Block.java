@@ -302,10 +302,7 @@ public class Block
         this.blockParticleGravity = 1.0F;
         this.slipperiness = 0.6F;
 
-        if(whocallme.getBlock(id) != null)
-        {
-            throw new IllegalArgumentException("Slot " + id + " is already occupied by " + whocallme.getBlock(id) + " when adding " + this);
-        }
+        if(whocallme.getBlock(id) != null) throw new IllegalArgumentException("Slot " + id + " is already occupied by " + whocallme.getBlock(id) + " when adding " + this);
         else
         {
             this.blockMaterial = material;

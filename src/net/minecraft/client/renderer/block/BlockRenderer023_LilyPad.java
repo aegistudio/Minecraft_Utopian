@@ -54,4 +54,12 @@ public class BlockRenderer023_LilyPad extends BlockRenderer
         tess.addVertexWithUV((double)(var19 + var21 - var22), (double)((float)y + var7), (double)(var20 + var21 + var22), minu, minv);
         return true;
     }
+	
+	public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+	{
+		tess.startDrawingQuads();
+        tess.setNormal(0.0F, -1.0F, 0.0F);
+        block.setBlockBoundsForItemRender();
+        tess.draw();
+	}
 }

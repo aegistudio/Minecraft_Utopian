@@ -7,7 +7,7 @@ import net.minecraft.util.IntHashMap;
 
 public class KeyBinding
 {
-    public static List keybindArray = new ArrayList();
+    public static List<KeyBinding> keybindArray = new ArrayList<KeyBinding>();
     public static IntHashMap hash = new IntHashMap();
     public String keyDescription;
     public int keyCode;
@@ -18,12 +18,9 @@ public class KeyBinding
 
     public static void onTick(int par0)
     {
-        KeyBinding var1 = (KeyBinding)hash.lookup(par0);
+        KeyBinding keybinding = (KeyBinding)hash.lookup(par0);
 
-        if (var1 != null)
-        {
-            ++var1.pressTime;
-        }
+        if (keybinding != null) ++keybinding.pressTime;
     }
 
     public static void setKeyBindState(int par0, boolean par1)
@@ -38,23 +35,23 @@ public class KeyBinding
 
     public static void unPressAllKeys()
     {
-        Iterator var0 = keybindArray.iterator();
+        Iterator<KeyBinding> keybindings = keybindArray.iterator();
 
-        while (var0.hasNext())
+        while (keybindings.hasNext())
         {
-            KeyBinding var1 = (KeyBinding)var0.next();
-            var1.unpressKey();
+            KeyBinding keybinding = (KeyBinding)keybindings.next();
+            keybinding.unpressKey();
         }
     }
 
     public static void resetKeyBindingArrayAndHash()
     {
         hash.clearMap();
-        Iterator var0 = keybindArray.iterator();
+        Iterator<KeyBinding> keybindings = keybindArray.iterator();
 
-        while (var0.hasNext())
+        while (keybindings.hasNext())
         {
-            KeyBinding var1 = (KeyBinding)var0.next();
+            KeyBinding var1 = (KeyBinding)keybindings.next();
             hash.addKey(var1.keyCode, var1);
         }
     }

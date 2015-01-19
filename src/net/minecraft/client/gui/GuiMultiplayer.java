@@ -378,19 +378,19 @@ public class GuiMultiplayer extends GuiScreen
     private static void func_74017_b(ServerData par1ServerData) throws IOException
     {
         ServerAddress var1 = ServerAddress.func_78860_a(par1ServerData.serverIP);
-        Socket var2 = null;
+        Socket socket = null;
         DataInputStream var3 = null;
         DataOutputStream var4 = null;
 
         try
         {
-            var2 = new Socket();
-            var2.setSoTimeout(3000);
-            var2.setTcpNoDelay(true);
-            var2.setTrafficClass(18);
-            var2.connect(new InetSocketAddress(var1.getIP(), var1.getPort()), 3000);
-            var3 = new DataInputStream(var2.getInputStream());
-            var4 = new DataOutputStream(var2.getOutputStream());
+            socket = new Socket();
+            socket.setSoTimeout(3000);
+            socket.setTcpNoDelay(true);
+            socket.setTrafficClass(18);
+            socket.connect(new InetSocketAddress(var1.getIP(), var1.getPort()), 3000);
+            var3 = new DataInputStream(socket.getInputStream());
+            var4 = new DataOutputStream(socket.getOutputStream());
             var4.write(254);
             var4.write(1);
 
@@ -504,9 +504,9 @@ public class GuiMultiplayer extends GuiScreen
 
             try
             {
-                if (var2 != null)
+                if (socket != null)
                 {
-                    var2.close();
+                    socket.close();
                 }
             }
             catch (Throwable var21)

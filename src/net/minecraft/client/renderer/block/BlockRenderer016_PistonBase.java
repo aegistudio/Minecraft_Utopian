@@ -3,6 +3,7 @@ package net.minecraft.client.renderer.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.IBlockPistonBase;
+import net.minecraft.client.renderer.Tessellator;
 
 public class BlockRenderer016_PistonBase extends BlockRenderer
 {
@@ -149,4 +150,9 @@ public class BlockRenderer016_PistonBase extends BlockRenderer
         this.renderPistonBase(renderBlocks, par1Block, par2, par3, par4, true);
         renderBlocks.renderAllFaces = false;
     }
+    
+	public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+	{
+		super.renderBlockAsItem(tess, renderBlocks, block, 1, par3);
+	}
 }

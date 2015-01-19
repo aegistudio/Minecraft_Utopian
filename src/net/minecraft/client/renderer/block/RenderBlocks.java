@@ -2,14 +2,12 @@ package net.minecraft.client.renderer.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ChestItemRenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class RenderBlocks
 {
@@ -1195,7 +1193,7 @@ public class RenderBlocks
     public void renderBlockAsItem(Block block, int par2, float par3)
     {
         Tessellator tess = Tessellator.instance;
-        boolean var5 = block.blockID == Block.grass.blockID;
+        boolean isGrassBlock = block.blockID == Block.grass.blockID;
 
         if (block == Block.dispenser || block == Block.dropper || block == Block.furnaceIdle)
         {
@@ -1210,7 +1208,7 @@ public class RenderBlocks
         {
             int renderColor = block.getRenderColor(par2);
 
-            if(var5) renderColor = 16777215;
+            if(isGrassBlock) renderColor = 16777215;
 
             var7 = (float)(renderColor >> 16 & 255) / 255.0F;
             var8 = (float)(renderColor >> 8 & 255) / 255.0F;
@@ -1226,256 +1224,43 @@ public class RenderBlocks
         {
             if (renderType == 1)
             {
-                tess.startDrawingQuads();
-                tess.setNormal(0.0F, -1.0F, 0.0F);
-                this.drawCrossedSquares(block, par2, -0.5D, -0.5D, -0.5D, 1.0F);
-                tess.draw();
+            	BlockRenderer001_CrossedSquares.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 19)
             {
-                ((BlockRenderer019_Stem)BlockRenderer019_Stem.renderer).renderBlockAsItem(this, block, par2, par3);
+                BlockRenderer019_Stem.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 23)
             {
-                tess.startDrawingQuads();
-                tess.setNormal(0.0F, -1.0F, 0.0F);
-                block.setBlockBoundsForItemRender();
-                tess.draw();
+            	BlockRenderer023_LilyPad.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 13)
             {
-                block.setBlockBoundsForItemRender();
-                GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                var7 = 0.0625F;
-                tess.startDrawingQuads();
-                tess.setNormal(0.0F, -1.0F, 0.0F);
-                this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 0));
-                tess.draw();
-                tess.startDrawingQuads();
-                tess.setNormal(0.0F, 1.0F, 0.0F);
-                this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 1));
-                tess.draw();
-                tess.startDrawingQuads();
-                tess.setNormal(0.0F, 0.0F, -1.0F);
-                tess.addTranslation(0.0F, 0.0F, var7);
-                this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 2));
-                tess.addTranslation(0.0F, 0.0F, -var7);
-                tess.draw();
-                tess.startDrawingQuads();
-                tess.setNormal(0.0F, 0.0F, 1.0F);
-                tess.addTranslation(0.0F, 0.0F, -var7);
-                this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 3));
-                tess.addTranslation(0.0F, 0.0F, var7);
-                tess.draw();
-                tess.startDrawingQuads();
-                tess.setNormal(-1.0F, 0.0F, 0.0F);
-                tess.addTranslation(var7, 0.0F, 0.0F);
-                this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 4));
-                tess.addTranslation(-var7, 0.0F, 0.0F);
-                tess.draw();
-                tess.startDrawingQuads();
-                tess.setNormal(1.0F, 0.0F, 0.0F);
-                tess.addTranslation(-var7, 0.0F, 0.0F);
-                this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 5));
-                tess.addTranslation(var7, 0.0F, 0.0F);
-                tess.draw();
-                GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+            	BlockRenderer013_Cactus.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 22)
             {
-                GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-                GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                ChestItemRenderHelper.instance.renderChest(block, par2, par3);
-                GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            	BlockRenderer022_Chest.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 6)
             {
-            	((BlockRenderer006_Crops)BlockRenderer006_Crops.renderer).renderBlockAsItem(this, block, par2, par3);
+            	BlockRenderer006_Crops.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 2)
             {
-                tess.startDrawingQuads();
-                tess.setNormal(0.0F, -1.0F, 0.0F);
-                ((BlockRenderer002_Torch)BlockRenderer002_Torch.renderer).renderTorchAtAngle(this, block, -0.5D, -0.5D, -0.5D, 0.0D, 0.0D, 0);
-                tess.draw();
+            	BlockRenderer002_Torch.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 10)
             {
-                for (var14 = 0; var14 < 2; ++var14)
-                {
-                    if (var14 == 0)
-                    {
-                        this.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 0.5D);
-                    }
-
-                    if (var14 == 1)
-                    {
-                        this.setRenderBounds(0.0D, 0.0D, 0.5D, 1.0D, 0.5D, 1.0D);
-                    }
-
-                    GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, -1.0F, 0.0F);
-                    this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 0));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 1.0F, 0.0F);
-                    this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 1));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, -1.0F);
-                    this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, 1.0F);
-                    this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 3));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(-1.0F, 0.0F, 0.0F);
-                    this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 4));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(1.0F, 0.0F, 0.0F);
-                    this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 5));
-                    tess.draw();
-                    GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-                }
+            	BlockRenderer010_Stairs.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 27)
             {
-                var14 = 0;
-                GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                tess.startDrawingQuads();
-
-                for (int var15 = 0; var15 < 8; ++var15)
-                {
-                    byte var16 = 0;
-                    byte var17 = 1;
-
-                    if (var15 == 0)
-                    {
-                        var16 = 2;
-                    }
-
-                    if (var15 == 1)
-                    {
-                        var16 = 3;
-                    }
-
-                    if (var15 == 2)
-                    {
-                        var16 = 4;
-                    }
-
-                    if (var15 == 3)
-                    {
-                        var16 = 5;
-                        var17 = 2;
-                    }
-
-                    if (var15 == 4)
-                    {
-                        var16 = 6;
-                        var17 = 3;
-                    }
-
-                    if (var15 == 5)
-                    {
-                        var16 = 7;
-                        var17 = 5;
-                    }
-
-                    if (var15 == 6)
-                    {
-                        var16 = 6;
-                        var17 = 2;
-                    }
-
-                    if (var15 == 7)
-                    {
-                        var16 = 3;
-                    }
-
-                    float var11 = (float)var16 / 16.0F;
-                    float var12 = 1.0F - (float)var14 / 16.0F;
-                    float var13 = 1.0F - (float)(var14 + var17) / 16.0F;
-                    var14 += var17;
-                    this.setRenderBounds((double)(0.5F - var11), (double)var13, (double)(0.5F - var11), (double)(0.5F + var11), (double)var12, (double)(0.5F + var11));
-                    tess.setNormal(0.0F, -1.0F, 0.0F);
-                    this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 0));
-                    tess.setNormal(0.0F, 1.0F, 0.0F);
-                    this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 1));
-                    tess.setNormal(0.0F, 0.0F, -1.0F);
-                    this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 2));
-                    tess.setNormal(0.0F, 0.0F, 1.0F);
-                    this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 3));
-                    tess.setNormal(-1.0F, 0.0F, 0.0F);
-                    this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 4));
-                    tess.setNormal(1.0F, 0.0F, 0.0F);
-                    this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 5));
-                }
-
-                tess.draw();
-                GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-                this.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+            	BlockRenderer027_DragonEgg.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 11)
             {
-                for (var14 = 0; var14 < 4; ++var14)
-                {
-                    var8 = 0.125F;
-
-                    if (var14 == 0)
-                    {
-                        this.setRenderBounds((double)(0.5F - var8), 0.0D, 0.0D, (double)(0.5F + var8), 1.0D, (double)(var8 * 2.0F));
-                    }
-
-                    if (var14 == 1)
-                    {
-                        this.setRenderBounds((double)(0.5F - var8), 0.0D, (double)(1.0F - var8 * 2.0F), (double)(0.5F + var8), 1.0D, 1.0D);
-                    }
-
-                    var8 = 0.0625F;
-
-                    if (var14 == 2)
-                    {
-                        this.setRenderBounds((double)(0.5F - var8), (double)(1.0F - var8 * 3.0F), (double)(-var8 * 2.0F), (double)(0.5F + var8), (double)(1.0F - var8), (double)(1.0F + var8 * 2.0F));
-                    }
-
-                    if (var14 == 3)
-                    {
-                        this.setRenderBounds((double)(0.5F - var8), (double)(0.5F - var8 * 3.0F), (double)(-var8 * 2.0F), (double)(0.5F + var8), (double)(0.5F - var8), (double)(1.0F + var8 * 2.0F));
-                    }
-
-                    GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, -1.0F, 0.0F);
-                    this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 0));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 1.0F, 0.0F);
-                    this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 1));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, -1.0F);
-                    this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, 1.0F);
-                    this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 3));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(-1.0F, 0.0F, 0.0F);
-                    this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 4));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(1.0F, 0.0F, 0.0F);
-                    this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSide(block, 5));
-                    tess.draw();
-                    GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-                }
-
-                this.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+            	BlockRenderer011_Fence.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 21)
             {
@@ -1530,164 +1315,24 @@ public class RenderBlocks
             }
             else if (renderType == 32)
             {
-                for (var14 = 0; var14 < 2; ++var14)
-                {
-                    if (var14 == 0)
-                    {
-                        this.setRenderBounds(0.0D, 0.0D, 0.3125D, 1.0D, 0.8125D, 0.6875D);
-                    }
-
-                    if (var14 == 1)
-                    {
-                        this.setRenderBounds(0.25D, 0.0D, 0.25D, 0.75D, 1.0D, 0.75D);
-                    }
-
-                    GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, -1.0F, 0.0F);
-                    this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 1.0F, 0.0F);
-                    this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, -1.0F);
-                    this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, 1.0F);
-                    this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(-1.0F, 0.0F, 0.0F);
-                    this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(1.0F, 0.0F, 0.0F);
-                    this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, par2));
-                    tess.draw();
-                    GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-                }
-
-                this.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+            	BlockRenderer032_Wall.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 35)
             {
-                GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                ((BlockRenderer035_Anvil)BlockRenderer035_Anvil.renderer).renderBlockAnvilOrient(this, block, 0, 0, 0, par2, true);
-                GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+            	BlockRenderer035_Anvil.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 34)
             {
-                for (var14 = 0; var14 < 3; ++var14)
-                {
-                    if (var14 == 0)
-                    {
-                        this.setRenderBounds(0.125D, 0.0D, 0.125D, 0.875D, 0.1875D, 0.875D);
-                        this.setOverrideBlockTexture(this.getBlockIcon(Block.obsidian));
-                    }
-                    else if (var14 == 1)
-                    {
-                        this.setRenderBounds(0.1875D, 0.1875D, 0.1875D, 0.8125D, 0.875D, 0.8125D);
-                        this.setOverrideBlockTexture(Block.beacon.getBeaconIcon());
-                    }
-                    else if (var14 == 2)
-                    {
-                        this.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-                        this.setOverrideBlockTexture(this.getBlockIcon(Block.glass));
-                    }
-
-                    GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, -1.0F, 0.0F);
-                    this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 1.0F, 0.0F);
-                    this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, -1.0F);
-                    this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(0.0F, 0.0F, 1.0F);
-                    this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(-1.0F, 0.0F, 0.0F);
-                    this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, par2));
-                    tess.draw();
-                    tess.startDrawingQuads();
-                    tess.setNormal(1.0F, 0.0F, 0.0F);
-                    this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, par2));
-                    tess.draw();
-                    GL11.glTranslatef(0.5F, 0.5F, 0.5F);
-                }
-
-                this.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-                this.clearOverrideBlockTexture();
+            	BlockRenderer034_Beacon.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
             else if (renderType == 38)
             {
-                GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-                ((BlockRenderer038_Hopper)BlockRenderer038_Hopper.renderer).renderBlockHopperMetadata(this, block, 0, 0, 0, 0, true);
-                GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+                BlockRenderer038_Hopper.renderer.renderBlockAsItem(tess, this, block, par2, par3);
             }
         }
         else
         {
-            if (renderType == 16)
-            {
-                par2 = 1;
-            }
-
-            block.setBlockBoundsForItemRender();
-            this.setRenderBoundsFromBlock(block);
-            GL11.glRotatef(90.0F, 0.0F, 1.0F, 0.0F);
-            GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
-            tess.startDrawingQuads();
-            tess.setNormal(0.0F, -1.0F, 0.0F);
-            this.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 0, par2));
-            tess.draw();
-
-            if (var5 && this.useInventoryTint)
-            {
-                var14 = block.getRenderColor(par2);
-                var8 = (float)(var14 >> 16 & 255) / 255.0F;
-                var9 = (float)(var14 >> 8 & 255) / 255.0F;
-                float var10 = (float)(var14 & 255) / 255.0F;
-                GL11.glColor4f(var8 * par3, var9 * par3, var10 * par3, 1.0F);
-            }
-
-            tess.startDrawingQuads();
-            tess.setNormal(0.0F, 1.0F, 0.0F);
-            this.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 1, par2));
-            tess.draw();
-
-            if (var5 && this.useInventoryTint)
-            {
-                GL11.glColor4f(par3, par3, par3, 1.0F);
-            }
-
-            tess.startDrawingQuads();
-            tess.setNormal(0.0F, 0.0F, -1.0F);
-            this.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 2, par2));
-            tess.draw();
-            tess.startDrawingQuads();
-            tess.setNormal(0.0F, 0.0F, 1.0F);
-            this.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 3, par2));
-            tess.draw();
-            tess.startDrawingQuads();
-            tess.setNormal(-1.0F, 0.0F, 0.0F);
-            this.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 4, par2));
-            tess.draw();
-            tess.startDrawingQuads();
-            tess.setNormal(1.0F, 0.0F, 0.0F);
-            this.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, this.getBlockIconFromSideAndMetadata(block, 5, par2));
-            tess.draw();
-            GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+        	BlockRenderer.getBlockRenderer(renderType).renderBlockAsItem(tess, this, block, par2, par3);
         }
     }
 
@@ -1765,5 +1410,6 @@ public class RenderBlocks
     	BlockRenderer028_Cocoa.nopInit();
     	BlockRenderer034_Beacon.nopInit();
     	BlockRenderer038_Hopper.nopInit();
+    	BlockRenderer022_Chest.nopInit();
     }
 }

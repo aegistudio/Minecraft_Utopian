@@ -122,4 +122,10 @@ public class Patch_ItemInfoContainer extends ItemInfoContainer implements Patch
 			
 		}
 	}
+
+	@Override
+	public void removeItem(int itemid)
+	{
+		this.itemsList.remove(itemid);
+	}
 }

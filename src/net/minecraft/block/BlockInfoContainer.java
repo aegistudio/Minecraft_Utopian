@@ -30,6 +30,8 @@ public abstract class BlockInfoContainer
 	
 	public abstract void setUseNeighbourBrightness(int blockid, boolean useNeighbourBrightness);
 	
+	public abstract void removeBlock(int blockid);
+	
 	public static BlockInfoContainer getBlockInfoContainer()
 	{
 		return instance;

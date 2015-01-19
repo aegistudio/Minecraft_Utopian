@@ -2,9 +2,12 @@ package net.aegistudio.minecraft.utopian;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
 import java.lang.reflect.Field;
+
+import javax.imageio.ImageIO;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,6 +24,7 @@ import net.minecraft.client.Minecraft;
 public class UtopianLoader
 {
 	public static final String CONFIG_FILENAME = "utopian-config.json";
+	public static Image image;
 	
 	public static void initUtopian() throws Exception
 	{
@@ -34,6 +38,8 @@ public class UtopianLoader
 			{
 				setLoadingGUI("Creating minecraft display window...", 70);
 				EventHandlerRegistry.getEventHandlerRegistry().unregisterHandler(this, InitWindowEvent.class);
+				
+				if(image != null) event.getFrame().setIconImage(image);
 			}
 			
 			@EventHandler(value = InitResourceEvent.class, async = true)
@@ -96,6 +102,15 @@ public class UtopianLoader
 	
 	public static void createLoadingGUI()
 	{
+		try
+		{
+			image = ImageIO.read(new File("icon.png"));
+		}
+		catch(Exception exception)
+		{
+			image = null;
+		}
+		
 		Font font = Font.getFont(Font.MONOSPACED);
 		startup = new JFrame();
 		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -106,6 +121,7 @@ public class UtopianLoader
 		startup.setAlwaysOnTop(true);
 		startup.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		startup.setTitle("Minecraft Utopian Game Loader");
+		if(image != null) startup.setIconImage(image);
 		
 		status = new JLabel();
 		status.setSize(380, 30);

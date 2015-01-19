@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHopper;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -218,4 +220,11 @@ public class BlockRenderer038_Hopper extends BlockRenderer
         renderBlocks.clearOverrideBlockTexture();
         return true;
     }
+    
+	public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+	{
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+        this.renderBlockHopperMetadata(renderBlocks, block, 0, 0, 0, 0, true);
+        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+	}
 }

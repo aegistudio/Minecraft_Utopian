@@ -15,7 +15,7 @@ import java.lang.annotation.ElementType;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventHandler
 {
-	public Class<? extends Event> value();
+	public Class<? extends Event> value() default Event.class;
 	
 	public boolean async() default false;
 }

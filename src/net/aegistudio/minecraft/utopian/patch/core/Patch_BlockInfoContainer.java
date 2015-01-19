@@ -203,4 +203,10 @@ public class Patch_BlockInfoContainer extends BlockInfoContainer implements Patc
 			exception.printStackTrace();
 		}
 	}
+
+	@Override
+	public void removeBlock(int blockid)
+	{
+		blocksListHashmap.remove(blockid);
+	}
 }

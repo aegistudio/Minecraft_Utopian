@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.block;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.IBlockAnvil;
 import net.minecraft.client.renderer.EntityRenderer;
@@ -158,4 +160,11 @@ public class BlockRenderer035_Anvil extends BlockRenderer
 
         return par6 + par8;
     }
+    
+	public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+	{
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+        this.renderBlockAnvilOrient(renderBlocks, block, 0, 0, 0, par2, true);
+        GL11.glTranslatef(0.5F, 0.5F, 0.5F);
+	}
 }
