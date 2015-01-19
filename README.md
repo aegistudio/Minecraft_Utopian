@@ -10,3 +10,5 @@ From aegistudio To Wide Developers:
 	LWJGL libraries (jars and dlls). Put dlls just under the project folder, and jars in bin, or link them.
 	Minecraft Dependencies. Link them.
 	Minecraft Textures and Resources. Link them.
+
+Learn more about Minecraft Utopian through wikia: http://minecraft-utopian.wikia.com/wiki/
