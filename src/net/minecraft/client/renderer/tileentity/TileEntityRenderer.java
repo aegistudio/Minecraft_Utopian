@@ -29,7 +29,7 @@ public class TileEntityRenderer
     /**
      * A mapping of TileEntitySpecialRenderers used for each TileEntity that has one
      */
-    private Map specialRendererMap = new HashMap();
+    private Map<Class<?>, TileEntitySpecialRenderer> specialRendererMap = new HashMap<Class<?>, TileEntitySpecialRenderer>();
 
     /** The static instance of TileEntityRenderer */
     public static TileEntityRenderer instance = new TileEntityRenderer();
@@ -75,7 +75,7 @@ public class TileEntityRenderer
         this.specialRendererMap.put(TileEntityEndPortal.class, new RenderEndPortal());
         this.specialRendererMap.put(TileEntityBeacon.class, new TileEntityBeaconRenderer());
         this.specialRendererMap.put(TileEntitySkull.class, new TileEntitySkullRenderer());
-        Iterator var1 = this.specialRendererMap.values().iterator();
+        Iterator<TileEntitySpecialRenderer> var1 = this.specialRendererMap.values().iterator();
 
         while (var1.hasNext())
         {
@@ -87,7 +87,7 @@ public class TileEntityRenderer
     /**
      * Returns the TileEntitySpecialRenderer used to render this TileEntity class, or null if it has no special renderer
      */
-    public TileEntitySpecialRenderer getSpecialRendererForClass(Class par1Class)
+    public TileEntitySpecialRenderer getSpecialRendererForClass(Class<?> par1Class)
     {
         TileEntitySpecialRenderer var2 = (TileEntitySpecialRenderer)this.specialRendererMap.get(par1Class);
 
@@ -158,21 +158,21 @@ public class TileEntityRenderer
     /**
      * Render this TileEntity at a given set of coordinates
      */
-    public void renderTileEntityAt(TileEntity par1TileEntity, double par2, double par4, double par6, float par8)
+    public void renderTileEntityAt(TileEntity tileEntity, double par2, double par4, double par6, float par8)
     {
-        TileEntitySpecialRenderer var9 = this.getSpecialRendererForEntity(par1TileEntity);
+        TileEntitySpecialRenderer tileEntityRenderer = this.getSpecialRendererForEntity(tileEntity);
 
-        if (var9 != null)
+        if (tileEntityRenderer != null)
         {
             try
             {
-                var9.renderTileEntityAt(par1TileEntity, par2, par4, par6, par8);
+                tileEntityRenderer.renderTileEntityAt(tileEntity, par2, par4, par6, par8);
             }
             catch (Throwable var13)
             {
                 CrashReport var11 = CrashReport.makeCrashReport(var13, "Rendering Tile Entity");
                 CrashReportCategory var12 = var11.makeCategory("Tile Entity Details");
-                par1TileEntity.func_85027_a(var12);
+                tileEntity.func_85027_a(var12);
                 throw new ReportedException(var11);
             }
         }
@@ -184,16 +184,12 @@ public class TileEntityRenderer
     public void setWorld(World par1World)
     {
         this.worldObj = par1World;
-        Iterator var2 = this.specialRendererMap.values().iterator();
+        Iterator<TileEntitySpecialRenderer> var2 = this.specialRendererMap.values().iterator();
 
         while (var2.hasNext())
         {
-            TileEntitySpecialRenderer var3 = (TileEntitySpecialRenderer)var2.next();
-
-            if (var3 != null)
-            {
-                var3.onWorldChange(par1World);
-            }
+            TileEntitySpecialRenderer tileEntityRenderer = (TileEntitySpecialRenderer)var2.next();
+            if (tileEntityRenderer != null) tileEntityRenderer.onWorldChange(par1World);
         }
     }
 

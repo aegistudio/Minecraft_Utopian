@@ -91,7 +91,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderManager
 {
     /** A map of entity classes and the associated renderer. */
-    private Map entityRenderMap = new HashMap();
+    private Map<Class<?>, Render> entityRenderMap = new HashMap<Class<?>, Render>();
 
     /** The static instance of RenderManager. */
     public static RenderManager instance = new RenderManager();
@@ -176,7 +176,7 @@ public class RenderManager
         this.entityRenderMap.put(EntityBoat.class, new RenderBoat());
         this.entityRenderMap.put(EntityFishHook.class, new RenderFish());
         this.entityRenderMap.put(EntityLightningBolt.class, new RenderLightningBolt());
-        Iterator var1 = this.entityRenderMap.values().iterator();
+        Iterator<Render> var1 = this.entityRenderMap.values().iterator();
 
         while (var1.hasNext())
         {
@@ -185,7 +185,7 @@ public class RenderManager
         }
     }
 
-    public Render getEntityClassRenderObject(Class par1Class)
+    public Render getEntityClassRenderObject(Class<?> par1Class)
     {
         Render var2 = (Render)this.entityRenderMap.get(par1Class);
 
@@ -404,7 +404,7 @@ public class RenderManager
 
     public void updateIcons(IconRegister par1IconRegister)
     {
-        Iterator var2 = this.entityRenderMap.values().iterator();
+        Iterator<Render> var2 = this.entityRenderMap.values().iterator();
 
         while (var2.hasNext())
         {

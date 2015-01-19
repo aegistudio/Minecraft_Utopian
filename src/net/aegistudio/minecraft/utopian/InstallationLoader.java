@@ -31,6 +31,7 @@ public class InstallationLoader
 			installation_patches.add(Class.forName("net.aegistudio.minecraft.utopian.patch.core.Patch_GuiUtopian"));
 			installation_patches.add(Class.forName("net.aegistudio.minecraft.utopian.patch.core.Patch_BlockInfoContainer"));
 			installation_patches.add(Class.forName("net.aegistudio.minecraft.utopian.patch.core.Patch_ItemInfoContainer"));
+			installation_patches.add(Class.forName("net.aegistudio.minecraft.utopian.patch.core.Patch_RendererHelper"));
 		}
 		catch(Exception exception)
 		{

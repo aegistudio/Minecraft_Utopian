@@ -19,6 +19,11 @@ public abstract class BlockRenderer
 		{
 			return false;
 		}
+		
+		public void renderBlockAsItem(Tessellator tess, RenderBlocks renderBlocks, Block block, int par2, float par3)
+		{
+			
+		}
 	};
 	
 	protected BlockRenderer(int rendererId)

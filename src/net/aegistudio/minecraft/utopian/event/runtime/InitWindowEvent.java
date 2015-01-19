@@ -2,8 +2,10 @@ package net.aegistudio.minecraft.utopian.event.runtime;
 
 import java.awt.Frame;
 
+import net.aegistudio.minecraft.utopian.Dedicated;
 import net.aegistudio.minecraft.utopian.event.Event;
 
+@Dedicated.Client
 public class InitWindowEvent extends Event
 {
 	

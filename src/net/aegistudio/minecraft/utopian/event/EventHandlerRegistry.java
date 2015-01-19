@@ -87,8 +87,12 @@ public class EventHandlerRegistry
 		Method[] methods = obj.getClass().getDeclaredMethods();
 		EventHandler eventhandler = null;
 		for(Method method : methods) if((eventhandler = method.getAnnotation(EventHandler.class)) != null)
-			if(eventhandler.value().equals(event_class))
 		{
+			Class<?>[] parameters = method.getParameterTypes();
+			if(parameters.length != 1) continue;
+			Class<?> annotated_class = parameters[0];
+			if(!annotated_class.equals(event_class)) continue;
+			
 			HashMap<Class<?>, HashMap<Method, ArrayList<Object>>> operating_handler_list = this.handler_list;
 			if(eventhandler.async()) operating_handler_list = this.async_handler_list;
 			

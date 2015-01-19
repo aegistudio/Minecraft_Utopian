@@ -15,6 +15,10 @@ import java.lang.annotation.ElementType;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface EventHandler
 {
+	/**
+	 * This attribute remains only to be compatible with older versions.
+	 */
+	@Deprecated
 	public Class<? extends Event> value() default Event.class;
 	
 	public boolean async() default false;

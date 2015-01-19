@@ -24,7 +24,7 @@ public class BlockRenderer004_Fluids extends BlockRenderer
      */
     public boolean onRenderBlock(RenderBlocks renderBlocks, Block par1Block, int par2, int par3, int par4)
     {
-        Tessellator var5 = Tessellator.instance;
+        Tessellator tess = Tessellator.instance;
         int var6 = par1Block.colorMultiplier(renderBlocks.blockAccess, par2, par3, par4);
         float var7 = (float)(var6 >> 16 & 255) / 255.0F;
         float var8 = (float)(var6 >> 8 & 255) / 255.0F;
@@ -105,20 +105,20 @@ public class BlockRenderer004_Fluids extends BlockRenderer
                     var50 = (double)var34.getInterpolatedV((double)(8.0F + (-var53 - var52) * 16.0F));
                 }
 
-                var5.setBrightness(par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3, par4));
+                tess.setBrightness(par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3, par4));
                 var52 = 1.0F;
-                var5.setColorOpaque_F(var15 * var52 * var7, var15 * var52 * var8, var15 * var52 * var9);
-                var5.addVertexWithUV((double)(par2 + 0), (double)par3 + var24, (double)(par4 + 0), var36, var44);
-                var5.addVertexWithUV((double)(par2 + 0), (double)par3 + var26, (double)(par4 + 1), var38, var46);
-                var5.addVertexWithUV((double)(par2 + 1), (double)par3 + var28, (double)(par4 + 1), var40, var48);
-                var5.addVertexWithUV((double)(par2 + 1), (double)par3 + var30, (double)(par4 + 0), var42, var50);
+                tess.setColorOpaque_F(var15 * var52 * var7, var15 * var52 * var8, var15 * var52 * var9);
+                tess.addVertexWithUV((double)(par2 + 0), (double)par3 + var24, (double)(par4 + 0), var36, var44);
+                tess.addVertexWithUV((double)(par2 + 0), (double)par3 + var26, (double)(par4 + 1), var38, var46);
+                tess.addVertexWithUV((double)(par2 + 1), (double)par3 + var28, (double)(par4 + 1), var40, var48);
+                tess.addVertexWithUV((double)(par2 + 1), (double)par3 + var30, (double)(par4 + 0), var42, var50);
             }
 
             if (renderBlocks.renderAllFaces || var11)
             {
-                var5.setBrightness(par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3 - 1, par4));
+                tess.setBrightness(par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, par2, par3 - 1, par4));
                 float var58 = 1.0F;
-                var5.setColorOpaque_F(var14 * var58, var14 * var58, var14 * var58);
+                tess.setColorOpaque_F(var14 * var58, var14 * var58, var14 * var58);
                 renderBlocks.renderFaceYNeg(par1Block, (double)par2, (double)par3 + var32, (double)par4, renderBlocks.getBlockIconFromSide(par1Block, 0));
                 var13 = true;
             }
@@ -202,7 +202,7 @@ public class BlockRenderer004_Fluids extends BlockRenderer
                     var53 = var60.getInterpolatedV((1.0D - var39) * 16.0D * 0.5D);
                     float var54 = var60.getInterpolatedV((1.0D - var41) * 16.0D * 0.5D);
                     float var55 = var60.getInterpolatedV(8.0D);
-                    var5.setBrightness(par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, var59, par3, var37));
+                    tess.setBrightness(par1Block.getMixedBrightnessForBlock(renderBlocks.blockAccess, var59, par3, var37));
                     float var56 = 1.0F;
 
                     if (var57 < 2)
@@ -214,11 +214,11 @@ public class BlockRenderer004_Fluids extends BlockRenderer
                         var56 *= var17;
                     }
 
-                    var5.setColorOpaque_F(var15 * var56 * var7, var15 * var56 * var8, var15 * var56 * var9);
-                    var5.addVertexWithUV(var43, (double)par3 + var39, var45, (double)var51, (double)var53);
-                    var5.addVertexWithUV(var47, (double)par3 + var41, var49, (double)var52, (double)var54);
-                    var5.addVertexWithUV(var47, (double)(par3 + 0), var49, (double)var52, (double)var55);
-                    var5.addVertexWithUV(var43, (double)(par3 + 0), var45, (double)var51, (double)var55);
+                    tess.setColorOpaque_F(var15 * var56 * var7, var15 * var56 * var8, var15 * var56 * var9);
+                    tess.addVertexWithUV(var43, (double)par3 + var39, var45, (double)var51, (double)var53);
+                    tess.addVertexWithUV(var47, (double)par3 + var41, var49, (double)var52, (double)var54);
+                    tess.addVertexWithUV(var47, (double)(par3 + 0), var49, (double)var52, (double)var55);
+                    tess.addVertexWithUV(var43, (double)(par3 + 0), var45, (double)var51, (double)var55);
                 }
             }
 
