@@ -34,3 +34,8 @@
 - Changing the visibility of the crafting recipes manager through on the fly method. (Without modifying the source)
 - Optimize the map that is used in the game, which is a trade off between space and performance. (Actually more space but better performance.)
 - Block renderers updates. Use a more optimized way to write it. Adding more block renderers will become true.
+
+# 0.0.0.7 alpha
+- Fixed defects found in previous versions.
+- Adding tile entity renderer helper into the API, making it possible to register new tile entity renderer, as well as removing existing ones.
+- Adding entity renderer helper into the API, making it possible to register new entity renderer, as well as removing existing ones.
