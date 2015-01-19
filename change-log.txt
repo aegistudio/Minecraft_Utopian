@@ -37,5 +37,9 @@
 
 # 0.0.0.7 alpha
 - Fixed defects found in previous versions.
+- Updating block item rendering.
+- Adding keyboard and mouse events into the game.
+- simplifying the usage of event handler declaration. 
+- Events can be dedicated now.
 - Adding tile entity renderer helper into the API, making it possible to register new tile entity renderer, as well as removing existing ones.
 - Adding entity renderer helper into the API, making it possible to register new entity renderer, as well as removing existing ones.
