@@ -12,38 +12,48 @@ public class WorldGenMinable extends WorldGenerator
 
     /** The number of blocks to generate. */
     private int numberOfBlocks;
-    private int field_94523_c;
+    private int replacingBlockId;
 
-    public WorldGenMinable(int par1, int par2)
+    public WorldGenMinable(int minableBlockId, int numberOfBlocks)
     {
-        this(par1, par2, Block.stone.blockID);
+        this(minableBlockId, numberOfBlocks, Block.stone.blockID);
     }
 
     public WorldGenMinable(int par1, int par2, int par3)
     {
         this.minableBlockId = par1;
         this.numberOfBlocks = par2;
-        this.field_94523_c = par3;
+        this.replacingBlockId = par3;
     }
 
-    public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
+    public boolean generate(World par1World, Random par2Random, int x, int y, int z)
     {
-        float var6 = par2Random.nextFloat() * (float)Math.PI;
-        double var7 = (double)((float)(par3 + 8) + MathHelper.sin(var6) * (float)this.numberOfBlocks / 8.0F);
-        double var9 = (double)((float)(par3 + 8) - MathHelper.sin(var6) * (float)this.numberOfBlocks / 8.0F);
-        double var11 = (double)((float)(par5 + 8) + MathHelper.cos(var6) * (float)this.numberOfBlocks / 8.0F);
-        double var13 = (double)((float)(par5 + 8) - MathHelper.cos(var6) * (float)this.numberOfBlocks / 8.0F);
-        double var15 = (double)(par4 + par2Random.nextInt(3) - 2);
-        double var17 = (double)(par4 + par2Random.nextInt(3) - 2);
+        float n_pai = par2Random.nextFloat() * (float)Math.PI;
+        
+        //Eight stands for the middle size of chunk, which will bring the gen to the middle.
+        
+        float blockFactor = (float)this.numberOfBlocks / 8.0F;
+        
+        float calculatedSine = MathHelper.sin(n_pai) * blockFactor;
+        double x_axis_a = (double)((float)(x + 8) + calculatedSine);
+        double x_axis_b = (double)((float)(x + 8) - calculatedSine);
+        
+        float calculatedCosine = MathHelper.cos(n_pai) * blockFactor;
+        double z_axis_a = (double)((float)(z + 8) + calculatedCosine);
+        double z_axis_b = (double)((float)(z + 8) - calculatedCosine);
+        
+        double y_axis_a = (double)(y + par2Random.nextInt(3) - 2);
+        double y_axis_b = (double)(y + par2Random.nextInt(3) - 2);
 
-        for (int var19 = 0; var19 <= this.numberOfBlocks; ++var19)
+        for (int i = 0; i <= this.numberOfBlocks; ++i)
         {
-            double var20 = var7 + (var9 - var7) * (double)var19 / (double)this.numberOfBlocks;
-            double var22 = var15 + (var17 - var15) * (double)var19 / (double)this.numberOfBlocks;
-            double var24 = var11 + (var13 - var11) * (double)var19 / (double)this.numberOfBlocks;
+            double var20 = x_axis_a + (x_axis_b - x_axis_a) * (double)i / (double)this.numberOfBlocks;
+            double var22 = y_axis_a + (y_axis_b - y_axis_a) * (double)i / (double)this.numberOfBlocks;
+            double var24 = z_axis_a + (z_axis_b - z_axis_a) * (double)i / (double)this.numberOfBlocks;
             double var26 = par2Random.nextDouble() * (double)this.numberOfBlocks / 16.0D;
-            double var28 = (double)(MathHelper.sin((float)var19 * (float)Math.PI / (float)this.numberOfBlocks) + 1.0F) * var26 + 1.0D;
-            double var30 = (double)(MathHelper.sin((float)var19 * (float)Math.PI / (float)this.numberOfBlocks) + 1.0F) * var26 + 1.0D;
+            double var28 = (double)(MathHelper.sin((float)i * (float)Math.PI / (float)this.numberOfBlocks) + 1.0F) * var26 + 1.0D;
+            double var30 = (double)(MathHelper.sin((float)i * (float)Math.PI / (float)this.numberOfBlocks) + 1.0F) * var26 + 1.0D;
+            
             int var32 = MathHelper.floor_double(var20 - var28 / 2.0D);
             int var33 = MathHelper.floor_double(var22 - var30 / 2.0D);
             int var34 = MathHelper.floor_double(var24 - var28 / 2.0D);
@@ -67,7 +77,7 @@ public class WorldGenMinable extends WorldGenerator
                             {
                                 double var45 = ((double)var44 + 0.5D - var24) / (var28 / 2.0D);
 
-                                if (var39 * var39 + var42 * var42 + var45 * var45 < 1.0D && par1World.getBlockId(var38, var41, var44) == this.field_94523_c)
+                                if (var39 * var39 + var42 * var42 + var45 * var45 < 1.0D && par1World.getBlockId(var38, var41, var44) == this.replacingBlockId)
                                 {
                                     par1World.setBlock(var38, var41, var44, this.minableBlockId, 0, 2);
                                 }

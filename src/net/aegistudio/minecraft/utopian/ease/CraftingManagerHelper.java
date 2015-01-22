@@ -2,6 +2,7 @@ package net.aegistudio.minecraft.utopian.ease;
 
 import java.lang.reflect.Method;
 
+import net.aegistudio.minecraft.utopian.util.Intrude;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.ShapedRecipes;
@@ -21,14 +22,11 @@ public final class CraftingManagerHelper
 	private CraftingManagerHelper()
 	{
 		Method[] methods = CraftingManager.class.getDeclaredMethods();
-		for(Method method : methods)
+		for(Method method : methods) if(method.isAnnotationPresent(Intrude.class))
 		{
-			Class<?>[] types = method.getParameterTypes();
-			Class<?> returnType = method.getReturnType();
-			if(types.length == 2 && types[0].equals(ItemStack.class) && types[1].equals(Object[].class) && returnType.equals(Void.class))
-				this.addShapelessRecipe = method;
-			else if(types.length == 2 && types[0].equals(ItemStack.class) && types[1].equals(Object[].class) && returnType.equals(ShapedRecipes.class))
-				this.addRecipe = method;
+			Intrude intrude = method.getAnnotation(Intrude.class);
+			if("addShapelessRecipe".equals(intrude.value())) this.addShapelessRecipe = method;
+			else if("addRecipe".equals(intrude.value())) this.addRecipe = method;
 		}
 	}
 	

@@ -398,7 +398,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
     	//XXX Hook InitEvent
     	{
 	    	InitResourceEvent init_event = new InitResourceEvent();
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(init_event);
+	    	EventHandlerRegistry.getInstance().invoke(init_event);
 	    	if(init_event.isCancelled()) return;
     	}
     	//XXX End Of Minecraft UtopianHook
@@ -465,7 +465,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
     	//XXX Hook PostInitEvent
     	{
 	    	PostInitEvent post_init_event = new PostInitEvent();
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(post_init_event);
+	    	EventHandlerRegistry.getInstance().invoke(post_init_event);
 	    	if(post_init_event.isCancelled()) return;
     	}
     	//XXX End Of Minecraft UtopianHook
@@ -1191,7 +1191,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
     	//XXX Hook ShutdownEvent
     	{
 	    	ShutdownEvent shutdown_event = new ShutdownEvent();
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(shutdown_event);
+	    	EventHandlerRegistry.getInstance().invoke(shutdown_event);
 	    	if(shutdown_event.isCancelled()) return;
     	}
     	//XXX End Of Minecraft UtopianHook
@@ -1559,7 +1559,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
                 	//XXX Begin Minecraft UtopianHook
                 	//XXX Hook MouseButtonEvent
         	    	MouseClickEvent mousebtn_event = new MouseClickEvent(mouseEventButton, Mouse.getEventButtonState());
-        	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(mousebtn_event);
+        	    	EventHandlerRegistry.getInstance().invoke(mousebtn_event);
         	    	if(mousebtn_event.isCancelled()) continue;
                 	//XXX End Of Minecraft UtopianHook
             	}
@@ -1568,7 +1568,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
                 	//XXX Begin Minecraft UtopianHook
                 	//XXX Hook MouseMoveEvent
                 	MouseMoveEvent mousemov_event = new MouseMoveEvent();
-            	    EventHandlerRegistry.getEventHandlerRegistry().invoke(mousemov_event);
+            	    EventHandlerRegistry.getInstance().invoke(mousemov_event);
             	    if(mousemov_event.isCancelled()) continue;
                 	//XXX End Of Minecraft UtopianHook
             	}
@@ -1775,7 +1775,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
         	//XXX Hook KeyboardEvent
         	{
     	    	KeyboardEvent keyboard_event = new KeyboardEvent(Keyboard.getEventKey(), Keyboard.getEventKeyState());
-    	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(keyboard_event);
+    	    	EventHandlerRegistry.getInstance().invoke(keyboard_event);
     	    	if(keyboard_event.isCancelled()) continue;
         	}
         	//XXX End Of Minecraft UtopianHook
@@ -2364,7 +2364,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
     	//XXX Hook PreInitEvent
     	{
 	    	PreInitEvent preinit_event = new PreInitEvent(arguments);
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(preinit_event);
+	    	EventHandlerRegistry.getInstance().invoke(preinit_event);
 	    	arguments = preinit_event.getArguments();
 	    	if(preinit_event.isCancelled()) return;
     	}
@@ -2452,7 +2452,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
     	//XXX Hook InitWindowEvent
     	{
 	    	InitWindowEvent init_window_event = new InitWindowEvent(frame);
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(init_window_event);
+	    	EventHandlerRegistry.getInstance().invoke(init_window_event);
 	    	frame = init_window_event.getFrame();
 	    	if(init_window_event.isCancelled()) return;
     	}

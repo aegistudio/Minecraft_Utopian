@@ -12,8 +12,10 @@ public class BiomeGenTaiga extends BiomeGenBase
     {
         super(par1);
         this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 8, 4, 4));
-        this.theBiomeDecorator.treesPerChunk = 10;
-        this.theBiomeDecorator.grassPerChunk = 1;
+        //this.theBiomeDecorator.treesPerChunk = 10;
+        this.theBiomeDecorator.treeGen.genLoops = 10;
+        //this.theBiomeDecorator.grassPerChunk = 1;
+        this.theBiomeDecorator.grassGen.genLoops = 1;
     }
 
     /**

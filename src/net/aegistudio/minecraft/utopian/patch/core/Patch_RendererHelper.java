@@ -26,7 +26,7 @@ public class Patch_RendererHelper implements Patch, TileEntityRendererHelper.ITi
 	
 	public Patch_RendererHelper()
 	{
-		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(this, InitResourceEvent.class);
+		EventHandlerRegistry.getInstance().registerHandler(this, InitResourceEvent.class);
 	}
 	
 	public void registerSpecialRenderer(Class<? extends TileEntity> tileEntityClass, TileEntitySpecialRenderer renderer)

@@ -1327,8 +1327,8 @@ public class Block
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
     	
         whocallhim.setItem((new ItemCloth(cloth.blockID - Item.ITEMBLOCK_BIAS)).setUnlocalizedName("cloth"));
-        whocallhim.setItem((new ItemMultiTextureTile(wood.blockID - Item.ITEMBLOCK_BIAS, wood, BlockLog.woodType)).setUnlocalizedName("log"));
-        whocallhim.setItem((new ItemMultiTextureTile(planks.blockID - Item.ITEMBLOCK_BIAS, planks, BlockWood.woodType)).setUnlocalizedName("wood"));
+        whocallhim.setItem((new ItemMultiTextureTile(wood.blockID - Item.ITEMBLOCK_BIAS, wood, EnumTreeTypes.stringArray)).setUnlocalizedName("log"));
+        whocallhim.setItem((new ItemMultiTextureTile(planks.blockID - Item.ITEMBLOCK_BIAS, planks, EnumTreeTypes.stringArray)).setUnlocalizedName("wood"));
         whocallhim.setItem((new ItemMultiTextureTile(silverfish.blockID - Item.ITEMBLOCK_BIAS, silverfish, BlockSilverfish.silverfishStoneTypes)).setUnlocalizedName("monsterStoneEgg"));
         whocallhim.setItem((new ItemMultiTextureTile(stoneBrick.blockID - Item.ITEMBLOCK_BIAS, stoneBrick, BlockStoneBrick.STONE_BRICK_TYPES)).setUnlocalizedName("stonebricksmooth"));
         whocallhim.setItem((new ItemMultiTextureTile(sandStone.blockID - Item.ITEMBLOCK_BIAS, sandStone, BlockSandStone.SAND_STONE_TYPES)).setUnlocalizedName("sandStone"));

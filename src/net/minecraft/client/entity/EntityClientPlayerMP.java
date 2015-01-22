@@ -188,7 +188,7 @@ public class EntityClientPlayerMP extends EntityPlayerSP
     	//XXX Hook BlockActivateAction
     	{
 	    	ChatAction chat_action = new ChatAction(this, chat, false);
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(chat_action);
+	    	EventHandlerRegistry.getInstance().invoke(chat_action);
 	    	if(chat_action.isCancelled()) return;
 	    	chat = chat_action.getChatMessage();
     	}

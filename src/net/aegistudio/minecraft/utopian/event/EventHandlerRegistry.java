@@ -20,7 +20,7 @@ public class EventHandlerRegistry
 		this.async_handler_list = new HashMap<Class<?>, HashMap<Method, ArrayList<Object>>>();
 	}
 	
-	public static EventHandlerRegistry getEventHandlerRegistry()
+	public static EventHandlerRegistry getInstance()
 	{
 		return instance;
 	}

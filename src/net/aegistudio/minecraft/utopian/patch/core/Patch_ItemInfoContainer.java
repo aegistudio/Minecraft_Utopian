@@ -25,7 +25,7 @@ public class Patch_ItemInfoContainer extends ItemInfoContainer implements Patch
 		instance.setAccessible(true);
 		instance.set(null, this);
 		instance.setAccessible(false);
-		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(this, ShutdownEvent.class);		
+		EventHandlerRegistry.getInstance().registerHandler(this, ShutdownEvent.class);		
 		return true;
 	}
 

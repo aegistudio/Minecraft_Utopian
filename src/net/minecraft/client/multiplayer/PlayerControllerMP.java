@@ -353,7 +353,7 @@ public class PlayerControllerMP
         	//XXX Hook BlockActivateAction
         	{
     	    	BlockActivateAction blockactivate_action = new BlockActivateAction(player, world, x, y, z, side, itemstack, false);
-    	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(blockactivate_action);
+    	    	EventHandlerRegistry.getInstance().invoke(blockactivate_action);
     	    	if(blockactivate_action.isCancelled()) return false;
         	}
         	//XXX End Of Minecraft UtopianHook
@@ -367,7 +367,7 @@ public class PlayerControllerMP
         	//XXX Hook BlockPlacingAction
         	{
     	    	BlockPlacingAction blockplacing_action = new BlockPlacingAction(player, world, x, y, z, side, itemstack, false);
-    	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(blockplacing_action);
+    	    	EventHandlerRegistry.getInstance().invoke(blockplacing_action);
     	    	if(blockplacing_action.isCancelled()) return false;
         	}
         	//XXX End Of Minecraft UtopianHook
@@ -445,7 +445,7 @@ public class PlayerControllerMP
     	//XXX Hook EntityAttackAction
     	{
 	    	EntityAttackAction entityattack_action = new EntityAttackAction(par1EntityPlayer, par2Entity, false);
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(entityattack_action);
+	    	EventHandlerRegistry.getInstance().invoke(entityattack_action);
 	    	if(entityattack_action.isCancelled()) return;
     	}
     	//XXX End Of Minecraft UtopianHook
@@ -462,7 +462,7 @@ public class PlayerControllerMP
     	//XXX Hook EntityInteractAction
     	{
 	    	EntityInteractAction entityinteract_action = new EntityInteractAction(par1EntityPlayer, par2Entity, false);
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(entityinteract_action);
+	    	EventHandlerRegistry.getInstance().invoke(entityinteract_action);
 	    	if(entityinteract_action.isCancelled()) return false;
     	}
     	//XXX End Of Minecraft UtopianHook

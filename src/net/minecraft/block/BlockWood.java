@@ -9,9 +9,6 @@ import net.minecraft.util.Icon;
 
 public class BlockWood extends Block
 {
-    /** The type of tree this block came from. */
-    public static final String[] woodType = new String[] {"oak", "spruce", "birch", "jungle"};
-    public static final String[] woodTextureTypes = new String[] {"wood", "wood_spruce", "wood_birch", "wood_jungle"};
     private Icon[] iconArray;
 
     public BlockWood(int par1)
@@ -46,10 +43,7 @@ public class BlockWood extends Block
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        par3List.add(new ItemStack(par1, 1, 0));
-        par3List.add(new ItemStack(par1, 1, 1));
-        par3List.add(new ItemStack(par1, 1, 2));
-        par3List.add(new ItemStack(par1, 1, 3));
+    	for (int i = 0; i < this.iconArray.length; ++i) par3List.add(new ItemStack(par1, 1, i));
     }
 
     /**
@@ -58,11 +52,9 @@ public class BlockWood extends Block
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
-        this.iconArray = new Icon[woodTextureTypes.length];
+    	EnumTreeTypes[] treeTypes = EnumTreeTypes.values();
+        this.iconArray = new Icon[treeTypes.length];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
-        {
-            this.iconArray[var2] = par1IconRegister.registerIcon(woodTextureTypes[var2]);
-        }
+        for (int i = 0; i < this.iconArray.length; ++i) this.iconArray[i] = par1IconRegister.registerIcon(treeTypes[i].textureWoodPlank);
     }
 }

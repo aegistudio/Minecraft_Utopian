@@ -20,12 +20,12 @@ public class WorldChunkManager
     private BiomeCache biomeCache;
 
     /** A list of biomes that the player can spawn in. */
-    private List biomesToSpawnIn;
+    private List<BiomeGenBase> biomesToSpawnIn;
 
     protected WorldChunkManager()
     {
         this.biomeCache = new BiomeCache(this);
-        this.biomesToSpawnIn = new ArrayList();
+        this.biomesToSpawnIn = new ArrayList<BiomeGenBase>();
         this.biomesToSpawnIn.add(BiomeGenBase.forest);
         this.biomesToSpawnIn.add(BiomeGenBase.plains);
         this.biomesToSpawnIn.add(BiomeGenBase.taiga);
@@ -51,7 +51,7 @@ public class WorldChunkManager
     /**
      * Gets the list of valid biomes for the player to spawn in.
      */
-    public List getBiomesToSpawnIn()
+    public List<BiomeGenBase> getBiomesToSpawnIn()
     {
         return this.biomesToSpawnIn;
     }
@@ -80,7 +80,7 @@ public class WorldChunkManager
 
         for (int var7 = 0; var7 < par4 * par5; ++var7)
         {
-            float var8 = (float)BiomeGenBase.biomeList[var6[var7]].getIntRainfall() / 65536.0F;
+            float var8 = (float)BiomeGenBase.biomeList.get(var6[var7]).getIntRainfall() / 65536.0F;
 
             if (var8 > 1.0F)
             {
@@ -117,7 +117,7 @@ public class WorldChunkManager
 
         for (int var7 = 0; var7 < par4 * par5; ++var7)
         {
-            float var8 = (float)BiomeGenBase.biomeList[var6[var7]].getIntTemperature() / 65536.0F;
+            float var8 = (float)BiomeGenBase.biomeList.get(var6[var7]).getIntTemperature() / 65536.0F;
 
             if (var8 > 1.0F)
             {
@@ -146,7 +146,7 @@ public class WorldChunkManager
 
         for (int var7 = 0; var7 < par4 * par5; ++var7)
         {
-            par1ArrayOfBiomeGenBase[var7] = BiomeGenBase.biomeList[var6[var7]];
+            par1ArrayOfBiomeGenBase[var7] = BiomeGenBase.biomeList.get(var6[var7]);
         }
 
         return par1ArrayOfBiomeGenBase;
@@ -186,7 +186,7 @@ public class WorldChunkManager
 
             for (int var8 = 0; var8 < par4 * par5; ++var8)
             {
-                par1ArrayOfBiomeGenBase[var8] = BiomeGenBase.biomeList[var7[var8]];
+                par1ArrayOfBiomeGenBase[var8] = BiomeGenBase.biomeList.get(var7[var8]);
             }
 
             return par1ArrayOfBiomeGenBase;
@@ -209,7 +209,7 @@ public class WorldChunkManager
 
         for (int var12 = 0; var12 < var9 * var10; ++var12)
         {
-            BiomeGenBase var13 = BiomeGenBase.biomeList[var11[var12]];
+            BiomeGenBase var13 = BiomeGenBase.biomeList.get(var11[var12]);
 
             if (!par4List.contains(var13))
             {
@@ -241,7 +241,7 @@ public class WorldChunkManager
         {
             int var16 = var6 + var15 % var10 << 2;
             int var17 = var7 + var15 / var10 << 2;
-            BiomeGenBase var18 = BiomeGenBase.biomeList[var12[var15]];
+            BiomeGenBase var18 = BiomeGenBase.biomeList.get(var12[var15]);
 
             if (par4List.contains(var18) && (var13 == null || par5Random.nextInt(var14 + 1) == 0))
             {

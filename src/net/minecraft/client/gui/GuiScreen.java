@@ -7,9 +7,11 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.EnumOS;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -221,11 +223,17 @@ public class GuiScreen extends Gui
      */
     public void handleKeyboardInput()
     {
-        if (Keyboard.getEventKeyState())
+    	do if (Keyboard.getEventKeyState())
         {
             int var1 = Keyboard.getEventKey();
             char var2 = Keyboard.getEventCharacter();
-
+        
+            if((var2 & 0x7F) != var2)
+            {
+            	var2 = (char) (var2 << 8);
+            	var2 |= Keyboard.getEventCharacter();
+            }
+            
             if (var1 == 87)
             {
                 this.mc.toggleFullscreen();
@@ -239,6 +247,7 @@ public class GuiScreen extends Gui
 
             this.keyTyped(var2, var1);
         }
+    	while(Keyboard.next());
     }
 
     /**

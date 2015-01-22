@@ -1384,8 +1384,8 @@ public class Chunk
             var4 = var5.biomeID;
             this.blockBiomeArray[par2 << 4 | par1] = (byte)(var4 & 255);
         }
-
-        return BiomeGenBase.biomeList[var4] == null ? BiomeGenBase.plains : BiomeGenBase.biomeList[var4];
+        BiomeGenBase biome = BiomeGenBase.biomeList.get(var4);
+        return biome == null ? BiomeGenBase.plains : biome;
     }
 
     /**

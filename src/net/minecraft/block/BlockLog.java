@@ -2,6 +2,7 @@ package net.minecraft.block;
 
 import java.util.List;
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -12,8 +13,6 @@ import net.minecraft.world.World;
 public class BlockLog extends Block
 {
     /** The type of tree this log came from. */
-    public static final String[] woodType = new String[] {"oak", "spruce", "birch", "jungle"};
-    public static final String[] treeTextureTypes = new String[] {"tree_side", "tree_spruce", "tree_birch", "tree_jungle"};
     private Icon[] iconArray;
     private Icon tree_top;
 
@@ -161,11 +160,10 @@ public class BlockLog extends Block
     public void registerIcons(IconRegister par1IconRegister)
     {
         this.tree_top = par1IconRegister.registerIcon("tree_top");
-        this.iconArray = new Icon[treeTextureTypes.length];
+        
+    	EnumTreeTypes[] treeTypes = EnumTreeTypes.values();
+        this.iconArray = new Icon[treeTypes.length];
 
-        for (int var2 = 0; var2 < this.iconArray.length; ++var2)
-        {
-            this.iconArray[var2] = par1IconRegister.registerIcon(treeTextureTypes[var2]);
-        }
+        for (int i = 0; i < this.iconArray.length; ++i) this.iconArray[i] = par1IconRegister.registerIcon(treeTypes[i].textureLog);
     }
 }

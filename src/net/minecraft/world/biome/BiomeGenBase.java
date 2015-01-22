@@ -3,7 +3,9 @@ package net.minecraft.world.biome;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -18,6 +20,7 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntitySquid;
+import net.minecraft.util.BiMap;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.ColorizerGrass;
@@ -32,7 +35,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 public abstract class BiomeGenBase
 {
     /** An array of all the biomes, indexed by biome id. */
-    public static final BiomeGenBase[] biomeList = new BiomeGenBase[256];
+    public static final Map<Integer, BiomeGenBase> biomeList = new BiMap<BiomeGenBase>(12, 4);
     public static final BiomeGenBase ocean = (new BiomeGenOcean(0)).setColor(112).setBiomeName("Ocean").setMinMaxHeight(-1.0F, 0.4F);
     public static final BiomeGenBase plains = (new BiomeGenPlains(1)).setColor(9286496).setBiomeName("Plains").setTemperatureRainfall(0.8F, 0.4F);
     public static final BiomeGenBase desert = (new BiomeGenDesert(2)).setColor(16421912).setBiomeName("Desert").setDisableRain().setTemperatureRainfall(2.0F, 0.0F).setMinMaxHeight(0.1F, 0.2F);
@@ -74,10 +77,10 @@ public abstract class BiomeGenBase
     public int color;
 
     /** The block expected to be on the top of this biome */
-    public byte topBlock;
+    public int topBlock;
 
     /** The block to fill spots in when not on the top */
-    public byte fillerBlock;
+    public int fillerBlock;
     public int field_76754_C;
 
     /** The minimum height of this biome. Default 0.1. */
@@ -101,18 +104,18 @@ public abstract class BiomeGenBase
     /**
      * Holds the classes of IMobs (hostile mobs) that can be spawned in the biome.
      */
-    protected List spawnableMonsterList;
+    protected List<SpawnListEntry> spawnableMonsterList;
 
     /**
      * Holds the classes of any creature that can be spawned in the biome as friendly creature.
      */
-    protected List spawnableCreatureList;
+    protected List<SpawnListEntry> spawnableCreatureList;
 
     /**
      * Holds the classes of any aquatic creature that can be spawned in the water of the biome.
      */
-    protected List spawnableWaterCreatureList;
-    protected List spawnableCaveCreatureList;
+    protected List<SpawnListEntry> spawnableWaterCreatureList;
+    protected List<SpawnListEntry> spawnableCaveCreatureList;
 
     /** Set to true if snow is enabled for this biome. */
     private boolean enableSnow;
@@ -137,27 +140,27 @@ public abstract class BiomeGenBase
     /** The swamp tree generator. */
     protected WorldGenSwamp worldGeneratorSwamp;
 
-    protected BiomeGenBase(int par1)
+    protected BiomeGenBase(int biomeId)
     {
-        this.topBlock = (byte)Block.grass.blockID;
-        this.fillerBlock = (byte)Block.dirt.blockID;
+        this.topBlock = Block.grass.blockID;
+        this.fillerBlock = Block.dirt.blockID;
         this.field_76754_C = 5169201;
         this.minHeight = 0.1F;
         this.maxHeight = 0.3F;
         this.temperature = 0.5F;
         this.rainfall = 0.5F;
         this.waterColorMultiplier = 16777215;
-        this.spawnableMonsterList = new ArrayList();
-        this.spawnableCreatureList = new ArrayList();
-        this.spawnableWaterCreatureList = new ArrayList();
-        this.spawnableCaveCreatureList = new ArrayList();
+        this.spawnableMonsterList = new ArrayList<SpawnListEntry>();
+        this.spawnableCreatureList = new ArrayList<SpawnListEntry>();
+        this.spawnableWaterCreatureList = new ArrayList<SpawnListEntry>();
+        this.spawnableCaveCreatureList = new ArrayList<SpawnListEntry>();
         this.enableRain = true;
         this.worldGeneratorTrees = new WorldGenTrees(false);
         this.worldGeneratorBigTree = new WorldGenBigTree(false);
         this.worldGeneratorForest = new WorldGenForest(false);
         this.worldGeneratorSwamp = new WorldGenSwamp();
-        this.biomeID = par1;
-        biomeList[par1] = this;
+        this.biomeID = biomeId;
+        biomeList.put(biomeId, this);
         this.theBiomeDecorator = this.createBiomeDecorator();
         this.spawnableCreatureList.add(new SpawnListEntry(EntitySheep.class, 12, 4, 4));
         this.spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 10, 4, 4));
@@ -283,7 +286,7 @@ public abstract class BiomeGenBase
     /**
      * Returns the correspondent list of the EnumCreatureType informed.
      */
-    public List getSpawnableList(EnumCreatureType par1EnumCreatureType)
+    public List<SpawnListEntry> getSpawnableList(EnumCreatureType par1EnumCreatureType)
     {
         return par1EnumCreatureType == EnumCreatureType.monster ? this.spawnableMonsterList : (par1EnumCreatureType == EnumCreatureType.creature ? this.spawnableCreatureList : (par1EnumCreatureType == EnumCreatureType.waterCreature ? this.spawnableWaterCreatureList : (par1EnumCreatureType == EnumCreatureType.ambient ? this.spawnableCaveCreatureList : null)));
     }

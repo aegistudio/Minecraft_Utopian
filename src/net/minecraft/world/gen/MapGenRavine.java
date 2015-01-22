@@ -180,7 +180,7 @@ public class MapGenRavine extends MapGenBase
 
                                                     if (var48 && par5ArrayOfByte[var47 - 1] == Block.dirt.blockID)
                                                     {
-                                                        par5ArrayOfByte[var47 - 1] = this.worldObj.getBiomeGenForCoords(var41 + par3 * 16, var44 + par4 * 16).topBlock;
+                                                        par5ArrayOfByte[var47 - 1] = (byte)(this.worldObj.getBiomeGenForCoords(var41 + par3 * 16, var44 + par4 * 16).topBlock);
                                                     }
                                                 }
                                             }

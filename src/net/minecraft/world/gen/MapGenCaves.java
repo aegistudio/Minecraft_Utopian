@@ -193,7 +193,7 @@ public class MapGenCaves extends MapGenBase
 
                                                     if (var49 && par5ArrayOfByte[var48 - 1] == Block.dirt.blockID)
                                                     {
-                                                        par5ArrayOfByte[var48 - 1] = this.worldObj.getBiomeGenForCoords(var42 + par3 * 16, var45 + par4 * 16).topBlock;
+                                                        par5ArrayOfByte[var48 - 1] = (byte)(this.worldObj.getBiomeGenForCoords(var42 + par3 * 16, var45 + par4 * 16).topBlock);
                                                     }
                                                 }
                                             }

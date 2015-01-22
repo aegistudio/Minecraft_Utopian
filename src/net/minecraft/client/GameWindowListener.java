@@ -14,7 +14,7 @@ public final class GameWindowListener extends WindowAdapter
     	//XXX Hook ShutdownEvent
     	{
 	    	ShutdownEvent shutdown_event = new ShutdownEvent();
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(shutdown_event);
+	    	EventHandlerRegistry.getInstance().invoke(shutdown_event);
 	    	if(shutdown_event.isCancelled()) return;
     	}
     	//XXX End Of Minecraft UtopianHook

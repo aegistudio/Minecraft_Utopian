@@ -37,7 +37,7 @@ public class UtopianLoader
 			public void initWindow(InitWindowEvent event)
 			{
 				setLoadingGUI("Creating minecraft display window...", 70);
-				EventHandlerRegistry.getEventHandlerRegistry().unregisterHandler(this, InitWindowEvent.class);
+				EventHandlerRegistry.getInstance().unregisterHandler(this, InitWindowEvent.class);
 				
 				if(image != null) event.getFrame().setIconImage(image);
 			}
@@ -49,7 +49,7 @@ public class UtopianLoader
 				InstallationLoader.getInstallationLoader().installPlugins();
 				
 				setLoadingGUI("Installing minecraft resources...", 83);
-				EventHandlerRegistry.getEventHandlerRegistry().unregisterHandler(this, InitResourceEvent.class);
+				EventHandlerRegistry.getInstance().unregisterHandler(this, InitResourceEvent.class);
 			}
 			
 			@EventHandler(value = PostInitEvent.class, async = true)
@@ -57,7 +57,7 @@ public class UtopianLoader
 			{
 				setLoadingGUI("Welcome to the world of minecraft utopian!", 100);
 				new Thread(this).start();
-				EventHandlerRegistry.getEventHandlerRegistry().unregisterHandler(this, PostInitEvent.class);
+				EventHandlerRegistry.getInstance().unregisterHandler(this, PostInitEvent.class);
 			}
 	
 			@Override
@@ -67,9 +67,9 @@ public class UtopianLoader
 				destroyLoadingGUI();
 			}
 		};
-		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(jframe_state_renderer, InitWindowEvent.class);
-		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(jframe_state_renderer, InitResourceEvent.class);
-		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(jframe_state_renderer, PostInitEvent.class);
+		EventHandlerRegistry.getInstance().registerHandler(jframe_state_renderer, InitWindowEvent.class);
+		EventHandlerRegistry.getInstance().registerHandler(jframe_state_renderer, InitResourceEvent.class);
+		EventHandlerRegistry.getInstance().registerHandler(jframe_state_renderer, PostInitEvent.class);
 	}
 	
 	public static void loadConfig() throws Exception

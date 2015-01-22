@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import net.aegistudio.minecraft.utopian.util.Intrude;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
@@ -151,6 +152,7 @@ public class CraftingManager
         System.out.println(this.recipes.size() + " recipes");
     }
 
+    @Intrude("addRecipe")
     ShapedRecipes addRecipe(ItemStack par1ItemStack, Object ... par2ArrayOfObj)
     {
         String var3 = "";
@@ -225,6 +227,7 @@ public class CraftingManager
         return var17;
     }
 
+    @Intrude("addShapelessRecipe")
     void addShapelessRecipe(ItemStack par1ItemStack, Object ... par2ArrayOfObj)
     {
         ArrayList var3 = new ArrayList();

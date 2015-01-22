@@ -11,13 +11,15 @@ public class BiomeGenSwamp extends BiomeGenBase
     protected BiomeGenSwamp(int par1)
     {
         super(par1);
-        this.theBiomeDecorator.treesPerChunk = 2;
+        this.theBiomeDecorator.treeGen.genLoops = 2;
         this.theBiomeDecorator.flowersPerChunk = -999;
-        this.theBiomeDecorator.deadBushPerChunk = 1;
+        //this.theBiomeDecorator.deadBushPerChunk = 1;
+        this.theBiomeDecorator.deadbushGen.genLoops = 1;
+        
         this.theBiomeDecorator.mushroomsPerChunk = 8;
         this.theBiomeDecorator.reedsPerChunk = 10;
-        this.theBiomeDecorator.clayPerChunk = 1;
-        this.theBiomeDecorator.waterlilyPerChunk = 4;
+        this.theBiomeDecorator.clayTopSoilGen.soilPerChunk = 1;
+        this.theBiomeDecorator.waterlilyGen.genLoops = 4;
         this.waterColorMultiplier = 14745518;
         this.spawnableMonsterList.add(new SpawnListEntry(EntitySlime.class, 1, 1, 1));
     }

@@ -168,11 +168,11 @@ public abstract class World implements IBlockAccess
     {
         if (this.blockExists(par1, 0, par2))
         {
-            Chunk var3 = this.getChunkFromBlockCoords(par1, par2);
+            Chunk chunk = this.getChunkFromBlockCoords(par1, par2);
 
-            if (var3 != null)
+            if (chunk != null)
             {
-                return var3.getBiomeGenForWorldCoords(par1 & 15, par2 & 15, this.provider.worldChunkMgr);
+                return chunk.getBiomeGenForWorldCoords(par1 & 15, par2 & 15, this.provider.worldChunkMgr);
             }
         }
 

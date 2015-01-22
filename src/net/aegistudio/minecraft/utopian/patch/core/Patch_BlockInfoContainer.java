@@ -155,7 +155,7 @@ public class Patch_BlockInfoContainer extends BlockInfoContainer implements Patc
 		instance.set(null, this);
 		instance.setAccessible(false);
 		
-		EventHandlerRegistry.getEventHandlerRegistry().registerHandler(this, ShutdownEvent.class);
+		EventHandlerRegistry.getInstance().registerHandler(this, ShutdownEvent.class);
 		return true;
 	}
 

@@ -1,18 +1,32 @@
 package net.minecraft.world.biome;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.boss.EntityDragon;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.gen.GenListEntry;
 import net.minecraft.world.gen.feature.WorldGenSpikes;
-import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class BiomeEndDecorator extends BiomeDecorator
 {
-    protected WorldGenerator spikeGen;
-
     public BiomeEndDecorator(BiomeGenBase par1BiomeGenBase)
     {
         super(par1BiomeGenBase);
-        this.spikeGen = new WorldGenSpikes(Block.whiteStone.blockID);
+        this.addonGenerators.add(new GenListEntry(new WorldGenSpikes(Block.whiteStone.blockID))
+        {
+			@Override
+			public void generate(World currentWorld, Random randomGenerator, int chunk_X, int chunk_Z)
+			{
+		        if (randomGenerator.nextInt(5) == 0)
+		        {
+		            int x = chunk_X + randomGenerator.nextInt(16) + 8;
+		            int z = chunk_Z + randomGenerator.nextInt(16) + 8;
+		            int y = currentWorld.getTopSolidOrLiquidBlock(x, z);
+		            generator.generate(currentWorld, randomGenerator, x, y, z);
+		        }
+			}
+        });
     }
 
     /**
@@ -20,22 +34,10 @@ public class BiomeEndDecorator extends BiomeDecorator
      */
     protected void decorate()
     {
-        this.generateOres();
+    	this.generateList(oreGenerators);
 
-        if (this.randomGenerator.nextInt(5) == 0)
-        {
-            int var1 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-            int var2 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-            int var3 = this.currentWorld.getTopSolidOrLiquidBlock(var1, var2);
-
-            if (var3 > 0)
-            {
-                ;
-            }
-
-            this.spikeGen.generate(this.currentWorld, this.randomGenerator, var1, var3, var2);
-        }
-
+        this.generateList(addonGenerators);
+        
         if (this.chunk_X == 0 && this.chunk_Z == 0)
         {
             EntityDragon var4 = new EntityDragon(this.currentWorld);

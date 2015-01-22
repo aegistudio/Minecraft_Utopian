@@ -11,12 +11,17 @@ public class BiomeGenDesert extends BiomeGenBase
     {
         super(par1);
         this.spawnableCreatureList.clear();
-        this.topBlock = (byte)Block.sand.blockID;
-        this.fillerBlock = (byte)Block.sand.blockID;
-        this.theBiomeDecorator.treesPerChunk = -999;
-        this.theBiomeDecorator.deadBushPerChunk = 2;
+        this.topBlock = Block.sand.blockID;
+        this.fillerBlock = Block.sand.blockID;
+        //this.theBiomeDecorator.treesPerChunk = -999;
+        this.theBiomeDecorator.treeGen.genLoops = -999;
+        
+        //this.theBiomeDecorator.deadBushPerChunk = 2;
+        this.theBiomeDecorator.deadbushGen.genLoops = 2;
+        
         this.theBiomeDecorator.reedsPerChunk = 50;
-        this.theBiomeDecorator.cactiPerChunk = 10;
+        //this.theBiomeDecorator.cactiPerChunk = 10;
+        theBiomeDecorator.cactusGen.genLoops = 10;
     }
 
     public void decorate(World par1World, Random par2Random, int par3, int par4)

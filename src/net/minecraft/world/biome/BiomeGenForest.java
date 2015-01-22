@@ -10,8 +10,10 @@ public class BiomeGenForest extends BiomeGenBase
     {
         super(par1);
         this.spawnableCreatureList.add(new SpawnListEntry(EntityWolf.class, 5, 4, 4));
-        this.theBiomeDecorator.treesPerChunk = 10;
-        this.theBiomeDecorator.grassPerChunk = 2;
+        //this.theBiomeDecorator.treesPerChunk = 10;
+        this.theBiomeDecorator.treeGen.genLoops = 10;
+        //this.theBiomeDecorator.grassPerChunk = 2;
+        this.theBiomeDecorator.grassGen.genLoops = 2;
     }
 
     /**

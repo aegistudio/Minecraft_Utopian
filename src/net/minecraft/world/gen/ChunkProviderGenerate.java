@@ -201,8 +201,8 @@ public class ChunkProviderGenerate implements IChunkProvider
                 float var11 = var10.getFloatTemperature();
                 int var12 = (int)(this.stoneNoise[var8 + var9 * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
                 int var13 = -1;
-                byte var14 = var10.topBlock;
-                byte var15 = var10.fillerBlock;
+                int var14 = var10.topBlock;
+                int var15 = var10.fillerBlock;
 
                 for (int var16 = 127; var16 >= 0; --var16)
                 {
@@ -251,17 +251,17 @@ public class ChunkProviderGenerate implements IChunkProvider
 
                                 if (var16 >= var5 - 1)
                                 {
-                                    par3ArrayOfByte[var17] = var14;
+                                    par3ArrayOfByte[var17] = (byte)var14;
                                 }
                                 else
                                 {
-                                    par3ArrayOfByte[var17] = var15;
+                                    par3ArrayOfByte[var17] = (byte)var15;
                                 }
                             }
                             else if (var13 > 0)
                             {
                                 --var13;
-                                par3ArrayOfByte[var17] = var15;
+                                par3ArrayOfByte[var17] = (byte)var15;
 
                                 if (var13 == 0 && var15 == Block.sand.blockID)
                                 {

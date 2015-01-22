@@ -63,7 +63,7 @@ public class CommandHandler implements ICommandManager
     	//XXX Hook PreCommandAction
     	{
 	    	PreCommandAction precommand_action = new PreCommandAction(par2Str, par1ICommandSender);
-	    	EventHandlerRegistry.getEventHandlerRegistry().invoke(precommand_action);
+	    	EventHandlerRegistry.getInstance().invoke(precommand_action);
 	    	par2Str = precommand_action.getRawCommand();
 	    	if(precommand_action.isCancelled()) return 0;
     	}
@@ -91,7 +91,7 @@ public class CommandHandler implements ICommandManager
 	    	{
 		    	CommandAction command_action = 
 		    			new CommandAction(command, prefix, arguments, par1ICommandSender);
-		    	EventHandlerRegistry.getEventHandlerRegistry().invoke(command_action);
+		    	EventHandlerRegistry.getInstance().invoke(command_action);
 		    	command = command_action.getCommand();
 		    	prefix = command_action.getCommandPrefix();
 		    	arguments = command_action.getCommandArguments();

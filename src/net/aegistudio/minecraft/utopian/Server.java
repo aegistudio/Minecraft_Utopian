@@ -35,7 +35,7 @@ public class Server extends DedicatedServer
 	    	//XXX Hook PreInitEvent
 	    	{
 		    	PreInitEvent preinit_event = new PreInitEvent(arguments);
-		    	EventHandlerRegistry.getEventHandlerRegistry().invoke(preinit_event);
+		    	EventHandlerRegistry.getInstance().invoke(preinit_event);
 		    	arguments = preinit_event.getArguments();
 		    	if(preinit_event.isCancelled()) return;
 	    	}
@@ -47,7 +47,7 @@ public class Server extends DedicatedServer
 	    	//XXX Hook InitResourceEvent
 	    	{
 		    	InitResourceEvent initresource_event = new InitResourceEvent();
-		    	EventHandlerRegistry.getEventHandlerRegistry().invoke(initresource_event);
+		    	EventHandlerRegistry.getInstance().invoke(initresource_event);
 		    	if(initresource_event.isCancelled()) return;
 	    	}
 	    	//XXX End Of Minecraft UtopianHook
@@ -60,7 +60,7 @@ public class Server extends DedicatedServer
 	    	//XXX Hook PostInitEvent
 	    	{
 		    	PostInitEvent postinit_event = new PostInitEvent();
-		    	EventHandlerRegistry.getEventHandlerRegistry().invoke(postinit_event);
+		    	EventHandlerRegistry.getInstance().invoke(postinit_event);
 		    	if(postinit_event.isCancelled()) return;
 	    	}
 	    	//XXX End Of Minecraft UtopianHook
@@ -81,7 +81,7 @@ public class Server extends DedicatedServer
     	//XXX Begin Minecraft UtopianHook
     	//XXX Hook ShutdownEvent
     	ShutdownEvent shutdown_event = new ShutdownEvent();
-    	EventHandlerRegistry.getEventHandlerRegistry().invoke(shutdown_event);
+    	EventHandlerRegistry.getInstance().invoke(shutdown_event);
     	if(shutdown_event.isCancelled());
     	//XXX Can't stop!
     	//XXX End Of Minecraft UtopianHook

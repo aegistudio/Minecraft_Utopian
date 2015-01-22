@@ -17,8 +17,8 @@ public class BiomeGenJungle extends BiomeGenBase
     public BiomeGenJungle(int par1)
     {
         super(par1);
-        this.theBiomeDecorator.treesPerChunk = 50;
-        this.theBiomeDecorator.grassPerChunk = 25;
+        this.theBiomeDecorator.treeGen.genLoops = 50;
+        this.theBiomeDecorator.grassGen.genLoops = 25;
         this.theBiomeDecorator.flowersPerChunk = 4;
         this.spawnableMonsterList.add(new SpawnListEntry(EntityOcelot.class, 2, 1, 1));
         this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10, 4, 4));
