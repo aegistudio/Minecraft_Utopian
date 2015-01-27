@@ -6,12 +6,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
+@SuppressWarnings("serial")
 public class MinecraftFakeLauncher extends Applet implements AppletStub
 {
     /** Arguments that were passed to Minecraft.jar (username, sessionid etc) */
-    final Map arguments;
+    final Map<String, String> arguments;
 
-    public MinecraftFakeLauncher(Map par1Map)
+    public MinecraftFakeLauncher(Map<String, String> par1Map)
     {
         this.arguments = par1Map;
     }

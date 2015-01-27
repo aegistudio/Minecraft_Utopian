@@ -83,7 +83,7 @@ public class ServerAddress
         try
         {
             Class.forName("com.sun.jndi.dns.DnsContextFactory");
-            Hashtable var2 = new Hashtable();
+            Hashtable<String, String> var2 = new Hashtable<String, String>();
             var2.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
             var2.put("java.naming.provider.url", "dns:");
             var2.put("com.sun.jndi.dns.timeout.retries", "1");

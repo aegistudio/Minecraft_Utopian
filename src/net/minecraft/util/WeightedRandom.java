@@ -9,14 +9,14 @@ public class WeightedRandom
     /**
      * Returns the total weight of all items in a collection.
      */
-    public static int getTotalWeight(Collection par0Collection)
+    public static int getTotalWeight(Collection<WeightedRandomItem> par0Collection)
     {
         int var1 = 0;
-        WeightedRandomItem var3;
+        WeightedRandomItem item;
 
-        for (Iterator var2 = par0Collection.iterator(); var2.hasNext(); var1 += var3.itemWeight)
+        for (Iterator<WeightedRandomItem> var2 = par0Collection.iterator(); var2.hasNext(); var1 += item.itemWeight)
         {
-            var3 = (WeightedRandomItem)var2.next();
+            item = (WeightedRandomItem)var2.next();
         }
 
         return var1;
@@ -25,7 +25,7 @@ public class WeightedRandom
     /**
      * Returns a random choice from the input items, with a total weight value.
      */
-    public static WeightedRandomItem getRandomItem(Random par0Random, Collection par1Collection, int par2)
+    public static WeightedRandomItem getRandomItem(Random par0Random, Collection<? extends WeightedRandomItem> par1Collection, int par2)
     {
         if (par2 <= 0)
         {
@@ -34,7 +34,7 @@ public class WeightedRandom
         else
         {
             int var3 = par0Random.nextInt(par2);
-            Iterator var4 = par1Collection.iterator();
+            Iterator<? extends WeightedRandomItem> var4 = par1Collection.iterator();
             WeightedRandomItem var5;
 
             do
@@ -56,7 +56,7 @@ public class WeightedRandom
     /**
      * Returns a random choice from the input items.
      */
-    public static WeightedRandomItem getRandomItem(Random par0Random, Collection par1Collection)
+    public static WeightedRandomItem getRandomItem(Random par0Random, Collection<WeightedRandomItem> par1Collection)
     {
         return getRandomItem(par0Random, par1Collection, getTotalWeight(par1Collection));
     }

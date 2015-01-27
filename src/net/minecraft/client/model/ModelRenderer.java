@@ -34,8 +34,8 @@ public class ModelRenderer
 
     /** Hides the model. */
     public boolean isHidden;
-    public List cubeList;
-    public List childModels;
+    public List<ModelBox> cubeList;
+    public List<ModelRenderer> childModels;
     public final String boxName;
     private ModelBase baseModel;
     public float field_82906_o;
@@ -51,7 +51,7 @@ public class ModelRenderer
         this.mirror = false;
         this.showModel = true;
         this.isHidden = false;
-        this.cubeList = new ArrayList();
+        this.cubeList = new ArrayList<ModelBox>();
         this.baseModel = par1ModelBase;
         par1ModelBase.boxList.add(this);
         this.boxName = par2Str;
@@ -72,14 +72,11 @@ public class ModelRenderer
     /**
      * Sets the current box's rotation points and rotation angles to another box.
      */
-    public void addChild(ModelRenderer par1ModelRenderer)
+    public void addChild(ModelRenderer childModelRenderer)
     {
-        if (this.childModels == null)
-        {
-            this.childModels = new ArrayList();
-        }
+        if (this.childModels == null) this.childModels = new ArrayList<ModelRenderer>();
 
-        this.childModels.add(par1ModelRenderer);
+        this.childModels.add(childModelRenderer);
     }
 
     public ModelRenderer setTextureOffset(int par1, int par2)

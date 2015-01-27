@@ -41,7 +41,7 @@ public class BlockPressurePlate extends BlockBasePressurePlate
      */
     protected int getPlateState(World par1World, int par2, int par3, int par4)
     {
-        List var5 = null;
+        List<Entity> var5 = null;
 
         if (this.triggerMobType == EnumMobType.everything)
         {
@@ -60,7 +60,7 @@ public class BlockPressurePlate extends BlockBasePressurePlate
 
         if (!var5.isEmpty())
         {
-            Iterator var6 = var5.iterator();
+            Iterator<Entity> var6 = var5.iterator();
 
             while (var6.hasNext())
             {

@@ -4,7 +4,7 @@ import java.util.concurrent.Callable;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 
-class CallableEffectName implements Callable
+class CallableEffectName implements Callable<String>
 {
     final PotionEffect field_102031_a;
 
@@ -21,7 +21,7 @@ class CallableEffectName implements Callable
         return Potion.potionTypes[this.field_102031_a.getPotionID()].getName();
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_102029_a();
     }

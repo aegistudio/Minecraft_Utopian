@@ -1,7 +1,9 @@
 package net.minecraft.block;
 
 import java.util.Iterator;
+
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -24,7 +26,7 @@ public class BlockPressurePlateWeighted extends BlockBasePressurePlate
     protected int getPlateState(World par1World, int par2, int par3, int par4)
     {
         int var5 = 0;
-        Iterator var6 = par1World.getEntitiesWithinAABB(EntityItem.class, this.getSensitiveAABB(par2, par3, par4)).iterator();
+        Iterator<Entity> var6 = par1World.getEntitiesWithinAABB(EntityItem.class, this.getSensitiveAABB(par2, par3, par4)).iterator();
 
         while (var6.hasNext())
         {

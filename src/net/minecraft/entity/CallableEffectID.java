@@ -3,7 +3,7 @@ package net.minecraft.entity;
 import java.util.concurrent.Callable;
 import net.minecraft.potion.PotionEffect;
 
-class CallableEffectID implements Callable
+class CallableEffectID implements Callable<String>
 {
     final PotionEffect field_102034_a;
 
@@ -20,7 +20,7 @@ class CallableEffectID implements Callable
         return this.field_102034_a.getPotionID() + "";
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_102032_a();
     }

@@ -74,7 +74,7 @@ public class BlockLever extends Block
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
     {
         int var11 = par9 & 8;
-        int var10 = par9 & 7;
+        //int var10 = par9 & 7;	//UNUSED
         byte var12 = -1;
 
         if (par5 == 0 && par1World.isBlockNormalCube(par2, par3 + 1, par4))

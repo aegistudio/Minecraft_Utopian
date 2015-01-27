@@ -18,7 +18,7 @@ public class BiomeCache
     private LongHashMap cacheMap = new LongHashMap();
 
     /** The list of cached BiomeCacheBlocks */
-    private List cache = new ArrayList();
+    private List<BiomeCacheBlock> cache = new ArrayList<BiomeCacheBlock>();
 
     public BiomeCache(WorldChunkManager par1WorldChunkManager)
     {
@@ -33,17 +33,17 @@ public class BiomeCache
         par1 >>= 4;
         par2 >>= 4;
         long var3 = (long)par1 & 4294967295L | ((long)par2 & 4294967295L) << 32;
-        BiomeCacheBlock var5 = (BiomeCacheBlock)this.cacheMap.getValueByKey(var3);
+        BiomeCacheBlock biomeCacheBlock = (BiomeCacheBlock)this.cacheMap.getValueByKey(var3);
 
-        if (var5 == null)
+        if (biomeCacheBlock == null)
         {
-            var5 = new BiomeCacheBlock(this, par1, par2);
-            this.cacheMap.add(var3, var5);
-            this.cache.add(var5);
+            biomeCacheBlock = new BiomeCacheBlock(this, par1, par2);
+            this.cacheMap.add(var3, biomeCacheBlock);
+            this.cache.add(biomeCacheBlock);
         }
 
-        var5.lastAccessTime = System.currentTimeMillis();
-        return var5;
+        biomeCacheBlock.lastAccessTime = System.currentTimeMillis();
+        return biomeCacheBlock;
     }
 
     /**

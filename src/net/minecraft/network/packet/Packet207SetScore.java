@@ -28,7 +28,7 @@ public class Packet207SetScore extends Packet
     public Packet207SetScore(Score par1, int par2)
     {
         this.itemName = par1.func_96653_e();
-        this.scoreName = par1.func_96645_d().getName();
+        this.scoreName = par1.getScoreObjective().getName();
         this.value = par1.func_96652_c();
         this.updateOrRemove = par2;
     }

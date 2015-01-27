@@ -14,14 +14,14 @@ public class BlockBaseRailLogic
     private final boolean isStraightRail;
 
     /** The chunk position the rail is at. */
-    private List railChunkPosition;
+    private List<ChunkPosition> railChunkPosition;
 
     final BlockRailBase theRail;
 
     public BlockBaseRailLogic(BlockRailBase par1, World par2, int par3, int par4, int par5)
     {
         this.theRail = par1;
-        this.railChunkPosition = new ArrayList();
+        this.railChunkPosition = new ArrayList<ChunkPosition>();
         this.logicWorld = par2;
         this.railX = par3;
         this.railY = par4;

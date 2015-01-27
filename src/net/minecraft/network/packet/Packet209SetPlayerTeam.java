@@ -27,7 +27,7 @@ public class Packet209SetPlayerTeam extends Packet
     public String teamSuffix = "";
 
     /** Only if mode = 0 or 3 or 4. Players to be added/remove from the team. */
-    public Collection playerNames = new ArrayList();
+    public Collection<String> playerNames = new ArrayList<String>();
 
     /**
      * If 0 then the team is created. If 1 then the team is removed. If 2 the team team information is updated. If 3
@@ -40,26 +40,26 @@ public class Packet209SetPlayerTeam extends Packet
 
     public Packet209SetPlayerTeam() {}
 
-    public Packet209SetPlayerTeam(ScorePlayerTeam par1, int par2)
+    public Packet209SetPlayerTeam(ScorePlayerTeam scorePlayerTeam, int par2)
     {
-        this.teamName = par1.func_96661_b();
+        this.teamName = scorePlayerTeam.getDefaultName();
         this.mode = par2;
 
         if (par2 == 0 || par2 == 2)
         {
-            this.teamDisplayName = par1.func_96669_c();
-            this.teamPrefix = par1.func_96668_e();
-            this.teamSuffix = par1.func_96663_f();
-            this.friendlyFire = par1.func_98299_i();
+            this.teamDisplayName = scorePlayerTeam.getDisplayName();
+            this.teamPrefix = scorePlayerTeam.getTeamPrefix();
+            this.teamSuffix = scorePlayerTeam.getTeamSuffix();
+            this.friendlyFire = scorePlayerTeam.func_98299_i();
         }
 
         if (par2 == 0)
         {
-            this.playerNames.addAll(par1.getMembershipCollection());
+            this.playerNames.addAll(scorePlayerTeam.getMembershipCollection());
         }
     }
 
-    public Packet209SetPlayerTeam(ScorePlayerTeam par1ScorePlayerTeam, Collection par2Collection, int par3)
+    public Packet209SetPlayerTeam(ScorePlayerTeam par1ScorePlayerTeam, Collection<String> par2Collection, int par3)
     {
         if (par3 != 3 && par3 != 4)
         {
@@ -68,7 +68,7 @@ public class Packet209SetPlayerTeam extends Packet
         else if (par2Collection != null && !par2Collection.isEmpty())
         {
             this.mode = par3;
-            this.teamName = par1ScorePlayerTeam.func_96661_b();
+            this.teamName = par1ScorePlayerTeam.getDefaultName();
             this.playerNames.addAll(par2Collection);
         }
         else
@@ -123,7 +123,7 @@ public class Packet209SetPlayerTeam extends Packet
         if (this.mode == 0 || this.mode == 3 || this.mode == 4)
         {
             par1DataOutputStream.writeShort(this.playerNames.size());
-            Iterator var2 = this.playerNames.iterator();
+            Iterator<String> var2 = this.playerNames.iterator();
 
             while (var2.hasNext())
             {

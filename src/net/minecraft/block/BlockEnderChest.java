@@ -1,6 +1,7 @@
 package net.minecraft.block;
 
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -144,7 +145,8 @@ public class BlockEnderChest extends BlockContainer
     /**
      * A randomly called display update to be able to add particles or other items for display
      */
-    public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    @SuppressWarnings("unused")
+	public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
         for (int var6 = 0; var6 < 3; ++var6)
         {

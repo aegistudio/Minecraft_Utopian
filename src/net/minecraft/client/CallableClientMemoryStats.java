@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import java.util.concurrent.Callable;
 
-public class CallableClientMemoryStats implements Callable
+public class CallableClientMemoryStats implements Callable<String>
 {
     final Minecraft theMinecraft;
 
@@ -22,7 +22,7 @@ public class CallableClientMemoryStats implements Callable
         return var1 + " (" + var2 + " bytes; " + var3 + " MB) allocated, " + var4 + " (" + var5 + " bytes; " + var6 + " MB) used";
     }
 
-    public Object call()
+    public String call()
     {
         return this.callClientMemoryStats();
     }

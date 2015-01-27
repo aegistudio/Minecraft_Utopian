@@ -736,7 +736,7 @@ public abstract class ServerConfigurationManager
                     }
 
                     ScorePlayerTeam var18 = var16.getTeam();
-                    String var19 = var18 == null ? "" : var18.func_96661_b();
+                    String var19 = var18 == null ? "" : var18.getDefaultName();
 
                     if (var17 == par10Str.equalsIgnoreCase(var19))
                     {

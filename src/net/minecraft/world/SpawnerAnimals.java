@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLiving;
@@ -22,10 +23,10 @@ import net.minecraft.world.chunk.Chunk;
 public final class SpawnerAnimals
 {
     /** The 17x17 area around the player where mobs can spawn */
-    private static HashMap eligibleChunksForSpawning = new HashMap();
+    private static HashMap<ChunkCoordIntPair, Boolean> eligibleChunksForSpawning = new HashMap<ChunkCoordIntPair, Boolean>();
 
     /** An array of entity classes that spawn at night. */
-    protected static final Class[] nightSpawnEntities = new Class[] {EntitySpider.class, EntityZombie.class, EntitySkeleton.class};
+    protected static final Class<?>[] nightSpawnEntities = new Class<?>[] {EntitySpider.class, EntityZombie.class, EntitySkeleton.class};
 
     /**
      * Given a chunk, find a random position in it.
@@ -92,7 +93,7 @@ public final class SpawnerAnimals
 
                 if ((!var35.getPeacefulCreature() || par2) && (var35.getPeacefulCreature() || par1) && (!var35.getAnimal() || par3) && par0WorldServer.countEntities(var35.getCreatureClass()) <= var35.getMaxNumberOfCreature() * eligibleChunksForSpawning.size() / 256)
                 {
-                    Iterator var37 = eligibleChunksForSpawning.keySet().iterator();
+                    Iterator<ChunkCoordIntPair> var37 = eligibleChunksForSpawning.keySet().iterator();
                     label110:
 
                     while (var37.hasNext())
@@ -236,6 +237,7 @@ public final class SpawnerAnimals
     /**
      * Called during chunk generation to spawn initial creatures.
      */
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public static void performWorldGenSpawning(World par0World, BiomeGenBase par1BiomeGenBase, int par2, int par3, int par4, int par5, Random par6Random)
     {
         List var7 = par1BiomeGenBase.getSpawnableList(EnumCreatureType.creature);

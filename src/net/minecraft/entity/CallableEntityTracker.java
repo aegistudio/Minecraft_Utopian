@@ -2,7 +2,7 @@ package net.minecraft.entity;
 
 import java.util.concurrent.Callable;
 
-class CallableEntityTracker implements Callable
+class CallableEntityTracker implements Callable<String>
 {
     final int field_96570_a;
 
@@ -26,7 +26,7 @@ class CallableEntityTracker implements Callable
         return var1;
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_96568_a();
     }

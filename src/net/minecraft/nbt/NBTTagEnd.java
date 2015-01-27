@@ -11,6 +11,11 @@ public class NBTTagEnd extends NBTBase
         super((String)null);
     }
 
+    public NBTTagEnd(String useless)
+    {
+    	this();
+    }
+    
     /**
      * Read the actual data contents of the tag, implemented in NBT extension classes
      */

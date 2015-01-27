@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import java.util.concurrent.Callable;
 
-public class CallableTexturePack implements Callable
+public class CallableTexturePack implements Callable<String>
 {
     final Minecraft theMinecraft;
 
@@ -16,7 +16,7 @@ public class CallableTexturePack implements Callable
         return this.theMinecraft.gameSettings.skin;
     }
 
-    public Object call()
+    public String call()
     {
         return this.callTexturePack();
     }

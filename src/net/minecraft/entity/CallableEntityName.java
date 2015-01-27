@@ -2,7 +2,7 @@ package net.minecraft.entity;
 
 import java.util.concurrent.Callable;
 
-class CallableEntityName implements Callable
+class CallableEntityName implements Callable<String>
 {
     final Entity theEntity;
 
@@ -16,7 +16,7 @@ class CallableEntityName implements Callable
         return this.theEntity.getEntityName();
     }
 
-    public Object call()
+    public String call()
     {
         return this.callEntityName();
     }

@@ -97,7 +97,7 @@ public class Scoreboard
             }
         }
 
-        Collections.sort(var2, Score.field_96658_a);
+        Collections.sort(var2, Score.scoreComparator);
         return var2;
     }
 
@@ -216,7 +216,7 @@ public class Scoreboard
 
     public void func_96511_d(ScorePlayerTeam par1ScorePlayerTeam)
     {
-        this.field_96542_e.remove(par1ScorePlayerTeam.func_96661_b());
+        this.field_96542_e.remove(par1ScorePlayerTeam.getDefaultName());
         Iterator var2 = par1ScorePlayerTeam.getMembershipCollection().iterator();
 
         while (var2.hasNext())
@@ -262,7 +262,7 @@ public class Scoreboard
     {
         if (this.getPlayersTeam(par1Str) != par2ScorePlayerTeam)
         {
-            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + par2ScorePlayerTeam.func_96661_b() + "\'.");
+            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + par2ScorePlayerTeam.getDefaultName() + "\'.");
         }
         else
         {

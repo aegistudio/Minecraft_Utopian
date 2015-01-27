@@ -7,90 +7,90 @@ import java.util.Set;
 public class ScorePlayerTeam
 {
     private final Scoreboard theScoreboard;
-    private final String field_96675_b;
+    private final String defaultName;
 
     /** A set of all team member usernames. */
-    private final Set membershipSet = new HashSet();
-    private String field_96673_d;
-    private String field_96674_e = "";
-    private String field_96671_f = "";
+    private final Set<String> membershipSet = new HashSet<String>();
+    private String displayName;
+    private String prefix = "";
+    private String suffix = "";
     private boolean field_96672_g = true;
     private boolean field_98301_h = true;
 
-    public ScorePlayerTeam(Scoreboard par1Scoreboard, String par2Str)
+    public ScorePlayerTeam(Scoreboard scoreboard, String defaultName)
     {
-        this.theScoreboard = par1Scoreboard;
-        this.field_96675_b = par2Str;
-        this.field_96673_d = par2Str;
+        this.theScoreboard = scoreboard;
+        this.defaultName = defaultName;
+        this.displayName = defaultName;
     }
 
-    public String func_96661_b()
+    public String getDefaultName()
     {
-        return this.field_96675_b;
+        return this.defaultName;
     }
 
-    public String func_96669_c()
+    public String getDisplayName()
     {
-        return this.field_96673_d;
+        return this.displayName;
     }
 
-    public void func_96664_a(String par1Str)
+    public void setDisplayName(String name)
     {
-        if (par1Str == null)
+        if (name == null)
         {
             throw new IllegalArgumentException("Name cannot be null");
         }
         else
         {
-            this.field_96673_d = par1Str;
+            this.displayName = name;
             this.theScoreboard.func_96538_b(this);
         }
     }
 
-    public Collection getMembershipCollection()
+    public Collection<String> getMembershipCollection()
     {
         return this.membershipSet;
     }
 
-    public String func_96668_e()
+    public String getTeamPrefix()
     {
-        return this.field_96674_e;
+        return this.prefix;
     }
 
-    public void func_96666_b(String par1Str)
+    public void setTeamPrefix(String prefix)
     {
-        if (par1Str == null)
+        if (prefix == null)
         {
             throw new IllegalArgumentException("Prefix cannot be null");
         }
         else
         {
-            this.field_96674_e = par1Str;
+            this.prefix = prefix;
             this.theScoreboard.func_96538_b(this);
         }
     }
 
-    public String func_96663_f()
+    public String getTeamSuffix()
     {
-        return this.field_96671_f;
+        return this.suffix;
     }
 
-    public void func_96662_c(String par1Str)
+    public void setTeamSuffix(String suffix)
     {
-        if (par1Str == null)
+        if (suffix == null)
         {
             throw new IllegalArgumentException("Suffix cannot be null");
         }
         else
         {
-            this.field_96671_f = par1Str;
+            this.suffix = suffix;
             this.theScoreboard.func_96538_b(this);
         }
     }
 
-    public static String func_96667_a(ScorePlayerTeam par0ScorePlayerTeam, String par1Str)
+    public static String convertPlayerName(ScorePlayerTeam scorePlayerTeam, String playerName)
     {
-        return par0ScorePlayerTeam == null ? par1Str : par0ScorePlayerTeam.func_96668_e() + par1Str + par0ScorePlayerTeam.func_96663_f();
+        return scorePlayerTeam == null ? playerName : scorePlayerTeam.getTeamPrefix() + playerName + scorePlayerTeam.getTeamSuffix();
     }
 
     public boolean func_96665_g()

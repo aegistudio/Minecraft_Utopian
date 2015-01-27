@@ -1,6 +1,7 @@
 package net.minecraft.block;
 
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
@@ -12,12 +13,12 @@ import net.minecraft.world.World;
 
 public class BlockSign extends BlockContainer
 {
-    private Class signEntityClass;
+    private Class<?> signEntityClass;
 
     /** Whether this is a freestanding sign or a wall-mounted sign */
     private boolean isFreestanding;
 
-    protected BlockSign(int par1, Class par2Class, boolean par3)
+    protected BlockSign(int par1, Class<?> par2Class, boolean par3)
     {
         super(par1, Material.wood);
         this.isFreestanding = par3;

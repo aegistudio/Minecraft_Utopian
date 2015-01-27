@@ -3,7 +3,7 @@ package net.minecraft.client;
 import java.util.concurrent.Callable;
 import org.lwjgl.Sys;
 
-public class CallableLWJGLVersion implements Callable
+public class CallableLWJGLVersion implements Callable<String>
 {
     /** Reference to the Minecraft object. */
     final Minecraft mc;
@@ -18,7 +18,7 @@ public class CallableLWJGLVersion implements Callable
         return Sys.getVersion();
     }
 
-    public Object call()
+    public String call()
     {
         return this.getType();
     }

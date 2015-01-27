@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -66,12 +65,12 @@ public class Chunk
     private boolean isGapLightingUpdated;
 
     /** A Map of ChunkPositions to TileEntities in this chunk */
-    public Map chunkTileEntityMap;
+    public Map<ChunkPosition, TileEntity> chunkTileEntityMap;
 
     /**
      * Array of Lists containing the entities in this Chunk. Each List represents a 16 block subchunk.
      */
-    public List[] entityLists;
+    public List<Entity>[] entityLists;
 
     /** Boolean value indicating if the terrain is populated. */
     public boolean isTerrainPopulated;
@@ -111,7 +110,7 @@ public class Chunk
         this.precipitationHeightMap = new int[256];
         this.updateSkylightColumns = new boolean[256];
         this.isGapLightingUpdated = false;
-        this.chunkTileEntityMap = new HashMap();
+        this.chunkTileEntityMap = new HashMap<ChunkPosition, TileEntity>();
         this.isTerrainPopulated = false;
         this.isModified = false;
         this.hasEntities = false;
@@ -128,7 +127,7 @@ public class Chunk
 
         for (int var4 = 0; var4 < this.entityLists.length; ++var4)
         {
-            this.entityLists[var4] = new ArrayList();
+            this.entityLists[var4] = new ArrayList<Entity>();
         }
 
         Arrays.fill(this.precipitationHeightMap, -999);
@@ -817,19 +816,19 @@ public class Chunk
     /**
      * Adds an entity to the chunk. Args: entity
      */
-    public void addEntity(Entity par1Entity)
+    public void addEntity(Entity targetEntity)
     {
         this.hasEntities = true;
-        int var2 = MathHelper.floor_double(par1Entity.posX / 16.0D);
-        int var3 = MathHelper.floor_double(par1Entity.posZ / 16.0D);
+        int var2 = MathHelper.floor_double(targetEntity.posX / 16.0D);
+        int var3 = MathHelper.floor_double(targetEntity.posZ / 16.0D);
 
         if (var2 != this.xPosition || var3 != this.zPosition)
         {
-            this.worldObj.getWorldLogAgent().logSevere("Wrong location! " + par1Entity);
+            this.worldObj.getWorldLogAgent().logSevere("Wrong location! " + targetEntity);
             Thread.dumpStack();
         }
 
-        int var4 = MathHelper.floor_double(par1Entity.posY / 16.0D);
+        int var4 = MathHelper.floor_double(targetEntity.posY / 16.0D);
 
         if (var4 < 0)
         {
@@ -841,11 +840,11 @@ public class Chunk
             var4 = this.entityLists.length - 1;
         }
 
-        par1Entity.addedToChunk = true;
-        par1Entity.chunkCoordX = this.xPosition;
-        par1Entity.chunkCoordY = var4;
-        par1Entity.chunkCoordZ = this.zPosition;
-        this.entityLists[var4].add(par1Entity);
+        targetEntity.addedToChunk = true;
+        targetEntity.chunkCoordX = this.xPosition;
+        targetEntity.chunkCoordY = var4;
+        targetEntity.chunkCoordZ = this.zPosition;
+        this.entityLists[var4].add(targetEntity);
     }
 
     /**
@@ -890,7 +889,7 @@ public class Chunk
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	
         ChunkPosition var4 = new ChunkPosition(par1, par2, par3);
-        TileEntity var5 = (TileEntity)this.chunkTileEntityMap.get(var4);
+        TileEntity var5 = this.chunkTileEntityMap.get(var4);
 
         if (var5 == null)
         {
@@ -907,7 +906,7 @@ public class Chunk
                 this.worldObj.setBlockTileEntity(this.xPosition * 16 + par1, par2, this.zPosition * 16 + par3, var5);
             }
 
-            var5 = (TileEntity)this.chunkTileEntityMap.get(var4);
+            var5 = this.chunkTileEntityMap.get(var4);
         }
 
         if (var5 != null && var5.isInvalid())
@@ -924,41 +923,41 @@ public class Chunk
     /**
      * Adds a TileEntity to a chunk
      */
-    public void addTileEntity(TileEntity par1TileEntity)
+    public void addTileEntity(TileEntity tileEntity)
     {
-        int var2 = par1TileEntity.xCoord - this.xPosition * 16;
-        int var3 = par1TileEntity.yCoord;
-        int var4 = par1TileEntity.zCoord - this.zPosition * 16;
-        this.setChunkBlockTileEntity(var2, var3, var4, par1TileEntity);
+        int var2 = tileEntity.xCoord - this.xPosition * 16;
+        int var3 = tileEntity.yCoord;
+        int var4 = tileEntity.zCoord - this.zPosition * 16;
+        this.setChunkBlockTileEntity(var2, var3, var4, tileEntity);
 
         if (this.isChunkLoaded)
         {
-            this.worldObj.loadedTileEntityList.add(par1TileEntity);
+            this.worldObj.loadedTileEntityList.add(tileEntity);
         }
     }
 
     /**
      * Sets the TileEntity for a given block in this chunk
      */
-    public void setChunkBlockTileEntity(int par1, int par2, int par3, TileEntity par4TileEntity)
+    public void setChunkBlockTileEntity(int par1, int par2, int par3, TileEntity tileEntity)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	
-        ChunkPosition var5 = new ChunkPosition(par1, par2, par3);
-        par4TileEntity.setWorldObj(this.worldObj);
-        par4TileEntity.xCoord = this.xPosition * 16 + par1;
-        par4TileEntity.yCoord = par2;
-        par4TileEntity.zCoord = this.zPosition * 16 + par3;
+        ChunkPosition chunkPosition = new ChunkPosition(par1, par2, par3);
+        tileEntity.setWorldObj(this.worldObj);
+        tileEntity.xCoord = this.xPosition * 16 + par1;
+        tileEntity.yCoord = par2;
+        tileEntity.zCoord = this.zPosition * 16 + par3;
 
         if (this.getBlockID(par1, par2, par3) != 0 && whocallme.getBlock(this.getBlockID(par1, par2, par3)) instanceof ITileEntityProvider)
         {
-            if (this.chunkTileEntityMap.containsKey(var5))
+            if (this.chunkTileEntityMap.containsKey(chunkPosition))
             {
-                ((TileEntity)this.chunkTileEntityMap.get(var5)).invalidate();
+                this.chunkTileEntityMap.get(chunkPosition).invalidate();
             }
 
-            par4TileEntity.validate();
-            this.chunkTileEntityMap.put(var5, par4TileEntity);
+            tileEntity.validate();
+            this.chunkTileEntityMap.put(chunkPosition, tileEntity);
         }
     }
 
@@ -971,7 +970,7 @@ public class Chunk
 
         if (this.isChunkLoaded)
         {
-            TileEntity var5 = (TileEntity)this.chunkTileEntityMap.remove(var4);
+            TileEntity var5 = this.chunkTileEntityMap.remove(var4);
 
             if (var5 != null)
             {
@@ -1000,11 +999,11 @@ public class Chunk
     public void onChunkUnload()
     {
         this.isChunkLoaded = false;
-        Iterator var1 = this.chunkTileEntityMap.values().iterator();
+        Iterator<TileEntity> var1 = this.chunkTileEntityMap.values().iterator();
 
         while (var1.hasNext())
         {
-            TileEntity var2 = (TileEntity)var1.next();
+            TileEntity var2 = var1.next();
             this.worldObj.markTileEntityForDespawn(var2);
         }
 
@@ -1026,7 +1025,7 @@ public class Chunk
      * Fills the given list of all entities that intersect within the given bounding box that aren't the passed entity
      * Args: entity, aabb, listToFill
      */
-    public void getEntitiesWithinAABBForEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB, List par3List, IEntitySelector par4IEntitySelector)
+    public void getEntitiesWithinAABBForEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB, List<Entity> par3List, IEntitySelector par4IEntitySelector)
     {
         int var5 = MathHelper.floor_double((par2AxisAlignedBB.minY - 2.0D) / 16.0D);
         int var6 = MathHelper.floor_double((par2AxisAlignedBB.maxY + 2.0D) / 16.0D);
@@ -1045,7 +1044,7 @@ public class Chunk
 
         for (int var7 = var5; var7 <= var6; ++var7)
         {
-            List var8 = this.entityLists[var7];
+            List<Entity> var8 = this.entityLists[var7];
 
             for (int var9 = 0; var9 < var8.size(); ++var9)
             {
@@ -1076,7 +1075,7 @@ public class Chunk
     /**
      * Gets all entities that can be assigned to the specified class. Args: entityClass, aabb, listToFill
      */
-    public void getEntitiesOfTypeWithinAAAB(Class par1Class, AxisAlignedBB par2AxisAlignedBB, List par3List, IEntitySelector par4IEntitySelector)
+    public void getEntitiesOfTypeWithinAAAB(Class<?> par1Class, AxisAlignedBB par2AxisAlignedBB, List<Entity> par3List, IEntitySelector par4IEntitySelector)
     {
         int var5 = MathHelper.floor_double((par2AxisAlignedBB.minY - 2.0D) / 16.0D);
         int var6 = MathHelper.floor_double((par2AxisAlignedBB.maxY + 2.0D) / 16.0D);
@@ -1101,15 +1100,15 @@ public class Chunk
 
         for (int var7 = var5; var7 <= var6; ++var7)
         {
-            List var8 = this.entityLists[var7];
+            List<Entity> var8 = this.entityLists[var7];
 
             for (int var9 = 0; var9 < var8.size(); ++var9)
             {
-                Entity var10 = (Entity)var8.get(var9);
+                Entity entity = (Entity)var8.get(var9);
 
-                if (par1Class.isAssignableFrom(var10.getClass()) && var10.boundingBox.intersectsWith(par2AxisAlignedBB) && (par4IEntitySelector == null || par4IEntitySelector.isEntityApplicable(var10)))
+                if (par1Class.isAssignableFrom(entity.getClass()) && entity.boundingBox.intersectsWith(par2AxisAlignedBB) && (par4IEntitySelector == null || par4IEntitySelector.isEntityApplicable(entity)))
                 {
-                    par3List.add(var10);
+                    par3List.add(entity);
                 }
             }
         }
@@ -1362,11 +1361,11 @@ public class Chunk
         }
 
         this.generateHeightMap();
-        Iterator var10 = this.chunkTileEntityMap.values().iterator();
+        Iterator<TileEntity> var10 = this.chunkTileEntityMap.values().iterator();
 
         while (var10.hasNext())
         {
-            TileEntity var11 = (TileEntity)var10.next();
+            TileEntity var11 = var10.next();
             var11.updateContainingBlockInfo();
         }
     }

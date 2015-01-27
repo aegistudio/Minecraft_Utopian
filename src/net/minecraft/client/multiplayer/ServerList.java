@@ -15,7 +15,7 @@ public class ServerList
     private final Minecraft mc;
 
     /** List of ServerData instances. */
-    private final List servers = new ArrayList();
+    private final List<ServerData> servers = new ArrayList<ServerData>();
 
     public ServerList(Minecraft par1Minecraft)
     {
@@ -55,7 +55,7 @@ public class ServerList
         try
         {
             NBTTagList var1 = new NBTTagList();
-            Iterator var2 = this.servers.iterator();
+            Iterator<ServerData> var2 = this.servers.iterator();
 
             while (var2.hasNext())
             {

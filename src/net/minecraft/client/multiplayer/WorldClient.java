@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFireworkStarterFX;
@@ -43,15 +42,15 @@ public class WorldClient extends World
     private IntHashMap entityHashSet = new IntHashMap();
 
     /** Contains all entities for this client, both spawned and non-spawned. */
-    private Set entityList = new HashSet();
+    private Set<Entity> entityList = new HashSet<Entity>();
 
     /**
      * Contains all entities for this client that were not spawned due to a non-present chunk. The game will attempt to
      * spawn up to 10 pending entities with each subsequent tick until the spawn queue is empty.
      */
-    private Set entitySpawnQueue = new HashSet();
+    private Set<Entity> entitySpawnQueue = new HashSet<Entity>();
     private final Minecraft mc = Minecraft.getMinecraft();
-    private final Set previousActiveChunkSet = new HashSet();
+    private final Set<ChunkCoordIntPair> previousActiveChunkSet = new HashSet<ChunkCoordIntPair>();
 
     public WorldClient(NetClientHandler par1NetClientHandler, WorldSettings par2WorldSettings, int par3, int par4, Profiler par5Profiler, ILogAgent par6ILogAgent)
     {
@@ -122,21 +121,21 @@ public class WorldClient extends World
         }
 
         int var1 = 0;
-        Iterator var2 = this.activeChunkSet.iterator();
+        Iterator<ChunkCoordIntPair> var2 = this.activeChunkSet.iterator();
 
         while (var2.hasNext())
         {
-            ChunkCoordIntPair var3 = (ChunkCoordIntPair)var2.next();
+            ChunkCoordIntPair coordIntPair = (ChunkCoordIntPair)var2.next();
 
-            if (!this.previousActiveChunkSet.contains(var3))
+            if (!this.previousActiveChunkSet.contains(coordIntPair))
             {
-                int var4 = var3.chunkXPos * 16;
-                int var5 = var3.chunkZPos * 16;
+                int var4 = coordIntPair.chunkXPos * 16;
+                int var5 = coordIntPair.chunkZPos * 16;
                 this.theProfiler.startSection("getChunk");
-                Chunk var6 = this.getChunkFromChunkCoords(var3.chunkXPos, var3.chunkZPos);
+                Chunk var6 = this.getChunkFromChunkCoords(coordIntPair.chunkXPos, coordIntPair.chunkZPos);
                 this.moodSoundAndLightCheck(var4, var5, var6);
                 this.theProfiler.endSection();
-                this.previousActiveChunkSet.add(var3);
+                this.previousActiveChunkSet.add(coordIntPair);
                 ++var1;
 
                 if (var1 >= 10)
@@ -167,14 +166,14 @@ public class WorldClient extends World
     /**
      * Called to place all entities as part of a world
      */
-    public boolean spawnEntityInWorld(Entity par1Entity)
+    public boolean spawnEntityInWorld(Entity entity)
     {
-        boolean var2 = super.spawnEntityInWorld(par1Entity);
-        this.entityList.add(par1Entity);
+        boolean var2 = super.spawnEntityInWorld(entity);
+        this.entityList.add(entity);
 
         if (!var2)
         {
-            this.entitySpawnQueue.add(par1Entity);
+            this.entitySpawnQueue.add(entity);
         }
 
         return var2;
@@ -225,24 +224,24 @@ public class WorldClient extends World
     /**
      * Add an ID to Entity mapping to entityHashSet
      */
-    public void addEntityToWorld(int par1, Entity par2Entity)
+    public void addEntityToWorld(int entityId, Entity entity)
     {
-        Entity var3 = this.getEntityByID(par1);
+        Entity var3 = this.getEntityByID(entityId);
 
         if (var3 != null)
         {
             this.removeEntity(var3);
         }
 
-        this.entityList.add(par2Entity);
-        par2Entity.entityId = par1;
+        this.entityList.add(entity);
+        entity.entityId = entityId;
 
-        if (!this.spawnEntityInWorld(par2Entity))
+        if (!this.spawnEntityInWorld(entity))
         {
-            this.entitySpawnQueue.add(par2Entity);
+            this.entitySpawnQueue.add(entity);
         }
 
-        this.entityHashSet.addKey(par1, par2Entity);
+        this.entityHashSet.addKey(entityId, entity);
     }
 
     /**
@@ -469,12 +468,12 @@ public class WorldClient extends World
         this.worldScoreboard = par1Scoreboard;
     }
 
-    static Set getEntityList(WorldClient par0WorldClient)
+    static Set<Entity> getEntityList(WorldClient par0WorldClient)
     {
         return par0WorldClient.entityList;
     }
 
-    static Set getEntitySpawnQueue(WorldClient par0WorldClient)
+    static Set<Entity> getEntitySpawnQueue(WorldClient par0WorldClient)
     {
         return par0WorldClient.entitySpawnQueue;
     }

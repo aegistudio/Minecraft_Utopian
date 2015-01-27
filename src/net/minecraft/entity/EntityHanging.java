@@ -192,8 +192,8 @@ public abstract class EntityHanging extends Entity
                 }
             }
 
-            List var9 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
-            Iterator var10 = var9.iterator();
+            List<Entity> var9 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox);
+            Iterator<Entity> var10 = var9.iterator();
             Entity var11;
 
             do

@@ -16,16 +16,16 @@ public class BlockRedstoneTorch extends BlockTorch
     private boolean torchActive = false;
 
     /** Map of ArrayLists of RedstoneUpdateInfo. Key of map is World. */
-    private static Map redstoneUpdateInfoCache = new HashMap();
+    private static Map<World, List<RedstoneUpdateInfo>> redstoneUpdateInfoCache = new HashMap<World, List<RedstoneUpdateInfo>>();
 
     private boolean checkForBurnout(World par1World, int par2, int par3, int par4, boolean par5)
     {
         if (!redstoneUpdateInfoCache.containsKey(par1World))
         {
-            redstoneUpdateInfoCache.put(par1World, new ArrayList());
+            redstoneUpdateInfoCache.put(par1World, new ArrayList<RedstoneUpdateInfo>());
         }
 
-        List var6 = (List)redstoneUpdateInfoCache.get(par1World);
+        List<RedstoneUpdateInfo> var6 = redstoneUpdateInfoCache.get(par1World);
 
         if (par5)
         {
@@ -138,7 +138,7 @@ public class BlockRedstoneTorch extends BlockTorch
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
         boolean var6 = this.isIndirectlyPowered(par1World, par2, par3, par4);
-        List var7 = (List)redstoneUpdateInfoCache.get(par1World);
+        List<RedstoneUpdateInfo> var7 = redstoneUpdateInfoCache.get(par1World);
 
         while (var7 != null && !var7.isEmpty() && par1World.getTotalWorldTime() - ((RedstoneUpdateInfo)var7.get(0)).updateTime > 60L)
         {

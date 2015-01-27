@@ -2244,6 +2244,6 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
      */
     public String getTranslatedEntityName()
     {
-        return ScorePlayerTeam.func_96667_a(this.getTeam(), this.username);
+        return ScorePlayerTeam.convertPlayerName(this.getTeam(), this.username);
     }
 }

@@ -350,7 +350,7 @@ public class ServerCommandScoreboard extends CommandBase
 
                 if (var7.length() > 0)
                 {
-                    var6.func_96664_a(var7);
+                    var6.setDisplayName(var7);
                 }
             }
 
@@ -398,8 +398,8 @@ public class ServerCommandScoreboard extends CommandBase
                     throw new WrongUsageException("commands.scoreboard.teams.option.noValue", new Object[] {var5, func_96333_a(EnumChatFormatting.func_96296_a(true, false))});
                 }
 
-                var4.func_96666_b(var7.toString());
-                var4.func_96662_c(EnumChatFormatting.RESET.toString());
+                var4.setTeamPrefix(var7.toString());
+                var4.setTeamSuffix(EnumChatFormatting.RESET.toString());
             }
             else if (var5.equalsIgnoreCase("friendlyfire"))
             {
@@ -420,7 +420,7 @@ public class ServerCommandScoreboard extends CommandBase
                 var4.func_98300_b(var6.equalsIgnoreCase("true"));
             }
 
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.option.success", new Object[] {var5, var4.func_96661_b(), var6});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.option.success", new Object[] {var5, var4.getDefaultName(), var6});
         }
     }
 
@@ -432,7 +432,7 @@ public class ServerCommandScoreboard extends CommandBase
         Scoreboard var4 = this.getScoreboardFromWorldServer();
         ScorePlayerTeam var5 = this.getTeam(par2ArrayOfStr[par3++]);
         var4.func_96511_d(var5);
-        notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.remove.success", new Object[] {var5.func_96661_b()});
+        notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.remove.success", new Object[] {var5.getDefaultName()});
     }
 
     /**
@@ -449,10 +449,10 @@ public class ServerCommandScoreboard extends CommandBase
 
             if (var6.size() <= 0)
             {
-                throw new CommandException("commands.scoreboard.teams.list.player.empty", new Object[] {var5.func_96661_b()});
+                throw new CommandException("commands.scoreboard.teams.list.player.empty", new Object[] {var5.getDefaultName()});
             }
 
-            par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.scoreboard.teams.list.player.count", new Object[] {Integer.valueOf(var6.size()), var5.func_96661_b()}));
+            par1ICommandSender.sendChatToPlayer(EnumChatFormatting.DARK_GREEN + par1ICommandSender.translateString("commands.scoreboard.teams.list.player.count", new Object[] {Integer.valueOf(var6.size()), var5.getDefaultName()}));
             par1ICommandSender.sendChatToPlayer(joinNiceString(var6.toArray()));
         }
         else
@@ -470,7 +470,7 @@ public class ServerCommandScoreboard extends CommandBase
             while (var9.hasNext())
             {
                 ScorePlayerTeam var7 = (ScorePlayerTeam)var9.next();
-                par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.scoreboard.teams.list.entry", new Object[] {var7.func_96661_b(), var7.func_96669_c(), Integer.valueOf(var7.getMembershipCollection().size())}));
+                par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.scoreboard.teams.list.entry", new Object[] {var7.getDefaultName(), var7.getDisplayName(), Integer.valueOf(var7.getMembershipCollection().size())}));
             }
         }
     }
@@ -503,7 +503,7 @@ public class ServerCommandScoreboard extends CommandBase
 
         if (!var6.isEmpty())
         {
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.join.success", new Object[] {Integer.valueOf(var6.size()), var5.func_96661_b(), joinNiceString(var6.toArray(new String[0]))});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.join.success", new Object[] {Integer.valueOf(var6.size()), var5.getDefaultName(), joinNiceString(var6.toArray(new String[0]))});
         }
     }
 
@@ -569,7 +569,7 @@ public class ServerCommandScoreboard extends CommandBase
 
         if (var6.isEmpty())
         {
-            throw new CommandException("commands.scoreboard.teams.empty.alreadyEmpty", new Object[] {var5.func_96661_b()});
+            throw new CommandException("commands.scoreboard.teams.empty.alreadyEmpty", new Object[] {var5.getDefaultName()});
         }
         else
         {
@@ -581,7 +581,7 @@ public class ServerCommandScoreboard extends CommandBase
                 var4.removePlayerFromTeam(var8, var5);
             }
 
-            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.empty.success", new Object[] {Integer.valueOf(var6.size()), var5.func_96661_b()});
+            notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.empty.success", new Object[] {Integer.valueOf(var6.size()), var5.getDefaultName()});
         }
     }
 
@@ -678,7 +678,7 @@ public class ServerCommandScoreboard extends CommandBase
             while (var7.hasNext())
             {
                 Score var8 = (Score)var7.next();
-                par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.scoreboard.players.list.player.entry", new Object[] {Integer.valueOf(var8.func_96652_c()), var8.func_96645_d().getDisplayName(), var8.func_96645_d().getName()}));
+                par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.scoreboard.players.list.player.entry", new Object[] {Integer.valueOf(var8.func_96652_c()), var8.getScoreObjective().getDisplayName(), var8.getScoreObjective().getName()}));
             }
         }
         else

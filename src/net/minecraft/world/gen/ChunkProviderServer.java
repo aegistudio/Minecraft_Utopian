@@ -29,7 +29,7 @@ public class ChunkProviderServer implements IChunkProvider
      * used by unload100OldestChunks to iterate the loadedChunkHashMap for unload (underlying assumption, first in,
      * first out)
      */
-    private Set chunksToUnload = new HashSet();
+    private Set<Long> chunksToUnload = new HashSet<Long>();
     private Chunk defaultEmptyChunk;
     private IChunkProvider currentChunkProvider;
     private IChunkLoader currentChunkLoader;
@@ -39,7 +39,7 @@ public class ChunkProviderServer implements IChunkProvider
      */
     public boolean loadChunkOnProvideRequest = true;
     private LongHashMap loadedChunkHashMap = new LongHashMap();
-    private List loadedChunks = new ArrayList();
+    private List<Chunk> loadedChunks = new ArrayList<Chunk>();
     private WorldServer worldObj;
 
     public ChunkProviderServer(WorldServer par1WorldServer, IChunkLoader par2IChunkLoader, IChunkProvider par3IChunkProvider)
@@ -87,7 +87,7 @@ public class ChunkProviderServer implements IChunkProvider
      */
     public void unloadAllChunks()
     {
-        Iterator var1 = this.loadedChunks.iterator();
+        Iterator<Chunk> var1 = this.loadedChunks.iterator();
 
         while (var1.hasNext())
         {

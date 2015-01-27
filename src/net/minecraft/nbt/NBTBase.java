@@ -3,13 +3,17 @@ package net.minecraft.nbt;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.util.ReportedException;
 
 public abstract class NBTBase
 {
-    public static final String[] NBTTypes = new String[] {"END", "BYTE", "SHORT", "INT", "LONG", "FLOAT", "DOUBLE", "BYTE[]", "STRING", "LIST", "COMPOUND", "INT[]"};
+    public static String[] NBTTypes;
 
     /** The UTF string key used to lookup values. */
     private String name;
@@ -46,15 +50,9 @@ public abstract class NBTBase
      */
     public NBTBase setName(String par1Str)
     {
-        if (par1Str == null)
-        {
-            this.name = "";
-        }
-        else
-        {
-            this.name = par1Str;
-        }
-
+        if (par1Str == null) this.name = "";
+        else this.name = par1Str;
+        
         return this;
     }
 
@@ -69,31 +67,28 @@ public abstract class NBTBase
     /**
      * Reads and returns a tag from the given DataInput, or the End tag if no tag could be read.
      */
-    public static NBTBase readNamedTag(DataInput par0DataInput) throws IOException
+    public static NBTBase readNamedTag(DataInput dataInput) throws IOException
     {
-        byte var1 = par0DataInput.readByte();
+        byte var1 = dataInput.readByte();
 
-        if (var1 == 0)
-        {
-            return new NBTTagEnd();
-        }
+        if (var1 == 0) return new NBTTagEnd();
         else
         {
-            String var2 = par0DataInput.readUTF();
-            NBTBase var3 = newTag(var1, var2);
+            String data = dataInput.readUTF();
+            NBTBase nbt = newTag(var1, data);
 
             try
             {
-                var3.load(par0DataInput);
-                return var3;
+                nbt.load(dataInput);
+                return nbt;
             }
             catch (IOException var7)
             {
-                CrashReport var5 = CrashReport.makeCrashReport(var7, "Loading NBT data");
-                CrashReportCategory var6 = var5.makeCategory("NBT Tag");
-                var6.addCrashSection("Tag name", var2);
-                var6.addCrashSection("Tag type", Byte.valueOf(var1));
-                throw new ReportedException(var5);
+                CrashReport crashReport = CrashReport.makeCrashReport(var7, "Loading NBT data");
+                CrashReportCategory crashReportCategory = crashReport.makeCategory("NBT Tag");
+                crashReportCategory.addCrashSection("Tag name", data);
+                crashReportCategory.addCrashSection("Tag type", Byte.valueOf(var1));
+                throw new ReportedException(crashReport);
             }
         }
     }
@@ -113,100 +108,59 @@ public abstract class NBTBase
         }
     }
 
+    @SuppressWarnings("rawtypes")
+	private static Constructor[] NBT_TAG_CONSTRUCTOR;
+    
+    static
+    {
+    	NBTTableDrivenLoader loader = new NBTTableDrivenLoader()
+		.addProperConstructor("END", NBTTagEnd.class, "TAG_End")
+		.addProperConstructor("BYTE", NBTTagByte.class, "TAG_Byte")
+		.addProperConstructor("SHORT", NBTTagShort.class, "TAG_Short")
+		.addProperConstructor("INT", NBTTagInt.class, "TAG_Int")
+		.addProperConstructor("LONG", NBTTagLong.class, "TAG_Long")
+		.addProperConstructor("FLOAT", NBTTagFloat.class, "TAG_Float")
+		.addProperConstructor("DOUBLE", NBTTagDouble.class, "TAG_Double")
+		.addProperConstructor("BYTE[]", NBTTagByteArray.class, "TAG_Byte_Array")
+		.addProperConstructor("STRING", NBTTagString.class, "TAG_String")
+		.addProperConstructor("LIST", NBTTagList.class, "TAG_List")
+		.addProperConstructor("COMPOUND", NBTTagCompound.class, "TAG_Compound")
+		.addProperConstructor("INT[]", NBTTagIntArray.class, "TAG_Int_Array");
+    	
+    	NBTBase.NBTTypes = loader.nbttypes.toArray(new String[0]);
+		NBTBase.NBT_TAG_CONSTRUCTOR = loader.nbtconstructors.toArray(new Constructor[0]);
+		NBTBase.NBT_TAG_NAME = loader.nbttagnames.toArray(new String[0]);
+    }
+    
     /**
      * Creates and returns a new tag of the specified type, or null if invalid.
      */
-    public static NBTBase newTag(byte par0, String par1Str)
+    
+    public static NBTBase newTag(byte index, String argument)
     {
-        switch (par0)
-        {
-            case 0:
-                return new NBTTagEnd();
-
-            case 1:
-                return new NBTTagByte(par1Str);
-
-            case 2:
-                return new NBTTagShort(par1Str);
-
-            case 3:
-                return new NBTTagInt(par1Str);
-
-            case 4:
-                return new NBTTagLong(par1Str);
-
-            case 5:
-                return new NBTTagFloat(par1Str);
-
-            case 6:
-                return new NBTTagDouble(par1Str);
-
-            case 7:
-                return new NBTTagByteArray(par1Str);
-
-            case 8:
-                return new NBTTagString(par1Str);
-
-            case 9:
-                return new NBTTagList(par1Str);
-
-            case 10:
-                return new NBTTagCompound(par1Str);
-
-            case 11:
-                return new NBTTagIntArray(par1Str);
-
-            default:
-                return null;
-        }
+		try
+		{
+			if(index > 0 && index < NBT_TAG_CONSTRUCTOR.length)
+				return (NBTBase) NBT_TAG_CONSTRUCTOR[index].newInstance(argument);
+			else return null;
+		}
+        catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
     }
-
+    
     /**
      * Returns the string name of a tag with the specified type, or 'UNKNOWN' if invalid.
      */
-    public static String getTagName(byte par0)
+    
+    private static String[] NBT_TAG_NAME;
+    
+    public static String getTagName(byte index)
     {
-        switch (par0)
-        {
-            case 0:
-                return "TAG_End";
-
-            case 1:
-                return "TAG_Byte";
-
-            case 2:
-                return "TAG_Short";
-
-            case 3:
-                return "TAG_Int";
-
-            case 4:
-                return "TAG_Long";
-
-            case 5:
-                return "TAG_Float";
-
-            case 6:
-                return "TAG_Double";
-
-            case 7:
-                return "TAG_Byte_Array";
-
-            case 8:
-                return "TAG_String";
-
-            case 9:
-                return "TAG_List";
-
-            case 10:
-                return "TAG_Compound";
-
-            case 11:
-                return "TAG_Int_Array";
-
-            default:
-                return "UNKNOWN";
-        }
+    	if(index > 0 && index < NBT_TAG_NAME.length) return NBT_TAG_NAME[index];
+    	else return "UNKNOWN";
     }
 
     /**
@@ -230,5 +184,28 @@ public abstract class NBTBase
     public int hashCode()
     {
         return this.name.hashCode() ^ this.getId();
+    }
+}
+
+class NBTTableDrivenLoader
+{
+	final List<Constructor<? extends NBTBase>> nbtconstructors = new ArrayList<Constructor<? extends NBTBase>>();
+	final List<String> nbttagnames = new ArrayList<String>();
+	final List<String> nbttypes = new ArrayList<String>();
+	
+	public NBTTableDrivenLoader addProperConstructor(String nbtType, Class<? extends NBTBase> nbtClazz, String nbtTagName)
+    {
+		nbttagnames.add(nbtTagName);
+		nbttypes.add(nbtType);
+    	try
+		{
+			nbtconstructors.add(nbtClazz.getConstructor(String.class));
+		}
+    	catch(Exception e)
+		{
+			e.printStackTrace();
+			nbtconstructors.add(null);
+		}
+    	return this;
     }
 }

@@ -40,8 +40,8 @@ public class SoundManager
     private GameSettings options;
 
     /** Identifiers of all currently playing sounds. Type: HashSet<String> */
-    private Set playingSounds = new HashSet();
-    private List field_92072_h = new ArrayList();
+    private Set<String> playingSounds = new HashSet<String>();
+    private List<ScheduledSound> field_92072_h = new ArrayList<ScheduledSound>();
 
     /** Set to true when the SoundManager has been initialised. */
     private static boolean loaded = false;
@@ -221,7 +221,7 @@ public class SoundManager
      */
     public void stopAllSounds()
     {
-        Iterator var1 = this.playingSounds.iterator();
+        Iterator<String> var1 = this.playingSounds.iterator();
 
         while (var1.hasNext())
         {
@@ -380,17 +380,17 @@ public class SoundManager
         {
             if (loaded && (this.options.soundVolume != 0.0F || par1Str == null))
             {
-                String var6 = "entity_" + par2Entity.entityId;
+                String entityNameWithId = "entity_" + par2Entity.entityId;
 
-                if (this.playingSounds.contains(var6))
+                if (this.playingSounds.contains(entityNameWithId))
                 {
                     this.updateSoundLocation(par2Entity);
                 }
                 else
                 {
-                    if (sndSystem.playing(var6))
+                    if (sndSystem.playing(entityNameWithId))
                     {
-                        sndSystem.stop(var6);
+                        sndSystem.stop(entityNameWithId);
                     }
 
                     if (par1Str == null)
@@ -409,19 +409,19 @@ public class SoundManager
                             var8 *= par3;
                         }
 
-                        sndSystem.newSource(par5, var6, var7.soundUrl, var7.soundName, false, (float)par2Entity.posX, (float)par2Entity.posY, (float)par2Entity.posZ, 2, var8);
-                        sndSystem.setLooping(var6, true);
-                        sndSystem.setPitch(var6, par4);
+                        sndSystem.newSource(par5, entityNameWithId, var7.soundUrl, var7.soundName, false, (float)par2Entity.posX, (float)par2Entity.posY, (float)par2Entity.posZ, 2, var8);
+                        sndSystem.setLooping(entityNameWithId, true);
+                        sndSystem.setPitch(entityNameWithId, par4);
 
                         if (par3 > 1.0F)
                         {
                             par3 = 1.0F;
                         }
 
-                        sndSystem.setVolume(var6, par3 * this.options.soundVolume);
-                        sndSystem.setVelocity(var6, (float)par2Entity.motionX, (float)par2Entity.motionY, (float)par2Entity.motionZ);
-                        sndSystem.play(var6);
-                        this.playingSounds.add(var6);
+                        sndSystem.setVolume(entityNameWithId, par3 * this.options.soundVolume);
+                        sndSystem.setVelocity(entityNameWithId, (float)par2Entity.motionX, (float)par2Entity.motionY, (float)par2Entity.motionZ);
+                        sndSystem.play(entityNameWithId);
+                        this.playingSounds.add(entityNameWithId);
                     }
                 }
             }
@@ -496,7 +496,7 @@ public class SoundManager
      */
     public void pauseAllSounds()
     {
-        Iterator var1 = this.playingSounds.iterator();
+        Iterator<String> var1 = this.playingSounds.iterator();
 
         while (var1.hasNext())
         {
@@ -510,7 +510,7 @@ public class SoundManager
      */
     public void resumeAllSounds()
     {
-        Iterator var1 = this.playingSounds.iterator();
+        Iterator<String> var1 = this.playingSounds.iterator();
 
         while (var1.hasNext())
         {
@@ -523,7 +523,7 @@ public class SoundManager
     {
         if (!this.field_92072_h.isEmpty())
         {
-            Iterator var1 = this.field_92072_h.iterator();
+            Iterator<ScheduledSound> var1 = this.field_92072_h.iterator();
 
             while (var1.hasNext())
             {

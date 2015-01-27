@@ -60,21 +60,21 @@ public abstract class World implements IBlockAccess
     public boolean scheduledUpdatesAreImmediate = false;
 
     /** A list of all Entities in all currently-loaded chunks */
-    public List loadedEntityList = new ArrayList();
-    protected List unloadedEntityList = new ArrayList();
+    public List<Entity> loadedEntityList = new ArrayList<Entity>();
+    protected List<Entity> unloadedEntityList = new ArrayList<Entity>();
 
     /** A list of all TileEntities in all currently-loaded chunks */
-    public List loadedTileEntityList = new ArrayList();
-    private List addedTileEntityList = new ArrayList();
+    public List<TileEntity> loadedTileEntityList = new ArrayList<TileEntity>();
+    private List<TileEntity> addedTileEntityList = new ArrayList<TileEntity>();
 
     /** Entities marked for removal. */
-    private List entityRemoval = new ArrayList();
+    private List<Object> entityRemoval = new ArrayList<Object>();
 
     /** Array list of players in the world. */
-    public List playerEntities = new ArrayList();
+    public List<EntityPlayer> playerEntities = new ArrayList<EntityPlayer>();
 
     /** a list of all the lightning entities */
-    public List weatherEffects = new ArrayList();
+    public List<Entity> weatherEffects = new ArrayList<Entity>();
     private long cloudColour = 16777215L;
 
     /** How much light is subtracted from full daylight */
@@ -110,7 +110,7 @@ public abstract class World implements IBlockAccess
 
     /** The WorldProvider instance that World uses. */
     public final WorldProvider provider;
-    protected List worldAccesses = new ArrayList();
+    protected List<IWorldAccess> worldAccesses = new ArrayList<IWorldAccess>();
 
     /** Handles chunk operations and caching */
     protected IChunkProvider chunkProvider;
@@ -135,7 +135,7 @@ public abstract class World implements IBlockAccess
 
     /** The log agent for this world. */
     private final ILogAgent worldLogAgent;
-    private ArrayList collidingBoundingBoxes = new ArrayList();
+    private ArrayList<AxisAlignedBB> collidingBoundingBoxes = new ArrayList<AxisAlignedBB>();
     private boolean scanningTileEntities;
 
     /** indicates if enemies are spawned or not */
@@ -145,7 +145,7 @@ public abstract class World implements IBlockAccess
     protected boolean spawnPeacefulMobs = true;
 
     /** Positions to update */
-    protected Set activeChunkSet = new HashSet();
+    protected Set<ChunkCoordIntPair> activeChunkSet = new HashSet<ChunkCoordIntPair>();
 
     /** number of ticks until the next random ambients play */
     private int ambientTickCountdown;
@@ -1464,9 +1464,9 @@ public abstract class World implements IBlockAccess
     /**
      * adds a lightning bolt to the list of lightning bolts in this world.
      */
-    public boolean addWeatherEffect(Entity par1Entity)
+    public boolean addWeatherEffect(Entity entity)
     {
-        this.weatherEffects.add(par1Entity);
+        this.weatherEffects.add(entity);
         return true;
     }
 
@@ -1595,7 +1595,7 @@ public abstract class World implements IBlockAccess
      * Returns a list of bounding boxes that collide with aabb excluding the passed in entity's collision. Args: entity,
      * aabb
      */
-    public List getCollidingBoundingBoxes(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB)
+    public List<AxisAlignedBB> getCollidingBoundingBoxes(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	
@@ -1627,7 +1627,7 @@ public abstract class World implements IBlockAccess
         }
 
         double var14 = 0.25D;
-        List var16 = this.getEntitiesWithinAABBExcludingEntity(par1Entity, par2AxisAlignedBB.expand(var14, var14, var14));
+        List<Entity> var16 = this.getEntitiesWithinAABBExcludingEntity(par1Entity, par2AxisAlignedBB.expand(var14, var14, var14));
 
         for (int var15 = 0; var15 < var16.size(); ++var15)
         {
@@ -1652,7 +1652,7 @@ public abstract class World implements IBlockAccess
     /**
      * calculates and returns a list of colliding bounding boxes within a given AABB
      */
-    public List getCollidingBlockBounds(AxisAlignedBB par1AxisAlignedBB)
+    public List<AxisAlignedBB> getCollidingBlockBounds(AxisAlignedBB par1AxisAlignedBB)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	
@@ -2073,7 +2073,7 @@ public abstract class World implements IBlockAccess
 
         this.theProfiler.endStartSection("tileEntities");
         this.scanningTileEntities = true;
-        Iterator var14 = this.loadedTileEntityList.iterator();
+        Iterator<TileEntity> var14 = this.loadedTileEntityList.iterator();
 
         while (var14.hasNext())
         {
@@ -2154,7 +2154,7 @@ public abstract class World implements IBlockAccess
         this.theProfiler.endSection();
     }
 
-    public void addTileEntity(Collection par1Collection)
+    public void addTileEntity(Collection<TileEntity> par1Collection)
     {
         if (this.scanningTileEntities)
         {
@@ -2284,7 +2284,7 @@ public abstract class World implements IBlockAccess
      */
     public boolean checkNoEntityCollision(AxisAlignedBB par1AxisAlignedBB, Entity par2Entity)
     {
-        List var3 = this.getEntitiesWithinAABBExcludingEntity((Entity)null, par1AxisAlignedBB);
+        List<Entity> var3 = this.getEntitiesWithinAABBExcludingEntity((Entity)null, par1AxisAlignedBB);
 
         for (int var4 = 0; var4 < var3.size(); ++var4)
         {
@@ -2752,7 +2752,7 @@ public abstract class World implements IBlockAccess
                 par4TileEntity.xCoord = par1;
                 par4TileEntity.yCoord = par2;
                 par4TileEntity.zCoord = par3;
-                Iterator var5 = this.addedTileEntityList.iterator();
+                Iterator<TileEntity> var5 = this.addedTileEntityList.iterator();
 
                 while (var5.hasNext())
                 {
@@ -3461,14 +3461,14 @@ public abstract class World implements IBlockAccess
     /**
      * Will get all entities within the specified AABB excluding the one passed into it. Args: entityToExclude, aabb
      */
-    public List getEntitiesWithinAABBExcludingEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB)
+    public List<Entity> getEntitiesWithinAABBExcludingEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB)
     {
         return this.getEntitiesWithinAABBExcludingEntity(par1Entity, par2AxisAlignedBB, (IEntitySelector)null);
     }
 
-    public List getEntitiesWithinAABBExcludingEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB, IEntitySelector par3IEntitySelector)
+    public List<Entity> getEntitiesWithinAABBExcludingEntity(Entity par1Entity, AxisAlignedBB par2AxisAlignedBB, IEntitySelector par3IEntitySelector)
     {
-        ArrayList var4 = new ArrayList();
+        ArrayList<Entity> var4 = new ArrayList<Entity>();
         int var5 = MathHelper.floor_double((par2AxisAlignedBB.minX - 2.0D) / 16.0D);
         int var6 = MathHelper.floor_double((par2AxisAlignedBB.maxX + 2.0D) / 16.0D);
         int var7 = MathHelper.floor_double((par2AxisAlignedBB.minZ - 2.0D) / 16.0D);
@@ -3491,18 +3491,18 @@ public abstract class World implements IBlockAccess
     /**
      * Returns all entities of the specified class type which intersect with the AABB. Args: entityClass, aabb
      */
-    public List getEntitiesWithinAABB(Class par1Class, AxisAlignedBB par2AxisAlignedBB)
+    public List<Entity> getEntitiesWithinAABB(Class<?> par1Class, AxisAlignedBB par2AxisAlignedBB)
     {
         return this.selectEntitiesWithinAABB(par1Class, par2AxisAlignedBB, (IEntitySelector)null);
     }
 
-    public List selectEntitiesWithinAABB(Class par1Class, AxisAlignedBB par2AxisAlignedBB, IEntitySelector par3IEntitySelector)
+    public List<Entity> selectEntitiesWithinAABB(Class<?> par1Class, AxisAlignedBB par2AxisAlignedBB, IEntitySelector par3IEntitySelector)
     {
         int var4 = MathHelper.floor_double((par2AxisAlignedBB.minX - 2.0D) / 16.0D);
         int var5 = MathHelper.floor_double((par2AxisAlignedBB.maxX + 2.0D) / 16.0D);
         int var6 = MathHelper.floor_double((par2AxisAlignedBB.minZ - 2.0D) / 16.0D);
         int var7 = MathHelper.floor_double((par2AxisAlignedBB.maxZ + 2.0D) / 16.0D);
-        ArrayList var8 = new ArrayList();
+        ArrayList<Entity> var8 = new ArrayList<Entity>();
 
         for (int var9 = var4; var9 <= var5; ++var9)
         {
@@ -3518,9 +3518,9 @@ public abstract class World implements IBlockAccess
         return var8;
     }
 
-    public Entity findNearestEntityWithinAABB(Class par1Class, AxisAlignedBB par2AxisAlignedBB, Entity par3Entity)
+    public Entity findNearestEntityWithinAABB(Class<?> par1Class, AxisAlignedBB par2AxisAlignedBB, Entity par3Entity)
     {
-        List var4 = this.getEntitiesWithinAABB(par1Class, par2AxisAlignedBB);
+        List<Entity> var4 = this.getEntitiesWithinAABB(par1Class, par2AxisAlignedBB);
         Entity var5 = null;
         double var6 = Double.MAX_VALUE;
 
@@ -3551,7 +3551,7 @@ public abstract class World implements IBlockAccess
     /**
      * Accessor for world Loaded Entity List
      */
-    public List getLoadedEntityList()
+    public List<Entity> getLoadedEntityList()
     {
         return this.loadedEntityList;
     }
@@ -3570,7 +3570,7 @@ public abstract class World implements IBlockAccess
     /**
      * Counts how many entities of an entity class exist in the world. Args: entityClass
      */
-    public int countEntities(Class par1Class)
+    public int countEntities(Class<?> par1Class)
     {
         int var2 = 0;
 
@@ -3590,7 +3590,7 @@ public abstract class World implements IBlockAccess
     /**
      * adds entities to the loaded entities list, and loads thier skins.
      */
-    public void addLoadedEntities(List par1List)
+    public void addLoadedEntities(List<Entity> par1List)
     {
         this.loadedEntityList.addAll(par1List);
 
@@ -3603,7 +3603,7 @@ public abstract class World implements IBlockAccess
     /**
      * Adds a list of entities to be unloaded on the next pass of World.updateEntities()
      */
-    public void unloadEntities(List par1List)
+    public void unloadEntities(List<Entity> par1List)
     {
         this.unloadedEntityList.addAll(par1List);
     }
@@ -4123,7 +4123,7 @@ public abstract class World implements IBlockAccess
      * Loads an existing MapDataBase corresponding to the given String id from disk using the MapStorage, instantiating
      * the given Class, or returns null if none such file exists. args: Class to instantiate, String dataid
      */
-    public WorldSavedData loadItemData(Class par1Class, String par2Str)
+    public WorldSavedData loadItemData(Class<?> par1Class, String par2Str)
     {
         return this.mapStorage.loadData(par1Class, par2Str);
     }

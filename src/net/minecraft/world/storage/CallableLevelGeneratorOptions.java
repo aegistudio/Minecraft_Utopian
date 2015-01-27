@@ -2,7 +2,7 @@ package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
 
-class CallableLevelGeneratorOptions implements Callable
+class CallableLevelGeneratorOptions implements Callable<String>
 {
     final WorldInfo worldInfoInstance;
 
@@ -16,7 +16,7 @@ class CallableLevelGeneratorOptions implements Callable
         return WorldInfo.getWorldGeneratorOptions(this.worldInfoInstance);
     }
 
-    public Object call()
+    public String call()
     {
         return this.callLevelGeneratorOptions();
     }

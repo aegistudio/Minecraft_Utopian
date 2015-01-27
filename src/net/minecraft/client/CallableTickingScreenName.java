@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import java.util.concurrent.Callable;
 
-public class CallableTickingScreenName implements Callable
+public class CallableTickingScreenName implements Callable<String>
 {
     /** Reference to the Minecraft object. */
     final Minecraft mc;
@@ -17,7 +17,7 @@ public class CallableTickingScreenName implements Callable
         return this.mc.currentScreen.getClass().getCanonicalName();
     }
 
-    public Object call()
+    public String call()
     {
         return this.getLWJGLVersion();
     }

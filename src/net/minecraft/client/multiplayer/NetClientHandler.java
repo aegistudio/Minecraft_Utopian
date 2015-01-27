@@ -197,12 +197,12 @@ public class NetClientHandler extends NetHandler
     public MapStorage mapStorage = new MapStorage((ISaveHandler)null);
 
     /** A HashMap of all player names and their player information objects */
-    private Map playerInfoMap = new HashMap();
+    private Map<String, GuiPlayerInfo> playerInfoMap = new HashMap<String, GuiPlayerInfo>();
 
     /**
      * An ArrayList of GuiPlayerInfo (includes all the players' GuiPlayerInfo on the current server)
      */
-    public List playerInfoList = new ArrayList();
+    public List<GuiPlayerInfo> playerInfoList = new ArrayList<GuiPlayerInfo>();
     public int currentServerMaxPlayers = 20;
     private GuiScreen field_98183_l = null;
 
@@ -544,18 +544,18 @@ public class NetClientHandler extends NetHandler
         }
     }
 
-    public void handleNamedEntitySpawn(Packet20NamedEntitySpawn par1Packet20NamedEntitySpawn)
+    public void handleNamedEntitySpawn(Packet20NamedEntitySpawn packet20NamedEntitySpawn)
     {
-        double var2 = (double)par1Packet20NamedEntitySpawn.xPosition / 32.0D;
-        double var4 = (double)par1Packet20NamedEntitySpawn.yPosition / 32.0D;
-        double var6 = (double)par1Packet20NamedEntitySpawn.zPosition / 32.0D;
-        float var8 = (float)(par1Packet20NamedEntitySpawn.rotation * 360) / 256.0F;
-        float var9 = (float)(par1Packet20NamedEntitySpawn.pitch * 360) / 256.0F;
-        EntityOtherPlayerMP var10 = new EntityOtherPlayerMP(this.mc.theWorld, par1Packet20NamedEntitySpawn.name);
-        var10.prevPosX = var10.lastTickPosX = (double)(var10.serverPosX = par1Packet20NamedEntitySpawn.xPosition);
-        var10.prevPosY = var10.lastTickPosY = (double)(var10.serverPosY = par1Packet20NamedEntitySpawn.yPosition);
-        var10.prevPosZ = var10.lastTickPosZ = (double)(var10.serverPosZ = par1Packet20NamedEntitySpawn.zPosition);
-        int var11 = par1Packet20NamedEntitySpawn.currentItem;
+        double var2 = (double)packet20NamedEntitySpawn.xPosition / 32.0D;
+        double var4 = (double)packet20NamedEntitySpawn.yPosition / 32.0D;
+        double var6 = (double)packet20NamedEntitySpawn.zPosition / 32.0D;
+        float var8 = (float)(packet20NamedEntitySpawn.rotation * 360) / 256.0F;
+        float var9 = (float)(packet20NamedEntitySpawn.pitch * 360) / 256.0F;
+        EntityOtherPlayerMP var10 = new EntityOtherPlayerMP(this.mc.theWorld, packet20NamedEntitySpawn.name);
+        var10.prevPosX = var10.lastTickPosX = (double)(var10.serverPosX = packet20NamedEntitySpawn.xPosition);
+        var10.prevPosY = var10.lastTickPosY = (double)(var10.serverPosY = packet20NamedEntitySpawn.yPosition);
+        var10.prevPosZ = var10.lastTickPosZ = (double)(var10.serverPosZ = packet20NamedEntitySpawn.zPosition);
+        int var11 = packet20NamedEntitySpawn.currentItem;
 
         if (var11 == 0)
         {
@@ -567,8 +567,8 @@ public class NetClientHandler extends NetHandler
         }
 
         var10.setPositionAndRotation(var2, var4, var6, var8, var9);
-        this.worldClient.addEntityToWorld(par1Packet20NamedEntitySpawn.entityId, var10);
-        List var12 = par1Packet20NamedEntitySpawn.getWatchedMetadata();
+        this.worldClient.addEntityToWorld(packet20NamedEntitySpawn.entityId, var10);
+        List var12 = packet20NamedEntitySpawn.getWatchedMetadata();
 
         if (var12 != null)
         {
@@ -602,20 +602,20 @@ public class NetClientHandler extends NetHandler
         }
     }
 
-    public void handleEntity(Packet30Entity par1Packet30Entity)
+    public void handleEntity(Packet30Entity packet30Entity)
     {
-        Entity var2 = this.getEntityByID(par1Packet30Entity.entityId);
+        Entity var2 = this.getEntityByID(packet30Entity.entityId);
 
         if (var2 != null)
         {
-            var2.serverPosX += par1Packet30Entity.xPosition;
-            var2.serverPosY += par1Packet30Entity.yPosition;
-            var2.serverPosZ += par1Packet30Entity.zPosition;
+            var2.serverPosX += packet30Entity.xPosition;
+            var2.serverPosY += packet30Entity.yPosition;
+            var2.serverPosZ += packet30Entity.zPosition;
             double var3 = (double)var2.serverPosX / 32.0D;
             double var5 = (double)var2.serverPosY / 32.0D;
             double var7 = (double)var2.serverPosZ / 32.0D;
-            float var9 = par1Packet30Entity.rotating ? (float)(par1Packet30Entity.yaw * 360) / 256.0F : var2.rotationYaw;
-            float var10 = par1Packet30Entity.rotating ? (float)(par1Packet30Entity.pitch * 360) / 256.0F : var2.rotationPitch;
+            float var9 = packet30Entity.rotating ? (float)(packet30Entity.yaw * 360) / 256.0F : var2.rotationYaw;
+            float var10 = packet30Entity.rotating ? (float)(packet30Entity.pitch * 360) / 256.0F : var2.rotationPitch;
             var2.setPositionAndRotation2(var3, var5, var7, var9, var10, 3);
         }
     }
@@ -1487,26 +1487,26 @@ public class NetClientHandler extends NetHandler
     /**
      * Handle a player information packet.
      */
-    public void handlePlayerInfo(Packet201PlayerInfo par1Packet201PlayerInfo)
+    public void handlePlayerInfo(Packet201PlayerInfo packet201PlayerInfo)
     {
-        GuiPlayerInfo var2 = (GuiPlayerInfo)this.playerInfoMap.get(par1Packet201PlayerInfo.playerName);
+        GuiPlayerInfo playerInfo = (GuiPlayerInfo)this.playerInfoMap.get(packet201PlayerInfo.playerName);
 
-        if (var2 == null && par1Packet201PlayerInfo.isConnected)
+        if (playerInfo == null && packet201PlayerInfo.isConnected)
         {
-            var2 = new GuiPlayerInfo(par1Packet201PlayerInfo.playerName);
-            this.playerInfoMap.put(par1Packet201PlayerInfo.playerName, var2);
-            this.playerInfoList.add(var2);
+            playerInfo = new GuiPlayerInfo(packet201PlayerInfo.playerName);
+            this.playerInfoMap.put(packet201PlayerInfo.playerName, playerInfo);
+            this.playerInfoList.add(playerInfo);
         }
 
-        if (var2 != null && !par1Packet201PlayerInfo.isConnected)
+        if (playerInfo != null && !packet201PlayerInfo.isConnected)
         {
-            this.playerInfoMap.remove(par1Packet201PlayerInfo.playerName);
-            this.playerInfoList.remove(var2);
+            this.playerInfoMap.remove(packet201PlayerInfo.playerName);
+            this.playerInfoList.remove(playerInfo);
         }
 
-        if (par1Packet201PlayerInfo.isConnected && var2 != null)
+        if (packet201PlayerInfo.isConnected && playerInfo != null)
         {
-            var2.responseTime = par1Packet201PlayerInfo.ping;
+            playerInfo.responseTime = packet201PlayerInfo.ping;
         }
     }
 
@@ -1658,56 +1658,56 @@ public class NetClientHandler extends NetHandler
     /**
      * Handle a set player team packet.
      */
-    public void handleSetPlayerTeam(Packet209SetPlayerTeam par1Packet209SetPlayerTeam)
+    public void handleSetPlayerTeam(Packet209SetPlayerTeam packet209SetPlayerTeam)
     {
-        Scoreboard var2 = this.worldClient.getScoreboard();
+        Scoreboard scoreboard = this.worldClient.getScoreboard();
         ScorePlayerTeam var3;
 
-        if (par1Packet209SetPlayerTeam.mode == 0)
+        if (packet209SetPlayerTeam.mode == 0)
         {
-            var3 = var2.func_96527_f(par1Packet209SetPlayerTeam.teamName);
+            var3 = scoreboard.func_96527_f(packet209SetPlayerTeam.teamName);
         }
         else
         {
-            var3 = var2.func_96508_e(par1Packet209SetPlayerTeam.teamName);
+            var3 = scoreboard.func_96508_e(packet209SetPlayerTeam.teamName);
         }
 
-        if (par1Packet209SetPlayerTeam.mode == 0 || par1Packet209SetPlayerTeam.mode == 2)
+        if (packet209SetPlayerTeam.mode == 0 || packet209SetPlayerTeam.mode == 2)
         {
-            var3.func_96664_a(par1Packet209SetPlayerTeam.teamDisplayName);
-            var3.func_96666_b(par1Packet209SetPlayerTeam.teamPrefix);
-            var3.func_96662_c(par1Packet209SetPlayerTeam.teamSuffix);
-            var3.func_98298_a(par1Packet209SetPlayerTeam.friendlyFire);
+            var3.setDisplayName(packet209SetPlayerTeam.teamDisplayName);
+            var3.setTeamPrefix(packet209SetPlayerTeam.teamPrefix);
+            var3.setTeamSuffix(packet209SetPlayerTeam.teamSuffix);
+            var3.func_98298_a(packet209SetPlayerTeam.friendlyFire);
         }
 
-        Iterator var4;
-        String var5;
+        Iterator<String> names;
+        String name;
 
-        if (par1Packet209SetPlayerTeam.mode == 0 || par1Packet209SetPlayerTeam.mode == 3)
+        if (packet209SetPlayerTeam.mode == 0 || packet209SetPlayerTeam.mode == 3)
         {
-            var4 = par1Packet209SetPlayerTeam.playerNames.iterator();
+            names = packet209SetPlayerTeam.playerNames.iterator();
 
-            while (var4.hasNext())
+            while (names.hasNext())
             {
-                var5 = (String)var4.next();
-                var2.func_96521_a(var5, var3);
+                name = (String)names.next();
+                scoreboard.func_96521_a(name, var3);
             }
         }
 
-        if (par1Packet209SetPlayerTeam.mode == 4)
+        if (packet209SetPlayerTeam.mode == 4)
         {
-            var4 = par1Packet209SetPlayerTeam.playerNames.iterator();
+            names = packet209SetPlayerTeam.playerNames.iterator();
 
-            while (var4.hasNext())
+            while (names.hasNext())
             {
-                var5 = (String)var4.next();
-                var2.removePlayerFromTeam(var5, var3);
+                name = (String)names.next();
+                scoreboard.removePlayerFromTeam(name, var3);
             }
         }
 
-        if (par1Packet209SetPlayerTeam.mode == 1)
+        if (packet209SetPlayerTeam.mode == 1)
         {
-            var2.func_96511_d(var3);
+            scoreboard.func_96511_d(var3);
         }
     }
 

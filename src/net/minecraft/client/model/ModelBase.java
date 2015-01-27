@@ -16,11 +16,11 @@ public abstract class ModelBase
     /**
      * This is a list of all the boxes (ModelRenderer.class) in the current model.
      */
-    public List boxList = new ArrayList();
+    public List<ModelRenderer> boxList = new ArrayList<ModelRenderer>();
     public boolean isChild = true;
 
     /** A mapping for all texture offsets */
-    private Map modelTextureMap = new HashMap();
+    private Map<String, TextureOffset> modelTextureMap = new HashMap<String, TextureOffset>();
     public int textureWidth = 64;
     public int textureHeight = 32;
 

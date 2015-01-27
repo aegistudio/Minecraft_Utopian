@@ -3,8 +3,10 @@ package net.minecraft.client;
 import java.applet.Applet;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+
 import net.minecraft.util.Session;
 
+@SuppressWarnings("serial")
 public class MinecraftApplet extends Applet
 {
     /** Reference to the applet canvas. */

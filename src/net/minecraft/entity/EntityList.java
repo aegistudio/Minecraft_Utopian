@@ -62,27 +62,27 @@ import net.minecraft.world.World;
 public class EntityList
 {
     /** Provides a mapping between entity classes and a string */
-    private static Map stringToClassMapping = new HashMap();
+    private static Map<String, Class<? extends Entity>> stringToClassMapping = new HashMap<String, Class<? extends Entity>>();
 
     /** Provides a mapping between a string and an entity classes */
-    private static Map classToStringMapping = new HashMap();
+    private static Map<Class<? extends Entity>, String> classToStringMapping = new HashMap<Class<? extends Entity>, String>();
 
     /** provides a mapping between an entityID and an Entity Class */
-    private static Map IDtoClassMapping = new HashMap();
+    private static Map<Integer, Class<? extends Entity>> IDtoClassMapping = new HashMap<Integer, Class<? extends Entity>>();
 
     /** provides a mapping between an Entity Class and an entity ID */
-    private static Map classToIDMapping = new HashMap();
+    private static Map<Class<? extends Entity>, Integer> classToIDMapping = new HashMap<Class<? extends Entity>, Integer>();
 
     /** Maps entity names to their numeric identifiers */
-    private static Map stringToIDMapping = new HashMap();
+    private static Map<String, Integer> stringToIDMapping = new HashMap<String, Integer>();
 
     /** This is a HashMap of the Creative Entity Eggs/Spawners. */
-    public static HashMap entityEggs = new LinkedHashMap();
+    public static HashMap<Integer, EntityEggInfo> entityEggs = new LinkedHashMap<Integer, EntityEggInfo>();
 
     /**
      * adds a mapping between Entity classes and both a string representation and an ID
      */
-    private static void addMapping(Class par0Class, String par1Str, int par2)
+    private static void addMapping(Class<? extends Entity> par0Class, String par1Str, int par2)
     {
         stringToClassMapping.put(par1Str, par0Class);
         classToStringMapping.put(par0Class, par1Str);
@@ -94,7 +94,7 @@ public class EntityList
     /**
      * Adds a entity mapping with egg info.
      */
-    private static void addMapping(Class par0Class, String par1Str, int par2, int par3, int par4)
+    private static void addMapping(Class<? extends Entity> par0Class, String par1Str, int par2, int par3, int par4)
     {
         addMapping(par0Class, par1Str, par2);
         entityEggs.put(Integer.valueOf(par2), new EntityEggInfo(par2, par3, par4));
@@ -109,7 +109,7 @@ public class EntityList
 
         try
         {
-            Class var3 = (Class)stringToClassMapping.get(par0Str);
+            Class<? extends Entity> var3 = stringToClassMapping.get(par0Str);
 
             if (var3 != null)
             {
@@ -152,7 +152,7 @@ public class EntityList
 
         try
         {
-            Class var3 = (Class)stringToClassMapping.get(par0NBTTagCompound.getString("id"));
+            Class<? extends Entity> var3 = stringToClassMapping.get(par0NBTTagCompound.getString("id"));
 
             if (var3 != null)
             {
@@ -185,7 +185,7 @@ public class EntityList
 
         try
         {
-            Class var3 = getClassFromID(par0);
+            Class<? extends Entity> var3 = getClassFromID(par0);
 
             if (var3 != null)
             {
@@ -210,16 +210,16 @@ public class EntityList
      */
     public static int getEntityID(Entity par0Entity)
     {
-        Class var1 = par0Entity.getClass();
+        Class<? extends Entity> var1 = par0Entity.getClass();
         return classToIDMapping.containsKey(var1) ? ((Integer)classToIDMapping.get(var1)).intValue() : 0;
     }
 
     /**
      * Return the class assigned to this entity ID.
      */
-    public static Class getClassFromID(int par0)
+    public static Class<? extends Entity> getClassFromID(int par0)
     {
-        return (Class)IDtoClassMapping.get(Integer.valueOf(par0));
+        return IDtoClassMapping.get(Integer.valueOf(par0));
     }
 
     /**
@@ -235,7 +235,7 @@ public class EntityList
      */
     public static String getStringFromID(int par0)
     {
-        Class var1 = getClassFromID(par0);
+        Class<? extends Entity> var1 = getClassFromID(par0);
         return var1 != null ? (String)classToStringMapping.get(var1) : null;
     }
 

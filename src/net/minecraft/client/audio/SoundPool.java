@@ -16,10 +16,10 @@ public class SoundPool
     /**
      * Maps a name (can be sound/newsound/streaming/music/newmusic) to a list of SoundPoolEntry's.
      */
-    private Map nameToSoundPoolEntriesMapping = new HashMap();
+    private Map<String, ArrayList<SoundPoolEntry>> nameToSoundPoolEntriesMapping = new HashMap<String, ArrayList<SoundPoolEntry>>();
 
     /** A list of all SoundPoolEntries that have been loaded. */
-    private List allSoundPoolEntries = new ArrayList();
+    private List<SoundPoolEntry> allSoundPoolEntries = new ArrayList<SoundPoolEntry>();
 
     /**
      * The number of soundPoolEntry's. This value is computed but never used (should be equal to
@@ -31,33 +31,33 @@ public class SoundPool
     /**
      * Adds a sound to this sound pool.
      */
-    public SoundPoolEntry addSound(String par1Str, File par2File)
+    public SoundPoolEntry addSound(String soundName, File soundFile)
     {
         try
         {
-            String var3 = par1Str;
-            par1Str = par1Str.substring(0, par1Str.indexOf("."));
+            String var3 = soundName;
+            soundName = soundName.substring(0, soundName.indexOf("."));
 
             if (this.isGetRandomSound)
             {
-                while (Character.isDigit(par1Str.charAt(par1Str.length() - 1)))
+                while (Character.isDigit(soundName.charAt(soundName.length() - 1)))
                 {
-                    par1Str = par1Str.substring(0, par1Str.length() - 1);
+                    soundName = soundName.substring(0, soundName.length() - 1);
                 }
             }
 
-            par1Str = par1Str.replaceAll("/", ".");
+            soundName = soundName.replaceAll("/", ".");
 
-            if (!this.nameToSoundPoolEntriesMapping.containsKey(par1Str))
+            if (!this.nameToSoundPoolEntriesMapping.containsKey(soundName))
             {
-                this.nameToSoundPoolEntriesMapping.put(par1Str, new ArrayList());
+                this.nameToSoundPoolEntriesMapping.put(soundName, new ArrayList<SoundPoolEntry>());
             }
 
-            SoundPoolEntry var4 = new SoundPoolEntry(var3, par2File.toURI().toURL());
-            ((List)this.nameToSoundPoolEntriesMapping.get(par1Str)).add(var4);
-            this.allSoundPoolEntries.add(var4);
+            SoundPoolEntry soundPoolEntry = new SoundPoolEntry(var3, soundFile.toURI().toURL());
+            this.nameToSoundPoolEntriesMapping.get(soundName).add(soundPoolEntry);
+            this.allSoundPoolEntries.add(soundPoolEntry);
             ++this.numberOfSoundPoolEntries;
-            return var4;
+            return soundPoolEntry;
         }
         catch (MalformedURLException var5)
         {
@@ -69,10 +69,10 @@ public class SoundPool
     /**
      * gets a random sound from the specified (by name, can be sound/newsound/streaming/music/newmusic) sound pool.
      */
-    public SoundPoolEntry getRandomSoundFromSoundPool(String par1Str)
+    public SoundPoolEntry getRandomSoundFromSoundPool(String soundName)
     {
-        List var2 = (List)this.nameToSoundPoolEntriesMapping.get(par1Str);
-        return var2 == null ? null : (SoundPoolEntry)var2.get(this.rand.nextInt(var2.size()));
+        List<SoundPoolEntry> soundPoolEntries = this.nameToSoundPoolEntriesMapping.get(soundName);
+        return soundPoolEntries == null ? null : (SoundPoolEntry)soundPoolEntries.get(this.rand.nextInt(soundPoolEntries.size()));
     }
 
     /**

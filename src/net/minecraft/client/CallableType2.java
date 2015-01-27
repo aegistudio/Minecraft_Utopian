@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import java.util.concurrent.Callable;
 
-public class CallableType2 implements Callable
+public class CallableType2 implements Callable<String>
 {
     final Minecraft mc;
 
@@ -16,7 +16,7 @@ public class CallableType2 implements Callable
         return "Client (map_client.txt)";
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_82886_a();
     }

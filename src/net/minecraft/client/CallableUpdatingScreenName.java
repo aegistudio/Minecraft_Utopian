@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import java.util.concurrent.Callable;
 
-public class CallableUpdatingScreenName implements Callable
+public class CallableUpdatingScreenName implements Callable<String>
 {
     final Minecraft theMinecraft;
 
@@ -16,7 +16,7 @@ public class CallableUpdatingScreenName implements Callable
         return this.theMinecraft.currentScreen.getClass().getCanonicalName();
     }
 
-    public Object call()
+    public String call()
     {
         return this.callUpdatingScreenName();
     }

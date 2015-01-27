@@ -61,7 +61,7 @@ public class BlockBed extends BlockDirectional
                 if (isBedOccupied(var10))
                 {
                     EntityPlayer var20 = null;
-                    Iterator var12 = par1World.playerEntities.iterator();
+                    Iterator<EntityPlayer> var12 = par1World.playerEntities.iterator();
 
                     while (var12.hasNext())
                     {

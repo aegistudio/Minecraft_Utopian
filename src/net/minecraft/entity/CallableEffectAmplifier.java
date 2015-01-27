@@ -3,7 +3,7 @@ package net.minecraft.entity;
 import java.util.concurrent.Callable;
 import net.minecraft.potion.PotionEffect;
 
-class CallableEffectAmplifier implements Callable
+class CallableEffectAmplifier implements Callable<String>
 {
     final PotionEffect field_102040_a;
 
@@ -20,7 +20,7 @@ class CallableEffectAmplifier implements Callable
         return this.field_102040_a.getAmplifier() + "";
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_102038_a();
     }

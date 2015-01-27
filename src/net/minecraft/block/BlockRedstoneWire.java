@@ -21,7 +21,7 @@ public class BlockRedstoneWire extends Block
      * updateCurrentStrength.
      */
     private boolean wiresProvidePower = true;
-    private Set blocksNeedingUpdate = new HashSet();
+    private Set<ChunkPosition> blocksNeedingUpdate = new HashSet<ChunkPosition>();
     private Icon field_94413_c;
     private Icon field_94410_cO;
     private Icon field_94411_cP;
@@ -91,7 +91,7 @@ public class BlockRedstoneWire extends Block
     private void updateAndPropagateCurrentStrength(World par1World, int par2, int par3, int par4)
     {
         this.calculateCurrentChanges(par1World, par2, par3, par4, par2, par3, par4);
-        ArrayList var5 = new ArrayList(this.blocksNeedingUpdate);
+        ArrayList<ChunkPosition> var5 = new ArrayList<ChunkPosition>(this.blocksNeedingUpdate);
         this.blocksNeedingUpdate.clear();
 
         for (int var6 = 0; var6 < var5.size(); ++var6)

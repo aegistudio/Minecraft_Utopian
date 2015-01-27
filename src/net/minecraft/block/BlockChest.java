@@ -2,9 +2,11 @@ package net.minecraft.block;
 
 import java.util.Iterator;
 import java.util.Random;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -197,6 +199,7 @@ public class BlockChest extends BlockContainer
     /**
      * Turns the adjacent chests to a double chest.
      */
+    @SuppressWarnings("unused")
     public void unifyAdjacentChests(World par1World, int par2, int par3, int par4)
     {
         if (!par1World.isRemote)
@@ -544,7 +547,7 @@ public class BlockChest extends BlockContainer
      */
     private static boolean isOcelotBlockingChest(World par0World, int par1, int par2, int par3)
     {
-        Iterator var4 = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB((double)par1, (double)(par2 + 1), (double)par3, (double)(par1 + 1), (double)(par2 + 2), (double)(par3 + 1))).iterator();
+        Iterator<Entity> var4 = par0World.getEntitiesWithinAABB(EntityOcelot.class, AxisAlignedBB.getAABBPool().getAABB((double)par1, (double)(par2 + 1), (double)par3, (double)(par1 + 1), (double)(par2 + 2), (double)(par3 + 1))).iterator();
         EntityOcelot var6;
 
         do

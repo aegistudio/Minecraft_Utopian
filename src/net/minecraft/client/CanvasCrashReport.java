@@ -3,6 +3,7 @@ package net.minecraft.client;
 import java.awt.Canvas;
 import java.awt.Dimension;
 
+@SuppressWarnings("serial")
 class CanvasCrashReport extends Canvas
 {
     public CanvasCrashReport(int par1)

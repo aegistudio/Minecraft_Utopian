@@ -583,7 +583,7 @@ public class GuiIngame extends Gui
                 {
                     GuiPlayerInfo var49 = (GuiPlayerInfo)var41.get(var20);
                     ScorePlayerTeam var48 = this.mc.theWorld.getScoreboard().getPlayersTeam(var49.name);
-                    String var53 = ScorePlayerTeam.func_96667_a(var48, var49.name);
+                    String var53 = ScorePlayerTeam.convertPlayerName(var48, var49.name);
                     var8.drawStringWithShadow(var53, var47, var22, 16777215);
 
                     if (var42 != null)
@@ -655,7 +655,7 @@ public class GuiIngame extends Gui
             {
                 Score var9 = (Score)var8.next();
                 ScorePlayerTeam var10 = var5.getPlayersTeam(var9.func_96653_e());
-                var11 = ScorePlayerTeam.func_96667_a(var10, var9.func_96653_e()) + ": " + EnumChatFormatting.RED + var9.func_96652_c();
+                var11 = ScorePlayerTeam.convertPlayerName(var10, var9.func_96653_e()) + ": " + EnumChatFormatting.RED + var9.func_96652_c();
             }
 
             int var22 = var6.size() * par4FontRenderer.FONT_HEIGHT;
@@ -670,7 +670,7 @@ public class GuiIngame extends Gui
                 Score var14 = (Score)var13.next();
                 ++var12;
                 ScorePlayerTeam var15 = var5.getPlayersTeam(var14.func_96653_e());
-                String var16 = ScorePlayerTeam.func_96667_a(var15, var14.func_96653_e());
+                String var16 = ScorePlayerTeam.convertPlayerName(var15, var14.func_96653_e());
                 String var17 = EnumChatFormatting.RED + "" + var14.func_96652_c();
                 int var19 = var23 - var12 * par4FontRenderer.FONT_HEIGHT;
                 int var20 = par3 - var25 + 2;

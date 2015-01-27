@@ -3,7 +3,7 @@ package net.minecraft.entity;
 import java.util.concurrent.Callable;
 import net.minecraft.potion.PotionEffect;
 
-class CallableEffectIsAmbient implements Callable
+class CallableEffectIsAmbient implements Callable<String>
 {
     final PotionEffect field_102046_a;
 
@@ -20,7 +20,7 @@ class CallableEffectIsAmbient implements Callable
         return this.field_102046_a.getIsAmbient() + "";
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_102044_a();
     }

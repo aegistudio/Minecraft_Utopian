@@ -2,7 +2,7 @@ package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
 
-class CallableLevelStorageVersion implements Callable
+class CallableLevelStorageVersion implements Callable<String>
 {
     final WorldInfo worldInfoInstance;
 
@@ -35,7 +35,7 @@ class CallableLevelStorageVersion implements Callable
         return String.format("0x%05X - %s", new Object[] {Integer.valueOf(WorldInfo.getSaveVersion(this.worldInfoInstance)), var1});
     }
 
-    public Object call()
+    public String call()
     {
         return this.callLevelStorageFormat();
     }

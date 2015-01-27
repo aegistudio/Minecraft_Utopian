@@ -2,7 +2,7 @@ package net.minecraft.client.multiplayer;
 
 import java.util.concurrent.Callable;
 
-class CallableMPL1 implements Callable
+class CallableMPL1 implements Callable<String>
 {
     /** Reference to the WorldClient object. */
     final WorldClient theWorldClient;
@@ -20,7 +20,7 @@ class CallableMPL1 implements Callable
         return WorldClient.getEntityList(this.theWorldClient).size() + " total; " + WorldClient.getEntityList(this.theWorldClient).toString();
     }
 
-    public Object call()
+    public String call()
     {
         return this.getEntityCountAndList();
     }

@@ -10,7 +10,7 @@ import java.util.List;
 public class NBTTagList extends NBTBase
 {
     /** The array list containing the tags encapsulated in this list. */
-    private List tagList = new ArrayList();
+    private List<NBTBase> tagList = new ArrayList<NBTBase>();
 
     /**
      * The type byte for the tags in the list - they must all be of the same type.
@@ -57,7 +57,7 @@ public class NBTTagList extends NBTBase
     {
         this.tagType = par1DataInput.readByte();
         int var2 = par1DataInput.readInt();
-        this.tagList = new ArrayList();
+        this.tagList = new ArrayList<NBTBase>();
 
         for (int var3 = 0; var3 < var2; ++var3)
         {
@@ -121,7 +121,7 @@ public class NBTTagList extends NBTBase
     {
         NBTTagList var1 = new NBTTagList(this.getName());
         var1.tagType = this.tagType;
-        Iterator var2 = this.tagList.iterator();
+        Iterator<NBTBase> var2 = this.tagList.iterator();
 
         while (var2.hasNext())
         {

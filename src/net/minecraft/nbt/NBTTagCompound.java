@@ -16,7 +16,7 @@ public class NBTTagCompound extends NBTBase
     /**
      * The key-value pairs for the tag. Each key is a UTF string, each value is a tag.
      */
-    private Map tagMap = new HashMap();
+    private Map<String, NBTBase> tagMap = new HashMap<String, NBTBase>();
 
     public NBTTagCompound()
     {
@@ -33,7 +33,7 @@ public class NBTTagCompound extends NBTBase
      */
     void write(DataOutput par1DataOutput) throws IOException
     {
-        Iterator var2 = this.tagMap.values().iterator();
+        Iterator<NBTBase> var2 = this.tagMap.values().iterator();
 
         while (var2.hasNext())
         {
@@ -50,18 +50,18 @@ public class NBTTagCompound extends NBTBase
     void load(DataInput par1DataInput) throws IOException
     {
         this.tagMap.clear();
-        NBTBase var2;
+        NBTBase base;
 
-        while ((var2 = NBTBase.readNamedTag(par1DataInput)).getId() != 0)
+        while ((base = NBTBase.readNamedTag(par1DataInput)).getId() != 0)
         {
-            this.tagMap.put(var2.getName(), var2);
+            this.tagMap.put(base.getName(), base);
         }
     }
 
     /**
      * Returns all the values in the tagMap HashMap.
      */
-    public Collection getTags()
+    public Collection<NBTBase> getTags()
     {
         return this.tagMap.values();
     }
@@ -374,7 +374,7 @@ public class NBTTagCompound extends NBTBase
         String var1 = this.getName() + ":[";
         String var3;
 
-        for (Iterator var2 = this.tagMap.keySet().iterator(); var2.hasNext(); var1 = var1 + var3 + ":" + this.tagMap.get(var3) + ",")
+        for (Iterator<String> var2 = this.tagMap.keySet().iterator(); var2.hasNext(); var1 = var1 + var3 + ":" + this.tagMap.get(var3) + ",")
         {
             var3 = (String)var2.next();
         }
@@ -415,7 +415,7 @@ public class NBTTagCompound extends NBTBase
     public NBTBase copy()
     {
         NBTTagCompound var1 = new NBTTagCompound(this.getName());
-        Iterator var2 = this.tagMap.keySet().iterator();
+        Iterator<String> var2 = this.tagMap.keySet().iterator();
 
         while (var2.hasNext())
         {
@@ -447,7 +447,7 @@ public class NBTTagCompound extends NBTBase
     /**
      * Return the tag map for this compound.
      */
-    static Map getTagMap(NBTTagCompound par0NBTTagCompound)
+    static Map<String, NBTBase> getTagMap(NBTTagCompound par0NBTTagCompound)
     {
         return par0NBTTagCompound.tagMap;
     }

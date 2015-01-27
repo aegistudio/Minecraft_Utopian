@@ -2,6 +2,7 @@ package net.minecraft.client;
 
 import java.awt.Canvas;
 
+@SuppressWarnings("serial")
 public class CanvasMinecraftApplet extends Canvas
 {
     /** Reference to the MinecraftApplet object. */

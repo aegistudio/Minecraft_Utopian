@@ -21,8 +21,8 @@ public class DataWatcher
 {
     /** When isBlank is true the DataWatcher is not watching any objects */
     private boolean isBlank = true;
-    private static final HashMap dataTypes = new HashMap();
-    private final Map watchedObjects = new HashMap();
+    private static final HashMap<Class<?>, Integer> dataTypes = new HashMap<Class<?>, Integer>();
+    private final Map<Integer, WatchableObject> watchedObjects = new HashMap<Integer, WatchableObject>();
 
     /** true if one or more object was changed */
     private boolean objectChanged;
@@ -61,11 +61,11 @@ public class DataWatcher
     /**
      * Add a new object for the DataWatcher to watch, using the specified data type.
      */
-    public void addObjectByDataType(int par1, int par2)
+    public void addObjectByDataType(int typeid, int objectid)
     {
-        WatchableObject var3 = new WatchableObject(par2, par1, (Object)null);
+        WatchableObject var3 = new WatchableObject(objectid, typeid, (Object)null);
         this.lock.writeLock().lock();
-        this.watchedObjects.put(Integer.valueOf(par1), var3);
+        this.watchedObjects.put(Integer.valueOf(typeid), var3);
         this.lock.writeLock().unlock();
         this.isBlank = false;
     }
@@ -160,11 +160,11 @@ public class DataWatcher
     /**
      * writes every object in passed list to dataoutputstream, terminated by 0x7F
      */
-    public static void writeObjectsInListToStream(List par0List, DataOutputStream par1DataOutputStream) throws IOException
+    public static void writeObjectsInListToStream(List<WatchableObject> par0List, DataOutputStream par1DataOutputStream) throws IOException
     {
         if (par0List != null)
         {
-            Iterator var2 = par0List.iterator();
+            Iterator<WatchableObject> var2 = par0List.iterator();
 
             while (var2.hasNext())
             {
@@ -176,14 +176,14 @@ public class DataWatcher
         par1DataOutputStream.writeByte(127);
     }
 
-    public List unwatchAndReturnAllWatched()
+    public List<WatchableObject> unwatchAndReturnAllWatched()
     {
-        ArrayList var1 = null;
+        ArrayList<WatchableObject> var1 = null;
 
         if (this.objectChanged)
         {
             this.lock.readLock().lock();
-            Iterator var2 = this.watchedObjects.values().iterator();
+            Iterator<WatchableObject> var2 = this.watchedObjects.values().iterator();
 
             while (var2.hasNext())
             {
@@ -195,7 +195,7 @@ public class DataWatcher
 
                     if (var1 == null)
                     {
-                        var1 = new ArrayList();
+                        var1 = new ArrayList<WatchableObject>();
                     }
 
                     var1.add(var3);
@@ -212,7 +212,7 @@ public class DataWatcher
     public void writeWatchableObjects(DataOutputStream par1DataOutputStream) throws IOException
     {
         this.lock.readLock().lock();
-        Iterator var2 = this.watchedObjects.values().iterator();
+        Iterator<WatchableObject> var2 = this.watchedObjects.values().iterator();
 
         while (var2.hasNext())
         {
@@ -224,24 +224,20 @@ public class DataWatcher
         par1DataOutputStream.writeByte(127);
     }
 
-    public List getAllWatched()
+    public List<WatchableObject> getAllWatched()
     {
-        ArrayList var1 = null;
+        ArrayList<WatchableObject> allWatched = null;
         this.lock.readLock().lock();
         WatchableObject var3;
 
-        for (Iterator var2 = this.watchedObjects.values().iterator(); var2.hasNext(); var1.add(var3))
+        for (Iterator<WatchableObject> var2 = this.watchedObjects.values().iterator(); var2.hasNext(); allWatched.add(var3))
         {
             var3 = (WatchableObject)var2.next();
-
-            if (var1 == null)
-            {
-                var1 = new ArrayList();
-            }
+            if (allWatched == null) allWatched = new ArrayList<WatchableObject>();
         }
 
         this.lock.readLock().unlock();
-        return var1;
+        return allWatched;
     }
 
     private static void writeWatchableObject(DataOutputStream par0DataOutputStream, WatchableObject par1WatchableObject) throws IOException
@@ -284,16 +280,13 @@ public class DataWatcher
         }
     }
 
-    public static List readWatchableObjects(DataInputStream par0DataInputStream) throws IOException
+    public static List<WatchableObject> readWatchableObjects(DataInputStream par0DataInputStream) throws IOException
     {
-        ArrayList var1 = null;
+        ArrayList<WatchableObject> watchableObjects = null;
 
         for (byte var2 = par0DataInputStream.readByte(); var2 != 127; var2 = par0DataInputStream.readByte())
         {
-            if (var1 == null)
-            {
-                var1 = new ArrayList();
-            }
+            if (watchableObjects == null) watchableObjects = new ArrayList<WatchableObject>();
 
             int var3 = (var2 & 224) >> 5;
             int var4 = var2 & 31;
@@ -332,16 +325,16 @@ public class DataWatcher
                     var5 = new WatchableObject(var3, var4, new ChunkCoordinates(var6, var7, var8));
             }
 
-            var1.add(var5);
+            watchableObjects.add(var5);
         }
 
-        return var1;
+        return watchableObjects;
     }
 
-    public void updateWatchedObjectsFromList(List par1List)
+    public void updateWatchedObjectsFromList(List<WatchableObject> par1List)
     {
         this.lock.writeLock().lock();
-        Iterator var2 = par1List.iterator();
+        Iterator<WatchableObject> var2 = par1List.iterator();
 
         while (var2.hasNext())
         {

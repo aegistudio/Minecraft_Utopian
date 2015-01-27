@@ -20,8 +20,8 @@ public class StringTranslate
      * created.
      */
     private Properties translateTable = new Properties();
-    private TreeMap languageList;
-    private TreeMap field_94521_d = new TreeMap();
+    private TreeMap<String, String> languageList;
+    private TreeMap<String, File> field_94521_d = new TreeMap<String, File>();
     private String currentLanguage;
     private boolean isUnicode;
 
@@ -41,7 +41,7 @@ public class StringTranslate
 
     private void loadLanguageList()
     {
-        TreeMap var1 = new TreeMap();
+        TreeMap<String, String> langList = new TreeMap<String, String>();
 
         try
         {
@@ -53,7 +53,7 @@ public class StringTranslate
 
                 if (var4 != null && var4.length == 2)
                 {
-                    var1.put(var4[0], var4[1]);
+                    langList.put(var4[0], var4[1]);
                 }
             }
         }
@@ -63,11 +63,11 @@ public class StringTranslate
             return;
         }
 
-        this.languageList = var1;
+        this.languageList = langList;
         this.languageList.put("en_US", "English (US)");
     }
 
-    public TreeMap getLanguageList()
+    public TreeMap<String, String> getLanguageList()
     {
         return this.languageList;
     }
@@ -105,11 +105,11 @@ public class StringTranslate
     {
         if (par2 || !par1Str.equals(this.currentLanguage))
         {
-            Properties var3 = new Properties();
+            Properties property = new Properties();
 
             try
             {
-                this.loadLanguage(var3, "en_US");
+                this.loadLanguage(property, "en_US");
             }
             catch (IOException var9)
             {
@@ -122,13 +122,13 @@ public class StringTranslate
             {
                 try
                 {
-                    this.loadLanguage(var3, par1Str);
-                    Enumeration var4 = var3.propertyNames();
+                    this.loadLanguage(property, par1Str);
+                    Enumeration var4 = property.propertyNames();
 
                     while (var4.hasMoreElements() && !this.isUnicode)
                     {
                         Object var5 = var4.nextElement();
-                        Object var6 = var3.get(var5);
+                        Object var6 = property.get(var5);
 
                         if (var6 != null)
                         {
@@ -153,7 +153,7 @@ public class StringTranslate
             }
 
             this.currentLanguage = par1Str;
-            this.translateTable = var3;
+            this.translateTable = property;
         }
     }
 

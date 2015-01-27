@@ -354,7 +354,7 @@ public abstract class BlockButton extends Block
         int var6 = var5 & 7;
         boolean var7 = (var5 & 8) != 0;
         this.func_82534_e(var5);
-        List var9 = par1World.getEntitiesWithinAABB(EntityArrow.class, AxisAlignedBB.getAABBPool().getAABB((double)par2 + this.minX, (double)par3 + this.minY, (double)par4 + this.minZ, (double)par2 + this.maxX, (double)par3 + this.maxY, (double)par4 + this.maxZ));
+        List<Entity> var9 = par1World.getEntitiesWithinAABB(EntityArrow.class, AxisAlignedBB.getAABBPool().getAABB((double)par2 + this.minX, (double)par3 + this.minY, (double)par4 + this.minZ, (double)par2 + this.maxX, (double)par3 + this.maxY, (double)par4 + this.maxZ));
         boolean var8 = !var9.isEmpty();
 
         if (var8 && !var7)

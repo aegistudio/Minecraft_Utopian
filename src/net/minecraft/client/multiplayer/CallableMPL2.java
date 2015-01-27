@@ -2,7 +2,7 @@ package net.minecraft.client.multiplayer;
 
 import java.util.concurrent.Callable;
 
-class CallableMPL2 implements Callable
+class CallableMPL2 implements Callable<String>
 {
     /** Reference to the WorldClient object. */
     final WorldClient theWorldClient;
@@ -20,7 +20,7 @@ class CallableMPL2 implements Callable
         return WorldClient.getEntitySpawnQueue(this.theWorldClient).size() + " total; " + WorldClient.getEntitySpawnQueue(this.theWorldClient).toString();
     }
 
-    public Object call()
+    public String call()
     {
         return this.getEntitySpawnQueueCountAndList();
     }

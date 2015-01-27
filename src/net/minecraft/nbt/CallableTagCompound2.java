@@ -2,7 +2,7 @@ package net.minecraft.nbt;
 
 import java.util.concurrent.Callable;
 
-class CallableTagCompound2 implements Callable
+class CallableTagCompound2 implements Callable<String>
 {
     final int field_82588_a;
 
@@ -19,7 +19,7 @@ class CallableTagCompound2 implements Callable
         return NBTBase.NBTTypes[this.field_82588_a];
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_82586_a();
     }

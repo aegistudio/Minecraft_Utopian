@@ -29,7 +29,7 @@ public class ServerScoreboard extends Scoreboard
     {
         super.func_96536_a(par1Score);
 
-        if (this.field_96553_b.contains(par1Score.func_96645_d()))
+        if (this.field_96553_b.contains(par1Score.getScoreObjective()))
         {
             this.field_96555_a.getConfigurationManager().sendPacketToAllPlayers(new Packet207SetScore(par1Score, 0));
         }

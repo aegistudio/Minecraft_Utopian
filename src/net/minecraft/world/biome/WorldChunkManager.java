@@ -196,7 +196,7 @@ public class WorldChunkManager
     /**
      * checks given Chunk's Biomes against List of allowed ones
      */
-    public boolean areBiomesViable(int par1, int par2, int par3, List par4List)
+    public boolean areBiomesViable(int par1, int par2, int par3, List<BiomeGenBase> biomeGenList)
     {
         IntCache.resetIntCache();
         int var5 = par1 - par3 >> 2;
@@ -209,9 +209,9 @@ public class WorldChunkManager
 
         for (int var12 = 0; var12 < var9 * var10; ++var12)
         {
-            BiomeGenBase var13 = BiomeGenBase.biomeList.get(var11[var12]);
+            BiomeGenBase biomeGen = BiomeGenBase.biomeList.get(var11[var12]);
 
-            if (!par4List.contains(var13))
+            if (!biomeGenList.contains(biomeGen))
             {
                 return false;
             }
@@ -224,7 +224,7 @@ public class WorldChunkManager
      * Finds a valid position within a range, that is in one of the listed biomes. Searches {par1,par2} +-par3 blocks.
      * Strongly favors positive y positions.
      */
-    public ChunkPosition findBiomePosition(int par1, int par2, int par3, List par4List, Random par5Random)
+    public ChunkPosition findBiomePosition(int par1, int par2, int par3, List<BiomeGenBase> par4List, Random par5Random)
     {
         IntCache.resetIntCache();
         int var6 = par1 - par3 >> 2;
@@ -241,9 +241,9 @@ public class WorldChunkManager
         {
             int var16 = var6 + var15 % var10 << 2;
             int var17 = var7 + var15 / var10 << 2;
-            BiomeGenBase var18 = BiomeGenBase.biomeList.get(var12[var15]);
+            BiomeGenBase biomeGen = BiomeGenBase.biomeList.get(var12[var15]);
 
-            if (par4List.contains(var18) && (var13 == null || par5Random.nextInt(var14 + 1) == 0))
+            if (par4List.contains(biomeGen) && (var13 == null || par5Random.nextInt(var14 + 1) == 0))
             {
                 var13 = new ChunkPosition(var16, 0, var17);
                 ++var14;

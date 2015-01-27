@@ -2,7 +2,7 @@ package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
 
-class CallableLevelGenerator implements Callable
+class CallableLevelGenerator implements Callable<String>
 {
     final WorldInfo worldInfoInstance;
 
@@ -16,7 +16,7 @@ class CallableLevelGenerator implements Callable
         return String.format("ID %02d - %s, ver %d. Features enabled: %b", new Object[] {Integer.valueOf(WorldInfo.getTerrainTypeOfWorld(this.worldInfoInstance).getWorldTypeID()), WorldInfo.getTerrainTypeOfWorld(this.worldInfoInstance).getWorldTypeName(), Integer.valueOf(WorldInfo.getTerrainTypeOfWorld(this.worldInfoInstance).getGeneratorVersion()), Boolean.valueOf(WorldInfo.getMapFeaturesEnabled(this.worldInfoInstance))});
     }
 
-    public Object call()
+    public String call()
     {
         return this.callLevelGeneratorInfo();
     }

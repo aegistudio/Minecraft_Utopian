@@ -60,7 +60,7 @@ public class BlockWoodSlab extends BlockHalfSlab
     /**
      * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
      */
-    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List)
     {
         if (par1 != Block.woodDoubleSlab.blockID)
         {

@@ -2,7 +2,7 @@ package net.minecraft.world.storage;
 
 import java.util.concurrent.Callable;
 
-class CallableLevelSeed implements Callable
+class CallableLevelSeed implements Callable<String>
 {
     final WorldInfo worldInfoInstance;
 
@@ -16,7 +16,7 @@ class CallableLevelSeed implements Callable
         return String.valueOf(this.worldInfoInstance.getSeed());
     }
 
-    public Object call()
+    public String call()
     {
         return this.callLevelSeed();
     }

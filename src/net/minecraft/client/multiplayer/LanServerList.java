@@ -8,7 +8,7 @@ import java.util.List;
 
 public class LanServerList
 {
-    private ArrayList listOfLanServers = new ArrayList();
+    private ArrayList<LanServer> listOfLanServers = new ArrayList<LanServer>();
     boolean wasUpdated;
 
     public synchronized boolean getWasUpdated()
@@ -21,7 +21,7 @@ public class LanServerList
         this.wasUpdated = false;
     }
 
-    public synchronized List getLanServers()
+    public synchronized List<LanServer> getLanServers()
     {
         return Collections.unmodifiableList(this.listOfLanServers);
     }
@@ -41,7 +41,7 @@ public class LanServerList
             }
 
             boolean var6 = false;
-            Iterator var7 = this.listOfLanServers.iterator();
+            Iterator<LanServer> var7 = this.listOfLanServers.iterator();
 
             while (var7.hasNext())
             {

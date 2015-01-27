@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import java.util.concurrent.Callable;
 
-public class CallableModded implements Callable
+public class CallableModded implements Callable<String>
 {
     /** Reference to the Minecraft object. */
     final Minecraft mc;
@@ -21,7 +21,7 @@ public class CallableModded implements Callable
         return !var1.equals("vanilla") ? "Definitely; Client brand changed to \'" + var1 + "\'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and client brand is untouched.");
     }
 
-    public Object call()
+    public String call()
     {
         return this.getClientProfilerEnabled();
     }

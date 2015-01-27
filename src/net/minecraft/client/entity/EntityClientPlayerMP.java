@@ -1,7 +1,6 @@
 package net.minecraft.client.entity;
 
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
-import net.aegistudio.minecraft.utopian.event.action.BlockActivateAction;
 import net.aegistudio.minecraft.utopian.event.action.ChatAction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.NetClientHandler;

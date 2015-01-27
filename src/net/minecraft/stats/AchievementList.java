@@ -20,7 +20,7 @@ public class AchievementList
     public static int maxDisplayRow;
 
     /** Holds a list of all registered achievements. */
-    public static List achievementList = new ArrayList();
+    public static List<Achievement> achievementList = new ArrayList<Achievement>();
 
     /** Is the 'open inventory' achievement. */
     public static Achievement openInventory = (new Achievement(0, "openInventory", 0, 0, Item.book, (Achievement)null)).setIndependent().registerAchievement();

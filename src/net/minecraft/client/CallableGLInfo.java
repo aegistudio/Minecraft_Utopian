@@ -3,7 +3,7 @@ package net.minecraft.client;
 import java.util.concurrent.Callable;
 import org.lwjgl.opengl.GL11;
 
-public class CallableGLInfo implements Callable
+public class CallableGLInfo implements Callable<String>
 {
     /** The Minecraft instance. */
     final Minecraft mc;
@@ -18,7 +18,7 @@ public class CallableGLInfo implements Callable
         return GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION) + ", " + GL11.glGetString(GL11.GL_VENDOR);
     }
 
-    public Object call()
+    public String call()
     {
         return this.getTexturePack();
     }

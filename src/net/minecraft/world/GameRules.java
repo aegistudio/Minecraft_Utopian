@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules
 {
-    private TreeMap theGameRules = new TreeMap();
+    private TreeMap<String, GameRuleValue> theGameRules = new TreeMap<String, GameRuleValue>();
 
     public GameRules()
     {
@@ -69,7 +69,7 @@ public class GameRules
     public NBTTagCompound writeGameRulesToNBT()
     {
         NBTTagCompound var1 = new NBTTagCompound("GameRules");
-        Iterator var2 = this.theGameRules.keySet().iterator();
+        Iterator<String> var2 = this.theGameRules.keySet().iterator();
 
         while (var2.hasNext())
         {

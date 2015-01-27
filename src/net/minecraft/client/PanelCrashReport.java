@@ -10,9 +10,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import net.minecraft.crash.CrashReport;
+
 import org.lwjgl.opengl.GL11;
 
+@SuppressWarnings("serial")
 public class PanelCrashReport extends Panel
 {
     public PanelCrashReport(CrashReport par1CrashReport)

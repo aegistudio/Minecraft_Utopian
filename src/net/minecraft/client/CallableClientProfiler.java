@@ -2,7 +2,7 @@ package net.minecraft.client;
 
 import java.util.concurrent.Callable;
 
-public class CallableClientProfiler implements Callable
+public class CallableClientProfiler implements Callable<String>
 {
     final Minecraft theMinecraft;
 
@@ -16,7 +16,7 @@ public class CallableClientProfiler implements Callable
         return this.theMinecraft.mcProfiler.profilingEnabled ? this.theMinecraft.mcProfiler.getNameOfLastSection() : "N/A (disabled)";
     }
 
-    public Object call()
+    public String call()
     {
         return this.callClientProfilerInfo();
     }

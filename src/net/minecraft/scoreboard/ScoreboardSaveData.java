@@ -65,9 +65,9 @@ public class ScoreboardSaveData extends WorldSavedData
         {
             NBTTagCompound var3 = (NBTTagCompound)par1NBTTagList.tagAt(var2);
             ScorePlayerTeam var4 = this.field_96507_a.func_96527_f(var3.getString("Name"));
-            var4.func_96664_a(var3.getString("DisplayName"));
-            var4.func_96666_b(var3.getString("Prefix"));
-            var4.func_96662_c(var3.getString("Suffix"));
+            var4.setDisplayName(var3.getString("DisplayName"));
+            var4.setTeamPrefix(var3.getString("Prefix"));
+            var4.setTeamSuffix(var3.getString("Suffix"));
 
             if (var3.hasKey("AllowFriendlyFire"))
             {
@@ -154,10 +154,10 @@ public class ScoreboardSaveData extends WorldSavedData
         {
             ScorePlayerTeam var4 = (ScorePlayerTeam)var3.next();
             NBTTagCompound var5 = new NBTTagCompound();
-            var5.setString("Name", var4.func_96661_b());
-            var5.setString("DisplayName", var4.func_96669_c());
-            var5.setString("Prefix", var4.func_96668_e());
-            var5.setString("Suffix", var4.func_96663_f());
+            var5.setString("Name", var4.getDefaultName());
+            var5.setString("DisplayName", var4.getDisplayName());
+            var5.setString("Prefix", var4.getTeamPrefix());
+            var5.setString("Suffix", var4.getTeamSuffix());
             var5.setBoolean("AllowFriendlyFire", var4.func_96665_g());
             var5.setBoolean("SeeFriendlyInvisibles", var4.func_98297_h());
             NBTTagList var6 = new NBTTagList();
@@ -228,7 +228,7 @@ public class ScoreboardSaveData extends WorldSavedData
             Score var4 = (Score)var3.next();
             NBTTagCompound var5 = new NBTTagCompound();
             var5.setString("Name", var4.func_96653_e());
-            var5.setString("Objective", var4.func_96645_d().getName());
+            var5.setString("Objective", var4.getScoreObjective().getName());
             var5.setInteger("Score", var4.func_96652_c());
             var1.appendTag(var5);
         }

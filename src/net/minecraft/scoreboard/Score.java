@@ -5,22 +5,22 @@ import java.util.List;
 
 public class Score
 {
-    public static final Comparator field_96658_a = new ScoreComparator();
-    private final Scoreboard theScoreboard;
-    private final ScoreObjective field_96657_c;
+    public static final Comparator<Score> scoreComparator = new ScoreComparator();
+    private final Scoreboard scoreboard;
+    private final ScoreObjective scoreObjective;
     private final String field_96654_d;
     private int field_96655_e;
 
-    public Score(Scoreboard par1Scoreboard, ScoreObjective par2ScoreObjective, String par3Str)
+    public Score(Scoreboard scoreboard, ScoreObjective scoreObjective, String par3Str)
     {
-        this.theScoreboard = par1Scoreboard;
-        this.field_96657_c = par2ScoreObjective;
+        this.scoreboard = scoreboard;
+        this.scoreObjective = scoreObjective;
         this.field_96654_d = par3Str;
     }
 
     public void func_96649_a(int par1)
     {
-        if (this.field_96657_c.getCriteria().isReadOnly())
+        if (this.scoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
@@ -32,7 +32,7 @@ public class Score
 
     public void func_96646_b(int par1)
     {
-        if (this.field_96657_c.getCriteria().isReadOnly())
+        if (this.scoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
@@ -44,7 +44,7 @@ public class Score
 
     public void func_96648_a()
     {
-        if (this.field_96657_c.getCriteria().isReadOnly())
+        if (this.scoreObjective.getCriteria().isReadOnly())
         {
             throw new IllegalStateException("Cannot modify read-only score");
         }
@@ -66,13 +66,13 @@ public class Score
 
         if (var2 != par1)
         {
-            this.func_96650_f().func_96536_a(this);
+            this.getScoreboard().func_96536_a(this);
         }
     }
 
-    public ScoreObjective func_96645_d()
+    public ScoreObjective getScoreObjective()
     {
-        return this.field_96657_c;
+        return this.scoreObjective;
     }
 
     public String func_96653_e()
@@ -80,13 +80,13 @@ public class Score
         return this.field_96654_d;
     }
 
-    public Scoreboard func_96650_f()
+    public Scoreboard getScoreboard()
     {
-        return this.theScoreboard;
+        return this.scoreboard;
     }
 
     public void func_96651_a(List par1List)
     {
-        this.func_96647_c(this.field_96657_c.getCriteria().func_96635_a(par1List));
+        this.func_96647_c(this.scoreObjective.getCriteria().func_96635_a(par1List));
     }
 }
