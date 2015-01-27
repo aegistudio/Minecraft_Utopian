@@ -8,13 +8,12 @@ public class BiomeGenMushroomIsland extends BiomeGenBase
     public BiomeGenMushroomIsland(int par1)
     {
         super(par1);
-        //this.theBiomeDecorator.treesPerChunk = -100;
         this.theBiomeDecorator.treeGen.genLoops = -100;
-        this.theBiomeDecorator.flowersPerChunk = -100;
+        this.theBiomeDecorator.flowerRedGen.genLoops
+        	= this.theBiomeDecorator.flowerYellowGen.genLoops = -100;
         this.theBiomeDecorator.grassGen.genLoops = -100;
-        //this.theBiomeDecorator.grassPerChunk = -100;
-        this.theBiomeDecorator.mushroomsPerChunk = 1;
-        //this.theBiomeDecorator.bigMushroomsPerChunk = 1;
+        this.theBiomeDecorator.mushroomBrownGen.genLoops
+        	= this.theBiomeDecorator.mushroomRedGen.genLoops = 1;
         this.theBiomeDecorator.bigMushroomGen.genLoops = 1;
         
         this.topBlock = Block.mycelium.blockID;

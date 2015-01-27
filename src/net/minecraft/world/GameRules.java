@@ -19,6 +19,7 @@ public class GameRules
         this.addGameRule("doMobLoot", "true");
         this.addGameRule("doTileDrops", "true");
         this.addGameRule("doExplosionDestroyBlocks", "true");
+        this.addGameRule("doFluidFlows", "true");
         this.addGameRule("commandBlockOutput", "true");
     }
 

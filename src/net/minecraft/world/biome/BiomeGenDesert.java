@@ -1,8 +1,10 @@
 package net.minecraft.world.biome;
 
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.gen.PositionedGenListEntry;
 import net.minecraft.world.gen.feature.WorldGenDesertWells;
 
 public class BiomeGenDesert extends BiomeGenBase
@@ -13,27 +15,18 @@ public class BiomeGenDesert extends BiomeGenBase
         this.spawnableCreatureList.clear();
         this.topBlock = Block.sand.blockID;
         this.fillerBlock = Block.sand.blockID;
-        //this.theBiomeDecorator.treesPerChunk = -999;
         this.theBiomeDecorator.treeGen.genLoops = -999;
-        
-        //this.theBiomeDecorator.deadBushPerChunk = 2;
         this.theBiomeDecorator.deadbushGen.genLoops = 2;
+        this.theBiomeDecorator.reedGen.genLoops = 50;
+        this.theBiomeDecorator.cactusGen.genLoops = 10;
         
-        this.theBiomeDecorator.reedsPerChunk = 50;
-        //this.theBiomeDecorator.cactiPerChunk = 10;
-        theBiomeDecorator.cactusGen.genLoops = 10;
-    }
-
-    public void decorate(World par1World, Random par2Random, int par3, int par4)
-    {
-        super.decorate(par1World, par2Random, par3, par4);
-
-        if (par2Random.nextInt(1000) == 0)
+        this.theBiomeDecorator.addonGenerators.add(new PositionedGenListEntry(new WorldGenDesertWells(), 1)
         {
-            int var5 = par3 + par2Random.nextInt(16) + 8;
-            int var6 = par4 + par2Random.nextInt(16) + 8;
-            WorldGenDesertWells var7 = new WorldGenDesertWells();
-            var7.generate(par1World, par2Random, var5, par1World.getHeightValue(var5, var6) + 1, var6);
-        }
+        	public int generateHeight(World world, Random randomGenerator, int x, int z)
+        	{
+        		if(randomGenerator.nextInt(1000) != 0) return -1;
+        		return world.getHeightValue(x, z) + 1;
+        	}
+        });
     }
 }

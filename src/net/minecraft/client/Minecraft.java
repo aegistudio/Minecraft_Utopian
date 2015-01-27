@@ -1,5 +1,6 @@
 package net.minecraft.client;
 
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -7,6 +8,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -287,15 +291,15 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
     /** Profiler currently displayed in the debug screen pie chart */
     private String debugProfilerName = "root";
 
-    public Minecraft(Canvas par1Canvas, MinecraftApplet par2MinecraftApplet, int par3, int par4, boolean par5)
+    public Minecraft(Canvas canvas, MinecraftApplet minecraftApplet, int par3, int par4, boolean par5)
     {
         StatList.nopInit();
         this.tempDisplayHeight = par4;
         this.fullscreen = par5;
-        this.mcApplet = par2MinecraftApplet;
+        this.mcApplet = minecraftApplet;
         Packet3Chat.maxChatLength = 32767;
         this.startTimerHackThread();
-        this.mcCanvas = par1Canvas;
+        this.mcCanvas = canvas;
         this.displayWidth = par3;
         this.displayHeight = par4;
         this.fullscreen = par5;
@@ -379,6 +383,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
 
         try
         {
+        	//It's using lwjgl display rather than frame!!
             Display.create((new PixelFormat()).withDepthBits(24));
         }
         catch (LWJGLException var5)
@@ -393,6 +398,8 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
 
             Display.create();
         }
+
+        Display.getParent().getToolkit().addAWTEventListener(input, AWTEvent.KEY_EVENT_MASK);
 
     	//XXX Begin Minecraft UtopianHook
     	//XXX Hook InitEvent
@@ -2358,6 +2365,26 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
         return this.thePlayer != null ? this.thePlayer.sendQueue : null;
     }
 
+    public static final AWTEventListener input = new AWTEventListener()
+    {
+
+		@Override
+		public void eventDispatched(AWTEvent arg0)
+		{
+			System.out.println("aa");
+			if(arg0.getID() == KeyEvent.KEY_TYPED);
+			KeyEvent e = (KeyEvent) arg0;
+			char keychar = e.getKeyChar();
+			if(Minecraft.theMinecraft == null) return;
+    		if(Minecraft.theMinecraft.currentScreen == null) return;
+    		if((keychar & 0x7F) != keychar)
+    		{
+    			int keycode = e.getKeyCode();
+    			Minecraft.theMinecraft.currentScreen.handleSpecialInput(keychar, keycode);
+    		}
+		}
+    };
+    
     public static void main(String[] arguments)
     {
     	//XXX Begin Minecraft UtopianHook
@@ -2436,7 +2463,8 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
         attributes.put("username", generated_playername);
         attributes.put("fullscreen", "" + var4);
         attributes.put("sessionid", session_id);
-        Frame frame = new Frame();
+        
+		Frame frame = new Frame();
         frame.setTitle("Minecraft Utopian");
         frame.setBackground(Color.BLACK);
         JPanel panel = new JPanel();

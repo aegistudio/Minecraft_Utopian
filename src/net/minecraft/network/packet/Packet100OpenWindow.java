@@ -31,9 +31,9 @@ public class Packet100OpenWindow extends Packet
     /**
      * Passes this Packet on to the NetHandler for processing.
      */
-    public void processPacket(NetHandler par1NetHandler)
+    public void processPacket(NetHandler netHandler)
     {
-        par1NetHandler.handleOpenWindow(this);
+        netHandler.handleOpenWindow(this);
     }
 
     /**

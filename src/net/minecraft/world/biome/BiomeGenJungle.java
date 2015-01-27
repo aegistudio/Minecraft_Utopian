@@ -1,10 +1,12 @@
 package net.minecraft.world.biome;
 
 import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.gen.StandaloneGenListEntry;
 import net.minecraft.world.gen.feature.WorldGenHugeTrees;
 import net.minecraft.world.gen.feature.WorldGenShrub;
 import net.minecraft.world.gen.feature.WorldGenTallGrass;
@@ -19,9 +21,18 @@ public class BiomeGenJungle extends BiomeGenBase
         super(par1);
         this.theBiomeDecorator.treeGen.genLoops = 50;
         this.theBiomeDecorator.grassGen.genLoops = 25;
-        this.theBiomeDecorator.flowersPerChunk = 4;
+        this.theBiomeDecorator.flowerRedGen.genLoops
+        = this.theBiomeDecorator.flowerYellowGen.genLoops = 4;
         this.spawnableMonsterList.add(new SpawnListEntry(EntityOcelot.class, 2, 1, 1));
         this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 10, 4, 4));
+        
+        this.theBiomeDecorator.addonGenerators.add(new StandaloneGenListEntry(new WorldGenVines(), 50)
+        {
+        	public int generateHeight(World world, Random random)
+        	{
+        		return 64;
+        	}
+        });
     }
 
     /**
@@ -38,19 +49,5 @@ public class BiomeGenJungle extends BiomeGenBase
     public WorldGenerator getRandomWorldGenForGrass(Random par1Random)
     {
         return par1Random.nextInt(4) == 0 ? new WorldGenTallGrass(Block.tallGrass.blockID, 2) : new WorldGenTallGrass(Block.tallGrass.blockID, 1);
-    }
-
-    public void decorate(World par1World, Random par2Random, int par3, int par4)
-    {
-        super.decorate(par1World, par2Random, par3, par4);
-        WorldGenVines var5 = new WorldGenVines();
-
-        for (int var6 = 0; var6 < 50; ++var6)
-        {
-            int var7 = par3 + par2Random.nextInt(16) + 8;
-            byte var8 = 64;
-            int var9 = par4 + par2Random.nextInt(16) + 8;
-            var5.generate(par1World, par2Random, var7, var8, var9);
-        }
     }
 }

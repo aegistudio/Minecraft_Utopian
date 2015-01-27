@@ -27,6 +27,7 @@ public class StandaloneGenListEntry extends GenListEntry
 		{
 			int x = chunk_X + randomGenerator.nextInt(16) + 8;
 			int y = this.generateHeight(currentWorld, randomGenerator);
+			if(y < 0) continue;
 			int z = chunk_Z + randomGenerator.nextInt(16) + 8;
 			this.generator.generate(currentWorld, randomGenerator, x, y, z);
 		}

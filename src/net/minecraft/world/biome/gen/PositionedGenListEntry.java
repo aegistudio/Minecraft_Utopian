@@ -28,6 +28,7 @@ public abstract class PositionedGenListEntry extends GenListEntry
 			int x = chunk_X + randomGenerator.nextInt(16) + 8;
 			int z = chunk_Z + randomGenerator.nextInt(16) + 8;
 			int y = this.generateHeight(currentWorld, randomGenerator, x, z);
+			if(y < 0) continue;
 			this.generator.generate(currentWorld, randomGenerator, x, y, z);
 		}
 	}

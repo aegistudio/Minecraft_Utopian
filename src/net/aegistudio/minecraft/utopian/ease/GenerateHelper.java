@@ -38,8 +38,8 @@ public class GenerateHelper
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public boolean registerOreGeneration(int biomeId, GenListEntry entry)
+	@SuppressWarnings({"unchecked"})
+	public boolean registerDecoration(int biomeId, GenListEntry entry)
 	{
 		BiomeGenBase biome = BiomeGenBase.biomeList.get(biomeId);
 		if(biome == null) return false;

@@ -633,23 +633,19 @@ public abstract class World implements IBlockAccess
     /**
      * Destroys a block and optionally drops items. Args: X, Y, Z, dropItems
      */
-    public boolean destroyBlock(int par1, int par2, int par3, boolean par4)
+    public boolean destroyBlock(int x, int y, int z, boolean dropItems)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
     	
-        int var5 = this.getBlockId(par1, par2, par3);
+        int blockId = this.getBlockId(x, y, z);
 
-        if (var5 > 0)
+        if (blockId > 0)
         {
-            int var6 = this.getBlockMetadata(par1, par2, par3);
-            this.playAuxSFX(2001, par1, par2, par3, var5 + (var6 << 12));
+            int metadata = this.getBlockMetadata(x, y, z);
+            this.playAuxSFX(2001, x, y, z, blockId + (metadata << 12));
 
-            if (par4)
-            {
-                whocallme.getBlock(var5).dropBlockAsItem(this, par1, par2, par3, var6, 0);
-            }
-
-            return this.setBlock(par1, par2, par3, 0, 0, 3);
+            if (dropItems) whocallme.getBlock(blockId).dropBlockAsItem(this, x, y, z, metadata, 0);
+            return this.setBlock(x, y, z, 0, 0, 3);
         }
         else
         {

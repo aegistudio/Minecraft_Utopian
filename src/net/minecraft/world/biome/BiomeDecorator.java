@@ -1,6 +1,7 @@
 package net.minecraft.world.biome;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -22,7 +23,6 @@ import net.minecraft.world.gen.feature.WorldGenPumpkin;
 import net.minecraft.world.gen.feature.WorldGenReed;
 import net.minecraft.world.gen.feature.WorldGenSand;
 import net.minecraft.world.gen.feature.WorldGenWaterlily;
-import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class BiomeDecorator
 {
@@ -55,23 +55,8 @@ public class BiomeDecorator
 
     @Intrude("oreGenerationList")
     protected List<OreGenListEntry> oreGenerators = new ArrayList<OreGenListEntry>();
-    
-    /** Field that holds one of the plantYellow WorldGenFlowers */
-    protected WorldGenerator plantYellowGen;
-
-    /** Field that holds one of the plantRed WorldGenFlowers */
-    protected WorldGenerator plantRedGen;
-
-    /** Field that holds mushroomBrown WorldGenFlowers */
-    protected WorldGenerator mushroomBrownGen;
-
-    /** Field that holds mushroomRed WorldGenFlowers */
-    protected WorldGenerator mushroomRedGen;
 
     protected PositionedGenListEntry bigMushroomGen;
-
-    /** Field that holds WorldGenReed */
-    protected WorldGenerator reedGen;
 
     protected PositionedGenListEntry waterlilyGen;
     protected StandaloneGenListEntry deadbushGen;
@@ -80,23 +65,18 @@ public class BiomeDecorator
     protected StandaloneGenListEntry cactusGen;
     protected StandaloneGenListEntry pumpkinGen;
     
-    /**
-     * The number of yellow flower patches to generate per chunk. The game generates much less than this number, since
-     * it attempts to generate them at a random altitude.
-     */
-    protected int flowersPerChunk;
+    protected PositionedGenListEntry reedGen;
+    protected StandaloneGenListEntry reedGenPreserved;
 
-    /**
-     * The number of extra mushroom patches per chunk. It generates 1/4 this number in brown mushroom patches, and 1/8
-     * this number in red mushroom patches. These mushrooms go beyond the default base number of mushrooms.
-     */
-    protected int mushroomsPerChunk;
-
-    /**
-     * The number of reeds to generate per chunk. Reeds won't generate if the randomly selected placement is unsuitable.
-     */
-    protected int reedsPerChunk;
-
+    protected PositionedGenListEntry mushroomRedGen;
+    protected PositionedGenListEntry mushroomBrownGen;
+    
+    protected StandaloneGenListEntry mushroomRedGenReserved;
+    protected StandaloneGenListEntry mushroomBrownGenReserved;
+    
+    protected StandaloneGenListEntry flowerYellowGen;
+    protected StandaloneGenListEntry flowerRedGen;
+    
     /** True if decorator should generate surface lava & water */
     public boolean generateLakes;
 
@@ -151,10 +131,24 @@ public class BiomeDecorator
         	}
         });
         
-        this.plantYellowGen = new WorldGenFlowers(Block.plantYellow.blockID);
-        this.plantRedGen = new WorldGenFlowers(Block.plantRed.blockID);
-        this.mushroomBrownGen = new WorldGenFlowers(Block.mushroomBrown.blockID);
-        this.mushroomRedGen = new WorldGenFlowers(Block.mushroomRed.blockID);
+        /**
+         * Adding flower generator.
+         */
+        
+        this.flowerYellowGen = new StandaloneGenListEntry(new WorldGenFlowers(Block.plantYellow.blockID), 2){};
+        this.flowerRedGen = new StandaloneGenListEntry(new WorldGenFlowers(Block.plantRed.blockID), 2)
+        {
+        	public void generate(World currentWorld, Random randomGenerator, int chunk_X, int chunk_Z)
+        	{
+	        	for(int i = 0; i < genLoops; ++i) if(randomGenerator.nextInt(4) == 0)
+	    		{
+	    			int x = chunk_X + randomGenerator.nextInt(16) + 8;
+	    			int y = this.generateHeight(currentWorld, randomGenerator);
+	    			int z = chunk_Z + randomGenerator.nextInt(16) + 8;
+	    			this.generator.generate(currentWorld, randomGenerator, x, y, z);
+	    		}
+        	}
+        };
         
         /**
          * Adding big mushroom generator.
@@ -170,7 +164,21 @@ public class BiomeDecorator
         	
         };
         
-        this.reedGen = new WorldGenReed();
+        /**
+         * Adding reed generator
+         */
+        
+        WorldGenReed reedGenerator = new WorldGenReed();
+        this.reedGen = new PositionedGenListEntry(reedGenerator, 0)
+        {
+			@Override
+			protected int generateHeight(World currentWorld, Random randomGenerator, int x, int z)
+			{
+				return randomGenerator.nextInt(128);
+			}
+        };
+        
+        this.reedGenPreserved = new StandaloneGenListEntry(reedGenerator, 10){};
         
         /**
          * Adding cactus generator.
@@ -234,10 +242,6 @@ public class BiomeDecorator
         	}
         };
         
-        this.flowersPerChunk = 2;
-        this.mushroomsPerChunk = 0;
-        this.reedsPerChunk = 0;
-        
         /**
          * Adding pumpkin generator.
          */
@@ -274,13 +278,101 @@ public class BiomeDecorator
         };
         this.liquidGenerators.add(this.lavaGen);
         
+        /**
+         * Mushroom gen reserved.
+         */
+        
+        this.mushroomBrownGenReserved = new StandaloneGenListEntry(new WorldGenFlowers(Block.mushroomBrown.blockID), 1)
+        {
+        	public void generate(World currentWorld, Random randomGenerator, int chunk_X, int chunk_Z)
+        	{
+        		if(randomGenerator.nextInt(4) == 0) super.generate(currentWorld, randomGenerator, chunk_X, chunk_Z);
+        	}
+        };
+        
+        this.mushroomRedGenReserved = new StandaloneGenListEntry(new WorldGenFlowers(Block.mushroomRed.blockID), 1)
+        {
+        	public void generate(World currentWorld, Random randomGenerator, int chunk_X, int chunk_Z)
+        	{
+        		if(randomGenerator.nextInt(8) == 0) super.generate(currentWorld, randomGenerator, chunk_X, chunk_Z);
+        	}
+        };
+        
+        this.mushroomRedGen = new PositionedGenListEntry(new WorldGenFlowers(Block.mushroomRed.blockID), 0)
+        {
+
+        	public void generate(World currentWorld, Random randomGenerator, int chunk_X, int chunk_Z)
+        	{
+	        	for(int i = 0; i < genLoops; ++i) if(randomGenerator.nextInt(8) == 0)
+	    		{
+	    			int x = chunk_X + randomGenerator.nextInt(16) + 8;
+	    			int z = chunk_Z + randomGenerator.nextInt(16) + 8;
+	    			int y = this.generateHeight(currentWorld, randomGenerator, x, z);
+	    			this.generator.generate(currentWorld, randomGenerator, x, y, z);
+	    		}
+        	}
+        	
+			@Override
+			protected int generateHeight(World currentWorld, Random randomGenerator, int x, int z)
+			{
+				return randomGenerator.nextInt(128);
+			}
+        };
+        
+        this.mushroomBrownGen = new PositionedGenListEntry(new WorldGenFlowers(Block.mushroomBrown.blockID), 0)
+        {
+
+        	public void generate(World currentWorld, Random randomGenerator, int chunk_X, int chunk_Z)
+        	{
+	        	for(int i = 0; i < genLoops; ++i) if(randomGenerator.nextInt(4) == 0)
+	    		{
+	    			int x = chunk_X + randomGenerator.nextInt(16) + 8;
+	    			int z = chunk_Z + randomGenerator.nextInt(16) + 8;
+	    			int y = this.generateHeight(currentWorld, randomGenerator, x, z);
+	    			this.generator.generate(currentWorld, randomGenerator, x, y, z);
+	    		}
+        	}
+        	
+			@Override
+			protected int generateHeight(World currentWorld, Random randomGenerator, int x, int z)
+			{
+				return currentWorld.getHeightValue(x, z);
+			}
+        };
+        
+        
+        /**
+         * Adding generators to gen.
+         */
+        this.addonGenerators.add(this.treeGen);
+        this.addonGenerators.add(this.bigMushroomGen);
+        
+        this.addonGenerators.add(this.flowerYellowGen);
+        this.addonGenerators.add(this.flowerRedGen);
+        
+        this.addonGenerators.add(this.grassGen);
+        this.addonGenerators.add(this.deadbushGen);
+        this.addonGenerators.add(this.waterlilyGen);
+        
+        this.addonGenerators.add(this.mushroomRedGen);
+        this.addonGenerators.add(this.mushroomBrownGen);
+        
+        this.addonGenerators.add(this.mushroomRedGenReserved);
+        this.addonGenerators.add(this.mushroomBrownGenReserved);
+        
+        this.addonGenerators.add(this.reedGen);
+        this.addonGenerators.add(this.reedGenPreserved);
+        
+        this.addonGenerators.add(this.pumpkinGen);
+        this.addonGenerators.add(this.cactusGen);
+        
         this.biome = biomeGenBase;
     }
 
     /**
      * Decorates the world. Calls code that was formerly (pre-1.8) in ChunkProviderGenerate.populate
      */
-    public void decorate(World par1World, Random par2Random, int par3, int par4)
+    public void decorate(World world, Random randomGenerator, int chunk_X, int chunk_Z)
     {
         if (this.currentWorld != null) throw new RuntimeException("Already decorating!!");
         else 
@@ -290,10 +382,10 @@ public class BiomeDecorator
 	    		bypassCheck = false;
 	    		this.bypassCheck();
 	    	}
-	        this.currentWorld = par1World;
-	        this.randomGenerator = par2Random;
-	        this.chunk_X = par3;
-	        this.chunk_Z = par4;
+	        this.currentWorld = world;
+	        this.randomGenerator = randomGenerator;
+	        this.chunk_X = chunk_X;
+	        this.chunk_Z = chunk_Z;
 	        this.decorate();
 	        this.currentWorld = null;
 	        this.randomGenerator = null;
@@ -313,8 +405,12 @@ public class BiomeDecorator
 
     private void bypassList(List<? extends GenListEntry> list)
     {
-    	for(GenListEntry entry : list) if(this.shouldBypass(entry))
-    		list.remove(entry);
+    	Iterator<? extends GenListEntry> entries = list.iterator();
+    	while(entries.hasNext())
+    	{
+    		GenListEntry entry = entries.next();
+    		if(this.shouldBypass(entry)) entries.remove();
+    	}
     }
     
     /**
@@ -362,131 +458,21 @@ public class BiomeDecorator
          * Generates ores in the current chunk.
          */
         this.generateList(this.oreGenerators);
-        int var2;
-        int var3;
 
         /**
          * Generates topSoils in the chunk
          */
         this.generateList(this.topSoilGenerators);
         
-        int var4;
-        
         /**
-         * Generates trees in the current chunk.
+         * Generates plants in the current chunk.
          */
-        this.treeGen.generate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z);
-        
-        /**
-         * Generates big mushrooms in the current chunk.
-         */
-        this.bigMushroomGen.generate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z);
-
-        int var7;
-
-        for (var2 = 0; var2 < this.flowersPerChunk; ++var2)
-        {
-            var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-            var4 = this.randomGenerator.nextInt(128);
-            var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-            this.plantYellowGen.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
-
-            if (this.randomGenerator.nextInt(4) == 0)
-            {
-                var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-                var4 = this.randomGenerator.nextInt(128);
-                var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-                this.plantRedGen.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
-            }
-        }
-
-        /**
-         * Generates grass in the current chunk.
-         */
-        this.grassGen.generate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z);
-        
-        /**
-         * Generates deadbush in the current chunk.
-         */
-        this.deadbushGen.generate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z);
-        
-        /**
-         * Generates waterlily in the current chunk.
-         */
-        this.waterlilyGen.generate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z);
-
-        for (var2 = 0; var2 < this.mushroomsPerChunk; ++var2)
-        {
-            if (this.randomGenerator.nextInt(4) == 0)
-            {
-                var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-                var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-                var7 = this.currentWorld.getHeightValue(var3, var4);
-                this.mushroomBrownGen.generate(this.currentWorld, this.randomGenerator, var3, var7, var4);
-            }
-
-            if (this.randomGenerator.nextInt(8) == 0)
-            {
-                var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-                var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-                var7 = this.randomGenerator.nextInt(128);
-                this.mushroomRedGen.generate(this.currentWorld, this.randomGenerator, var3, var7, var4);
-            }
-        }
-
-        if (this.randomGenerator.nextInt(4) == 0)
-        {
-            var2 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-            var3 = this.randomGenerator.nextInt(128);
-            var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-            this.mushroomBrownGen.generate(this.currentWorld, this.randomGenerator, var2, var3, var4);
-        }
-
-        if (this.randomGenerator.nextInt(8) == 0)
-        {
-            var2 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-            var3 = this.randomGenerator.nextInt(128);
-            var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-            this.mushroomRedGen.generate(this.currentWorld, this.randomGenerator, var2, var3, var4);
-        }
-
-        for (var2 = 0; var2 < this.reedsPerChunk; ++var2)
-        {
-            var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-            var4 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-            var7 = this.randomGenerator.nextInt(128);
-            this.reedGen.generate(this.currentWorld, this.randomGenerator, var3, var7, var4);
-        }
-
-        for (var2 = 0; var2 < 10; ++var2)
-        {
-            var3 = this.chunk_X + this.randomGenerator.nextInt(16) + 8;
-            var4 = this.randomGenerator.nextInt(128);
-            var7 = this.chunk_Z + this.randomGenerator.nextInt(16) + 8;
-            this.reedGen.generate(this.currentWorld, this.randomGenerator, var3, var4, var7);
-        }
-
-        /**
-         * Generates pumpkin in the chunk
-         */
-        this.pumpkinGen.generate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z);
-        
-        /**
-         * Generates cactus in the chunk
-         */
-        this.cactusGen.generate(this.currentWorld, this.randomGenerator, this.chunk_X, this.chunk_Z);
-        
         this.generateList(this.addonGenerators);
         
         /**
          * Generates lakes in the chunk
          */
         if (this.generateLakes) this.generateList(this.liquidGenerators);
-        
-        /**
-         * Generates addons in the chunk
-         */
-        
     }
     
     protected void generateList(List<? extends GenListEntry> genlist)

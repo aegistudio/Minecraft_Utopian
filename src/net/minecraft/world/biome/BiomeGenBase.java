@@ -223,15 +223,15 @@ public abstract class BiomeGenBase
     /**
      * Gets a WorldGen appropriate for this biome.
      */
-    public WorldGenerator getRandomWorldGenForTrees(Random par1Random)
+    public WorldGenerator getRandomWorldGenForTrees(Random random)
     {
-        return (WorldGenerator)(par1Random.nextInt(10) == 0 ? this.worldGeneratorBigTree : this.worldGeneratorTrees);
+        return (WorldGenerator)(random.nextInt(10) == 0 ? this.worldGeneratorBigTree : this.worldGeneratorTrees);
     }
 
     /**
      * Gets a WorldGen appropriate for this biome.
      */
-    public WorldGenerator getRandomWorldGenForGrass(Random par1Random)
+    public WorldGenerator getRandomWorldGenForGrass(Random random)
     {
         return new WorldGenTallGrass(Block.tallGrass.blockID, 1);
     }
@@ -355,9 +355,9 @@ public abstract class BiomeGenBase
         return this.temperature;
     }
 
-    public void decorate(World par1World, Random par2Random, int par3, int par4)
+    public void decorate(World world, Random random, int chunk_X, int chunk_Z)
     {
-        this.theBiomeDecorator.decorate(par1World, par2Random, par3, par4);
+        this.theBiomeDecorator.decorate(world, random, chunk_X, chunk_Z);
     }
 
     /**

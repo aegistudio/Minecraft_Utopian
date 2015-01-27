@@ -12,12 +12,14 @@ public class BiomeGenSwamp extends BiomeGenBase
     {
         super(par1);
         this.theBiomeDecorator.treeGen.genLoops = 2;
-        this.theBiomeDecorator.flowersPerChunk = -999;
-        //this.theBiomeDecorator.deadBushPerChunk = 1;
+        this.theBiomeDecorator.flowerRedGen.genLoops
+    		= this.theBiomeDecorator.flowerYellowGen.genLoops = -999;
         this.theBiomeDecorator.deadbushGen.genLoops = 1;
         
-        this.theBiomeDecorator.mushroomsPerChunk = 8;
-        this.theBiomeDecorator.reedsPerChunk = 10;
+        this.theBiomeDecorator.mushroomBrownGen.genLoops
+        	= this.theBiomeDecorator.mushroomRedGen.genLoops = 8;
+        this.theBiomeDecorator.reedGen.genLoops = 10;
+        
         this.theBiomeDecorator.clayTopSoilGen.soilPerChunk = 1;
         this.theBiomeDecorator.waterlilyGen.genLoops = 4;
         this.waterColorMultiplier = 14745518;

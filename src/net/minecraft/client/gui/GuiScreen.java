@@ -5,6 +5,8 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,12 +162,17 @@ public class GuiScreen extends Gui
         this.buttonList.clear();
         this.initGui();
     }
-
+    
     /**
      * Adds the buttons (and other controls) to the screen in question.
      */
-    public void initGui() {}
+    public void initGui()	{    }
 
+    public void handleSpecialInput(char specialChar, int specialCode)
+    {
+    	this.keyTyped(specialChar, specialCode);
+    }
+    
     /**
      * Delegates mouse and keyboard input.
      */
@@ -228,11 +235,7 @@ public class GuiScreen extends Gui
             int var1 = Keyboard.getEventKey();
             char var2 = Keyboard.getEventCharacter();
         
-            if((var2 & 0x7F) != var2)
-            {
-            	var2 = (char) (var2 << 8);
-            	var2 |= Keyboard.getEventCharacter();
-            }
+            if((var2 & 0x7F) != var2) continue;
             
             if (var1 == 87)
             {

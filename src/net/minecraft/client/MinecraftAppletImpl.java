@@ -2,8 +2,10 @@ package net.minecraft.client;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
+
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.crash.CrashReport;
+
 import org.lwjgl.LWJGLException;
 
 public class MinecraftAppletImpl extends Minecraft

@@ -41,14 +41,14 @@ public class Packet61DoorChange extends Packet
     /**
      * Abstract. Writes the raw packet data to the data stream.
      */
-    public void writePacketData(DataOutputStream par1DataOutputStream) throws IOException
+    public void writePacketData(DataOutputStream dataOutputStream) throws IOException
     {
-        par1DataOutputStream.writeInt(this.sfxID);
-        par1DataOutputStream.writeInt(this.posX);
-        par1DataOutputStream.writeByte(this.posY & 255);
-        par1DataOutputStream.writeInt(this.posZ);
-        par1DataOutputStream.writeInt(this.auxData);
-        par1DataOutputStream.writeBoolean(this.disableRelativeVolume);
+        dataOutputStream.writeInt(this.sfxID);
+        dataOutputStream.writeInt(this.posX);
+        dataOutputStream.writeByte(this.posY & 255);
+        dataOutputStream.writeInt(this.posZ);
+        dataOutputStream.writeInt(this.auxData);
+        dataOutputStream.writeBoolean(this.disableRelativeVolume);
     }
 
     /**

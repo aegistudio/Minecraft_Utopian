@@ -19,8 +19,7 @@ public abstract class GenListEntry
 		this.generator = generator;
 	}
 	
-	@Override
-	public boolean equals(Object obj)
+	public boolean equalsGenerator(Object obj)
 	{
 		if(obj == null) return false;
 		if(!(obj instanceof GenListEntry)) return false;

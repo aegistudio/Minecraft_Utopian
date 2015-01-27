@@ -205,11 +205,11 @@ public abstract class WorldProvider
     }
 
     //XXX this method will be modified!
-    public static WorldProvider getProviderForDimension(int par0)
+    public static WorldProvider getProviderForDimension(int dim)
     {
     	try
     	{
-    		return (WorldProvider)(worldProviderRegistry.get(par0).newInstance());
+    		return (WorldProvider)(worldProviderRegistry.get(dim).newInstance());
     	}
     	catch(Exception exception)
     	{
@@ -279,7 +279,7 @@ public abstract class WorldProvider
      */
     public double getVoidFogYFactor()
     {
-        return this.terrainType == WorldType.FLAT ? 1.0D : 0.03125D;
+    	return this.terrainType == WorldType.FLAT ? 1.0D : 0.03125D;
     }
 
     /**
