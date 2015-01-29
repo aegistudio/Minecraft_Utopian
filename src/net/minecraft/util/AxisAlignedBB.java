@@ -3,7 +3,7 @@ package net.minecraft.util;
 public class AxisAlignedBB
 {
     /** ThreadLocal AABBPool */
-    private static final ThreadLocal theAABBLocalPool = new AABBLocalPool();
+    private static final ThreadLocal<AABBPool> theAABBLocalPool = new AABBLocalPool();
     public double minX;
     public double minY;
     public double minZ;

@@ -32,7 +32,7 @@ public class Packet56MapChunks extends Packet
 
     public Packet56MapChunks() {}
 
-    public Packet56MapChunks(List par1List)
+    public Packet56MapChunks(List<Chunk> par1List)
     {
         int var2 = par1List.size();
         this.chunkPostX = new int[var2];

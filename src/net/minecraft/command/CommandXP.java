@@ -88,7 +88,7 @@ public class CommandXP extends CommandBase
     /**
      * Adds the strings available in this command to the given list of tab completion options.
      */
-    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    public List<String> addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return par2ArrayOfStr.length == 2 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, this.getAllUsernames()) : null;
     }

@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 import java.util.concurrent.Callable;
 
-public class CallableServerProfiler implements Callable
+public class CallableServerProfiler implements Callable<String>
 {
     /** Reference to the MinecraftServer object. */
     final MinecraftServer mcServer;
@@ -23,7 +23,7 @@ public class CallableServerProfiler implements Callable
         return var1 + " (" + var2 + " bytes; " + var3 + " MB) allocated, " + var4 + " (" + var5 + " bytes; " + var6 + " MB) used";
     }
 
-    public Object call()
+    public String call()
     {
         return this.callServerProfiler();
     }

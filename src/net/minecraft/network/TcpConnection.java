@@ -14,7 +14,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.crypto.SecretKey;
+
 import net.minecraft.logging.ILogAgent;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.network.packet.Packet;
@@ -53,13 +55,13 @@ public class TcpConnection implements INetworkManager
     /**
      * Linked list of packets that have been read and are awaiting processing.
      */
-    private List readPackets;
+    private List<Packet> readPackets;
 
     /** Linked list of packets awaiting sending. */
-    private List dataPackets;
+    private List<Packet> dataPackets;
 
     /** Linked list of packets with chunk data that are awaiting sending. */
-    private List chunkDataPackets;
+    private List<Packet> chunkDataPackets;
 
     /** A reference to the NetHandler object. */
     private NetHandler theNetHandler;
@@ -107,9 +109,9 @@ public class TcpConnection implements INetworkManager
         this.sendQueueLock = new Object();
         this.isRunning = true;
         this.isTerminating = false;
-        this.readPackets = Collections.synchronizedList(new ArrayList());
-        this.dataPackets = Collections.synchronizedList(new ArrayList());
-        this.chunkDataPackets = Collections.synchronizedList(new ArrayList());
+        this.readPackets = Collections.synchronizedList(new ArrayList<Packet>());
+        this.dataPackets = Collections.synchronizedList(new ArrayList<Packet>());
+        this.chunkDataPackets = Collections.synchronizedList(new ArrayList<Packet>());
         this.isServerTerminating = false;
         this.terminationReason = "";
         this.field_74490_x = 0;
@@ -162,7 +164,8 @@ public class TcpConnection implements INetworkManager
     /**
      * Adds the packet to the correct send queue (chunk data packets go to a separate queue).
      */
-    public void addToSendQueue(Packet par1Packet)
+    @SuppressWarnings("unused")
+	public void addToSendQueue(Packet packet)
     {
         if (!this.isServerTerminating)
         {
@@ -170,8 +173,8 @@ public class TcpConnection implements INetworkManager
 
             synchronized (this.sendQueueLock)
             {
-                this.sendQueueByteLength += par1Packet.getPacketSize() + 1;
-                this.dataPackets.add(par1Packet);
+                this.sendQueueByteLength += packet.getPacketSize() + 1;
+                this.dataPackets.add(packet);
             }
         }
     }
@@ -243,10 +246,11 @@ public class TcpConnection implements INetworkManager
         }
     }
 
-    private Packet func_74460_a(boolean par1)
+    @SuppressWarnings("unused")
+	private Packet func_74460_a(boolean par1)
     {
         Packet var2 = null;
-        List var3 = par1 ? this.chunkDataPackets : this.dataPackets;
+        List<Packet> var3 = par1 ? this.chunkDataPackets : this.dataPackets;
         Object var4 = this.sendQueueLock;
 
         synchronized (this.sendQueueLock)
@@ -274,8 +278,8 @@ public class TcpConnection implements INetworkManager
         }
         else
         {
-            List var3 = par2 ? this.chunkDataPackets : this.dataPackets;
-            Iterator var4 = var3.iterator();
+            List<Packet> var3 = par2 ? this.chunkDataPackets : this.dataPackets;
+            Iterator<Packet> var4 = var3.iterator();
             Packet var5;
 
             do
@@ -319,34 +323,34 @@ public class TcpConnection implements INetworkManager
 
         try
         {
-            Packet var2 = Packet.readPacket(this.field_98215_i, this.socketInputStream, this.theNetHandler.isServerHandler(), this.networkSocket);
+            Packet packet = Packet.readPacket(this.field_98215_i, this.socketInputStream, this.theNetHandler.isServerHandler(), this.networkSocket);
 
-            if (var2 != null)
+            if (packet != null)
             {
-                if (var2 instanceof Packet252SharedKey && !this.isInputBeingDecrypted)
+                if (packet instanceof Packet252SharedKey && !this.isInputBeingDecrypted)
                 {
                     if (this.theNetHandler.isServerHandler())
                     {
-                        this.sharedKeyForEncryption = ((Packet252SharedKey)var2).getSharedKey(this.field_74463_A);
+                        this.sharedKeyForEncryption = ((Packet252SharedKey)packet).getSharedKey(this.field_74463_A);
                     }
 
                     this.decryptInputStream();
                 }
 
                 int[] var10000 = field_74470_c;
-                int var10001 = var2.getPacketId();
-                var10000[var10001] += var2.getPacketSize() + 1;
+                int var10001 = packet.getPacketId();
+                var10000[var10001] += packet.getPacketSize() + 1;
 
                 if (!this.isServerTerminating)
                 {
-                    if (var2.canProcessAsync() && this.theNetHandler.canProcessPacketsAsync())
+                    if (packet.canProcessAsync() && this.theNetHandler.canProcessPacketsAsync())
                     {
                         this.field_74490_x = 0;
-                        var2.processPacket(this.theNetHandler);
+                        packet.processPacket(this.theNetHandler);
                     }
                     else
                     {
-                        this.readPackets.add(var2);
+                        this.readPackets.add(packet);
                     }
                 }
 

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.concurrent.Callable;
 
-class CallableSuspiciousClasses implements Callable
+class CallableSuspiciousClasses implements Callable<String>
 {
     final CrashReport theCrashReport;
 
@@ -16,17 +16,19 @@ class CallableSuspiciousClasses implements Callable
     {
         this.theCrashReport = par1CrashReport;
     }
-
-    public String callSuspiciousClasses()
+    
+    @SuppressWarnings({"unchecked"})
+	public String callSuspiciousClasses()
     {
         StringBuilder var1 = new StringBuilder();
-        ArrayList var3;
+		ArrayList<Class<?>> var3;
 
         try
         {
             Field var2 = ClassLoader.class.getDeclaredField("classes");
             var2.setAccessible(true);
-            var3 = new ArrayList((Vector)var2.get(CrashReport.class.getClassLoader()));
+            
+            var3 = new ArrayList<Class<?>>((Vector<Class<?>>)var2.get(CrashReport.class.getClassLoader()));
         }
         catch (Exception ex)
         {
@@ -35,14 +37,14 @@ class CallableSuspiciousClasses implements Callable
 
         boolean var4 = true;
         boolean var5 = !CrashReport.class.getCanonicalName().equals("net.minecraft.CrashReport");
-        HashMap var6 = new HashMap();
+        HashMap<String, Integer> var6 = new HashMap<String, Integer>();
         String var7 = "";
         Collections.sort(var3, new ComparatorClassSorter(this));
-        Iterator var8 = var3.iterator();
+        Iterator<Class<?>> var8 = var3.iterator();
 
         while (var8.hasNext())
         {
-            Class var9 = (Class)var8.next();
+            Class<?> var9 = var8.next();
 
             if (var9 != null)
             {
@@ -128,7 +130,7 @@ class CallableSuspiciousClasses implements Callable
         return var1.toString();
     }
 
-    public Object call()
+    public String call()
     {
         return this.callSuspiciousClasses();
     }

@@ -75,7 +75,7 @@ public class CommandServerBanIp extends CommandBase
     /**
      * Adds the strings available in this command to the given list of tab completion options.
      */
-    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    public List<String> addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return par2ArrayOfStr.length == 1 ? getListOfStringsMatchingLastWord(par2ArrayOfStr, MinecraftServer.getServer().getAllUsernames()) : null;
     }
@@ -94,12 +94,12 @@ public class CommandServerBanIp extends CommandBase
         }
 
         MinecraftServer.getServer().getConfigurationManager().getBannedIPs().put(var4);
-        List var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerList(par2Str);
+        List<EntityPlayerMP> var5 = MinecraftServer.getServer().getConfigurationManager().getPlayerList(par2Str);
         String[] var6 = new String[var5.size()];
         int var7 = 0;
         EntityPlayerMP var9;
 
-        for (Iterator var8 = var5.iterator(); var8.hasNext(); var6[var7++] = var9.getEntityName())
+        for (Iterator<EntityPlayerMP> var8 = var5.iterator(); var8.hasNext(); var6[var7++] = var9.getEntityName())
         {
             var9 = (EntityPlayerMP)var8.next();
             var9.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");

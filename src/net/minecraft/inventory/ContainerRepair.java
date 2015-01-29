@@ -98,7 +98,7 @@ public class ContainerRepair extends Container
         {
             ItemStack var5 = var1.copy();
             ItemStack var6 = this.inputSlots.getStackInSlot(1);
-            Map var7 = EnchantmentHelper.getEnchantments(var5);
+            Map<Integer, Integer> var7 = EnchantmentHelper.getEnchantments(var5);
             boolean var8 = false;
             int var19 = var3 + var1.getRepairCost() + (var6 == null ? 0 : var6.getRepairCost());
             this.stackSizeToBeUsedInRepair = 0;
@@ -107,7 +107,7 @@ public class ContainerRepair extends Container
             int var11;
             int var13;
             int var14;
-            Iterator var21;
+            Iterator<Integer> var21;
             Enchantment var22;
 
             if (var6 != null)
@@ -164,7 +164,7 @@ public class ContainerRepair extends Container
                         }
                     }
 
-                    Map var20 = EnchantmentHelper.getEnchantments(var6);
+                    Map<Integer, Integer> var20 = EnchantmentHelper.getEnchantments(var6);
                     var21 = var20.keySet().iterator();
 
                     while (var21.hasNext())
@@ -194,7 +194,7 @@ public class ContainerRepair extends Container
                             var16 = true;
                         }
 
-                        Iterator var17 = var7.keySet().iterator();
+                        Iterator<Integer> var17 = var7.keySet().iterator();
 
                         while (var17.hasNext())
                         {

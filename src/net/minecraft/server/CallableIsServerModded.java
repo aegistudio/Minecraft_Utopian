@@ -2,7 +2,7 @@ package net.minecraft.server;
 
 import java.util.concurrent.Callable;
 
-public class CallableIsServerModded implements Callable
+public class CallableIsServerModded implements Callable<String>
 {
     /** Reference to the MinecraftServer object. */
     final MinecraftServer mcServer;
@@ -17,7 +17,7 @@ public class CallableIsServerModded implements Callable
         return this.mcServer.theProfiler.profilingEnabled ? this.mcServer.theProfiler.getNameOfLastSection() : "N/A (disabled)";
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_96558_a();
     }

@@ -3,6 +3,7 @@ package net.minecraft.util;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class IntHashMap
 {
     /** An array of HashEntries representing the heads of hash slot lists */
@@ -18,10 +19,10 @@ public class IntHashMap
     private final float growFactor = 0.75F;
 
     /** A serial stamp used to mark changes */
-    private transient volatile int versionStamp;
+	private transient volatile int versionStamp;
 
     /** The set of all the keys stored in this MCHash object */
-    private Set keySet = new HashSet();
+    private Set<Integer> keySet = new HashSet<Integer>();
 
     /**
      * Makes the passed in integer suitable for hashing by a number of shifts
@@ -238,7 +239,7 @@ public class IntHashMap
     /**
      * Return the Set of all keys stored in this MCHash object
      */
-    public Set getKeySet()
+    public Set<Integer> getKeySet()
     {
         return this.keySet;
     }

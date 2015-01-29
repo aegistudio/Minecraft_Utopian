@@ -2,7 +2,7 @@ package net.minecraft.crash;
 
 import java.util.Comparator;
 
-class ComparatorClassSorter implements Comparator
+class ComparatorClassSorter implements Comparator<Class<?>>
 {
     final CallableSuspiciousClasses theSuspiciousClasses;
 
@@ -11,15 +11,15 @@ class ComparatorClassSorter implements Comparator
         this.theSuspiciousClasses = par1CallableSuspiciousClasses;
     }
 
-    public int func_85081_a(Class par1Class, Class par2Class)
+    public int func_85081_a(Class<?> par1Class, Class<?> par2Class)
     {
         String var3 = par1Class.getPackage() == null ? "" : par1Class.getPackage().getName();
         String var4 = par2Class.getPackage() == null ? "" : par2Class.getPackage().getName();
         return var3.compareTo(var4);
     }
 
-    public int compare(Object par1Obj, Object par2Obj)
+    public int compare(Class<?> par1Obj, Class<?> par2Obj)
     {
-        return this.func_85081_a((Class)par1Obj, (Class)par2Obj);
+        return this.func_85081_a(par1Obj, par2Obj);
     }
 }

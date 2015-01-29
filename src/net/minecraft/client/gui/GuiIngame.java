@@ -644,7 +644,7 @@ public class GuiIngame extends Gui
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)
     {
         Scoreboard var5 = par1ScoreObjective.getScoreboard();
-        Collection var6 = var5.func_96534_i(par1ScoreObjective);
+        Collection var6 = var5.getSortedScoresByObjective(par1ScoreObjective);
 
         if (var6.size() <= 15)
         {

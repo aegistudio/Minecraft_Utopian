@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+@SuppressWarnings("unused")
 public enum EnumFacing
 {
     DOWN(0, 1, 0, -1, 0),
@@ -13,7 +14,7 @@ public enum EnumFacing
     private final int order_a;
 
     /** Face order for U-D-S-N-W-E. */
-    private final int order_b;
+	private final int order_b;
     private final int frontOffsetX;
     private final int frontOffsetY;
     private final int frontOffsetZ;

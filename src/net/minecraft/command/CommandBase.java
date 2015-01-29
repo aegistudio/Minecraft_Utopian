@@ -24,7 +24,7 @@ public abstract class CommandBase implements ICommand
         return "/" + this.getCommandName();
     }
 
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         return null;
     }
@@ -40,7 +40,7 @@ public abstract class CommandBase implements ICommand
     /**
      * Adds the strings available in this command to the given list of tab completion options.
      */
-    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    public List<String> addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         return null;
     }
@@ -221,7 +221,7 @@ public abstract class CommandBase implements ICommand
         return var1.toString();
     }
 
-    public static String func_96333_a(Collection par0Collection)
+    public static String func_96333_a(Collection<String> par0Collection)
     {
         return joinNiceString(par0Collection.toArray(new String[0]));
     }
@@ -238,10 +238,10 @@ public abstract class CommandBase implements ICommand
      * Returns a List of strings (chosen from the given strings) which the last word in the given string array is a
      * beginning-match for. (Tab completion).
      */
-    public static List getListOfStringsMatchingLastWord(String[] par0ArrayOfStr, String ... par1ArrayOfStr)
+    public static List<String> getListOfStringsMatchingLastWord(String[] par0ArrayOfStr, String ... par1ArrayOfStr)
     {
         String var2 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
-        ArrayList var3 = new ArrayList();
+        ArrayList<String> var3 = new ArrayList<String>();
         String[] var4 = par1ArrayOfStr;
         int var5 = par1ArrayOfStr.length;
 
@@ -262,11 +262,11 @@ public abstract class CommandBase implements ICommand
      * Returns a List of strings (chosen from the given string iterable) which the last word in the given string array
      * is a beginning-match for. (Tab completion).
      */
-    public static List getListOfStringsFromIterableMatchingLastWord(String[] par0ArrayOfStr, Iterable par1Iterable)
+    public static List<String> getListOfStringsFromIterableMatchingLastWord(String[] par0ArrayOfStr, Iterable<String> par1Iterable)
     {
         String var2 = par0ArrayOfStr[par0ArrayOfStr.length - 1];
-        ArrayList var3 = new ArrayList();
-        Iterator var4 = par1Iterable.iterator();
+        ArrayList<String> var3 = new ArrayList<String>();
+        Iterator<String> var4 = par1Iterable.iterator();
 
         while (var4.hasNext())
         {
@@ -318,8 +318,4 @@ public abstract class CommandBase implements ICommand
         return this.getCommandName().compareTo(par1ICommand.getCommandName());
     }
 
-    public int compareTo(Object par1Obj)
-    {
-        return this.compareTo((ICommand)par1Obj);
-    }
 }

@@ -2,7 +2,6 @@ package net.minecraft.entity.projectile;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.enchantment.EnchantmentThorns;
 import net.minecraft.entity.Entity;
@@ -249,7 +248,7 @@ public class EntityArrow extends Entity implements IProjectile
             }
 
             Entity var5 = null;
-            List var6 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
+            List<Entity> var6 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
             double var7 = 0.0D;
             int var9;
             float var11;

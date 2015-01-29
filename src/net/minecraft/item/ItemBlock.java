@@ -212,7 +212,7 @@ public class ItemBlock extends Item
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
      */
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
         whocallme.getBlock(this.blockID).getSubBlocks(par1, par2CreativeTabs, par3List);

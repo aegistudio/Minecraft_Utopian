@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
 import net.aegistudio.minecraft.utopian.event.action.CommandAction;
 import net.aegistudio.minecraft.utopian.event.action.PreCommandAction;
-import net.aegistudio.minecraft.utopian.event.runtime.PreInitEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -24,10 +23,10 @@ import net.minecraft.util.EnumChatFormatting;
 public class CommandHandler implements ICommandManager
 {
     /** Map of Strings to the ICommand objects they represent */
-    private final Map commandMap = new HashMap();
+    private final Map<String, ICommand> commandMap = new HashMap<String, ICommand>();
 
     /** The set of ICommand objects currently loaded. */
-    private final Set commandSet = new HashSet();
+    private final Set<ICommand> commandSet = new HashSet<ICommand>();
 
     public static String[] processCommandSplitting(String command) throws Exception
     {
@@ -165,13 +164,13 @@ public class CommandHandler implements ICommandManager
      */
     public ICommand registerCommand(ICommand par1ICommand)
     {
-        List var2 = par1ICommand.getCommandAliases();
+        List<String> var2 = par1ICommand.getCommandAliases();
         this.commandMap.put(par1ICommand.getCommandName(), par1ICommand);
         this.commandSet.add(par1ICommand);
 
         if (var2 != null)
         {
-            Iterator var3 = var2.iterator();
+            Iterator<String> var3 = var2.iterator();
 
             while (var3.hasNext())
             {
@@ -206,19 +205,19 @@ public class CommandHandler implements ICommandManager
     /**
      * Performs a "begins with" string match on each token in par2. Only returns commands that par1 can use.
      */
-    public List getPossibleCommands(ICommandSender par1ICommandSender, String par2Str)
+    public List<String> getPossibleCommands(ICommandSender par1ICommandSender, String par2Str)
     {
         String[] var3 = par2Str.split(" ", -1);
         String var4 = var3[0];
 
         if (var3.length == 1)
         {
-            ArrayList var8 = new ArrayList();
-            Iterator var6 = this.commandMap.entrySet().iterator();
+            ArrayList<String> var8 = new ArrayList<String>();
+            Iterator<Entry<String, ICommand>> var6 = this.commandMap.entrySet().iterator();
 
             while (var6.hasNext())
             {
-                Entry var7 = (Entry)var6.next();
+                Entry<String, ICommand> var7 = var6.next();
 
                 if (CommandBase.doesStringStartWith(var4, (String)var7.getKey()) && ((ICommand)var7.getValue()).canCommandSenderUseCommand(par1ICommandSender))
                 {
@@ -247,10 +246,10 @@ public class CommandHandler implements ICommandManager
     /**
      * returns all commands that the commandSender can use
      */
-    public List getPossibleCommands(ICommandSender par1ICommandSender)
+    public List<ICommand> getPossibleCommands(ICommandSender par1ICommandSender)
     {
-        ArrayList var2 = new ArrayList();
-        Iterator var3 = this.commandSet.iterator();
+        ArrayList<ICommand> var2 = new ArrayList<ICommand>();
+        Iterator<ICommand> var3 = this.commandSet.iterator();
 
         while (var3.hasNext())
         {
@@ -268,7 +267,7 @@ public class CommandHandler implements ICommandManager
     /**
      * returns a map of string to commads. All commands are returned, not just ones which someone has permission to use.
      */
-    public Map getCommands()
+    public Map<String, ICommand> getCommands()
     {
         return this.commandMap;
     }

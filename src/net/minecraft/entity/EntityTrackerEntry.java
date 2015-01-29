@@ -90,7 +90,7 @@ public class EntityTrackerEntry
     /**
      * Holds references to all the players that are currently receiving position updates for this entity.
      */
-    public Set trackingPlayers = new HashSet();
+    public Set<EntityPlayerMP> trackingPlayers = new HashSet<EntityPlayerMP>();
 
     public EntityTrackerEntry(Entity par1Entity, int par2, int par3, boolean par4)
     {
@@ -119,7 +119,7 @@ public class EntityTrackerEntry
     /**
      * also sends velocity, rotation, and riding info.
      */
-    public void sendLocationToAllClients(List par1List)
+    public void sendLocationToAllClients(List<EntityPlayer> par1List)
     {
         this.playerEntitiesUpdated = false;
 
@@ -147,7 +147,7 @@ public class EntityTrackerEntry
             if (var24 != null && var24.getItem() instanceof ItemMap)
             {
                 MapData var26 = Item.map.getMapData(var24, this.myEntity.worldObj);
-                Iterator var29 = par1List.iterator();
+                Iterator<EntityPlayer> var29 = par1List.iterator();
 
                 while (var29.hasNext())
                 {
@@ -313,7 +313,7 @@ public class EntityTrackerEntry
      */
     public void sendPacketToAllTrackingPlayers(Packet par1Packet)
     {
-        Iterator var2 = this.trackingPlayers.iterator();
+        Iterator<EntityPlayerMP> var2 = this.trackingPlayers.iterator();
 
         while (var2.hasNext())
         {
@@ -337,7 +337,7 @@ public class EntityTrackerEntry
 
     public void informAllAssociatedPlayersOfItemDestruction()
     {
-        Iterator var1 = this.trackingPlayers.iterator();
+        Iterator<EntityPlayerMP> var1 = this.trackingPlayers.iterator();
 
         while (var1.hasNext())
         {
@@ -418,7 +418,7 @@ public class EntityTrackerEntry
                     if (this.myEntity instanceof EntityLiving)
                     {
                         EntityLiving var10 = (EntityLiving)this.myEntity;
-                        Iterator var12 = var10.getActivePotionEffects().iterator();
+                        Iterator<PotionEffect> var12 = var10.getActivePotionEffects().iterator();
 
                         while (var12.hasNext())
                         {
@@ -441,7 +441,7 @@ public class EntityTrackerEntry
         return par1EntityPlayerMP.getServerForPlayer().getPlayerManager().isPlayerWatchingChunk(par1EntityPlayerMP, this.myEntity.chunkCoordX, this.myEntity.chunkCoordZ);
     }
 
-    public void sendEventsToPlayers(List par1List)
+    public void sendEventsToPlayers(List<? extends EntityPlayer> par1List)
     {
         for (int var2 = 0; var2 < par1List.size(); ++var2)
         {

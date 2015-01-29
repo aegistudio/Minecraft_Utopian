@@ -12,7 +12,7 @@ import net.minecraft.world.ChunkCoordIntPair;
 
 class PlayerInstance
 {
-    private final List playersInChunk;
+    private final List<EntityPlayerMP> playersInChunk;
 
     /** note: this is final */
     private final ChunkCoordIntPair chunkLocation;
@@ -25,7 +25,7 @@ class PlayerInstance
     public PlayerInstance(PlayerManager par1PlayerManager, int par2, int par3)
     {
         this.thePlayerManager = par1PlayerManager;
-        this.playersInChunk = new ArrayList();
+        this.playersInChunk = new ArrayList<EntityPlayerMP>();
         this.locationOfBlockChange = new short[64];
         this.numberOfTilesToUpdate = 0;
         this.chunkLocation = new ChunkCoordIntPair(par2, par3);

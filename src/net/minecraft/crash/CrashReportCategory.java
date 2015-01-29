@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
+
 import net.minecraft.util.MathHelper;
 
 public class CrashReportCategory
 {
-    private final CrashReport theCrashReport;
+    @SuppressWarnings("unused")
+	private final CrashReport theCrashReport;
     private final String field_85076_b;
-    private final List field_85077_c = new ArrayList();
+    private final List<CrashReportCategoryEntry> field_85077_c = new ArrayList<CrashReportCategoryEntry>();
     private StackTraceElement[] stackTrace = new StackTraceElement[0];
 
     public CrashReportCategory(CrashReport par1CrashReport, String par2Str)
@@ -96,7 +98,7 @@ public class CrashReportCategory
     /**
      * Adds a Crashreport section with the given name with the value set to the result of the given Callable;
      */
-    public void addCrashSectionCallable(String par1Str, Callable par2Callable)
+    public void addCrashSectionCallable(String par1Str, Callable<?> par2Callable)
     {
         try
         {
@@ -176,7 +178,7 @@ public class CrashReportCategory
     {
         par1StringBuilder.append("-- ").append(this.field_85076_b).append(" --\n");
         par1StringBuilder.append("Details:");
-        Iterator var2 = this.field_85077_c.iterator();
+        Iterator<CrashReportCategoryEntry> var2 = this.field_85077_c.iterator();
 
         while (var2.hasNext())
         {

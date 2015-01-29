@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
@@ -28,14 +29,15 @@ public class CommandHelp extends CommandBase
         return par1ICommandSender.translateString("commands.help.usage", new Object[0]);
     }
 
-    public List getCommandAliases()
+    public List<String> getCommandAliases()
     {
         return Arrays.asList(new String[] {"?"});
     }
 
-    public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    @SuppressWarnings("unused")
+	public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
-        List var3 = this.getSortedPossibleCommands(par1ICommandSender);
+        List<ICommand> var3 = this.getSortedPossibleCommands(par1ICommandSender);
         byte var4 = 7;
         int var5 = (var3.size() - 1) / var4;
         boolean var6 = false;
@@ -48,7 +50,7 @@ public class CommandHelp extends CommandBase
         }
         catch (NumberInvalidException var10)
         {
-            Map var8 = this.getCommands();
+            Map<String, ICommand> var8 = this.getCommands();
             var9 = (ICommand)var8.get(par2ArrayOfStr[0]);
 
             if (var9 != null)
@@ -77,14 +79,14 @@ public class CommandHelp extends CommandBase
     /**
      * Returns a sorted list of all possible commands for the given ICommandSender.
      */
-    protected List getSortedPossibleCommands(ICommandSender par1ICommandSender)
+    protected List<ICommand> getSortedPossibleCommands(ICommandSender par1ICommandSender)
     {
-        List var2 = MinecraftServer.getServer().getCommandManager().getPossibleCommands(par1ICommandSender);
+        List<ICommand> var2 = MinecraftServer.getServer().getCommandManager().getPossibleCommands(par1ICommandSender);
         Collections.sort(var2);
         return var2;
     }
 
-    protected Map getCommands()
+    protected Map<String, ICommand> getCommands()
     {
         return MinecraftServer.getServer().getCommandManager().getCommands();
     }

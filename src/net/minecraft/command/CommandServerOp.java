@@ -40,12 +40,12 @@ public class CommandServerOp extends CommandBase
     /**
      * Adds the strings available in this command to the given list of tab completion options.
      */
-    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    public List<String> addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         if (par2ArrayOfStr.length == 1)
         {
             String var3 = par2ArrayOfStr[par2ArrayOfStr.length - 1];
-            ArrayList var4 = new ArrayList();
+            ArrayList<String> var4 = new ArrayList<String>();
             String[] var5 = MinecraftServer.getServer().getAllUsernames();
             int var6 = var5.length;
 

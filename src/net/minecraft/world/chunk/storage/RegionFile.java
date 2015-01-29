@@ -12,14 +12,15 @@ import java.util.zip.DeflaterOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.InflaterInputStream;
 
+@SuppressWarnings("unused")
 public class RegionFile
 {
     private static final byte[] emptySector = new byte[4096];
-    private final File fileName;
+	private final File fileName;
     private RandomAccessFile dataFile;
     private final int[] offsets = new int[1024];
     private final int[] chunkTimestamps = new int[1024];
-    private ArrayList sectorFree;
+    private ArrayList<Boolean> sectorFree;
 
     /** McRegion sizeDelta */
     private int sizeDelta;
@@ -64,7 +65,7 @@ public class RegionFile
             }
 
             var2 = (int)this.dataFile.length() / 4096;
-            this.sectorFree = new ArrayList(var2);
+            this.sectorFree = new ArrayList<Boolean>(var2);
             int var3;
 
             for (var3 = 0; var3 < var2; ++var3)

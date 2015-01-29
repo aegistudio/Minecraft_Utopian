@@ -24,7 +24,7 @@ public class Teleporter
      * A list of valid keys for the destinationCoordainteCache. These are based on the X & Z of the players initial
      * location.
      */
-    private final List destinationCoordinateKeys = new ArrayList();
+    private final List<Long> destinationCoordinateKeys = new ArrayList<Long>();
 
     public Teleporter(WorldServer par1WorldServer)
     {
@@ -491,7 +491,7 @@ public class Teleporter
     {
         if (par1 % 100L == 0L)
         {
-            Iterator var3 = this.destinationCoordinateKeys.iterator();
+            Iterator<Long> var3 = this.destinationCoordinateKeys.iterator();
             long var4 = par1 - 600L;
 
             while (var3.hasNext())

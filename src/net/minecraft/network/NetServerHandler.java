@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Random;
 
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
-import net.aegistudio.minecraft.utopian.event.action.BlockActivateAction;
 import net.aegistudio.minecraft.utopian.event.action.ChatAction;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -88,7 +87,8 @@ public class NetServerHandler extends NetHandler
      * player is kicked if they float for over 80 ticks without flying enabled
      */
     private int ticksForFloatKick;
-    private boolean field_72584_h;
+    @SuppressWarnings("unused")
+	private boolean field_72584_h;
     private int keepAliveRandomID;
     private long keepAliveTimeSent;
     private static Random randomGenerator = new Random();
@@ -878,7 +878,7 @@ public class NetServerHandler extends NetHandler
                 this.field_72586_s.addKey(this.playerEntity.openContainer.windowId, Short.valueOf(par1Packet102WindowClick.action));
                 this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet106Transaction(par1Packet102WindowClick.window_Id, par1Packet102WindowClick.action, false));
                 this.playerEntity.openContainer.setPlayerIsPresent(this.playerEntity, false);
-                ArrayList var3 = new ArrayList();
+                ArrayList<ItemStack> var3 = new ArrayList<ItemStack>();
 
                 for (int var4 = 0; var4 < this.playerEntity.openContainer.inventorySlots.size(); ++var4)
                 {
@@ -1046,7 +1046,7 @@ public class NetServerHandler extends NetHandler
         StringBuilder var2 = new StringBuilder();
         String var4;
 
-        for (Iterator var3 = this.mcServer.getPossibleCompletions(this.playerEntity, par1Packet203AutoComplete.getText()).iterator(); var3.hasNext(); var2.append(var4))
+        for (Iterator<String> var3 = this.mcServer.getPossibleCompletions(this.playerEntity, par1Packet203AutoComplete.getText()).iterator(); var3.hasNext(); var2.append(var4))
         {
             var4 = (String)var3.next();
 

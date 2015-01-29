@@ -16,7 +16,7 @@ import java.util.Map.Entry;
 public class PlayerUsageSnooper
 {
     /** String map for report data */
-    private Map dataMap = new HashMap();
+    private Map<String, Object> dataMap = new HashMap<String, Object>();
     private final String uniqueID = UUID.randomUUID().toString();
 
     /** URL of the server to send the report to */
@@ -74,9 +74,9 @@ public class PlayerUsageSnooper
     private void addJvmArgsToSnooper()
     {
         RuntimeMXBean var1 = ManagementFactory.getRuntimeMXBean();
-        List var2 = var1.getInputArguments();
+        List<String> var2 = var1.getInputArguments();
         int var3 = 0;
-        Iterator var4 = var2.iterator();
+        Iterator<String> var4 = var2.iterator();
 
         while (var4.hasNext())
         {
@@ -104,7 +104,8 @@ public class PlayerUsageSnooper
     /**
      * Adds information to the report
      */
-    public void addData(String par1Str, Object par2Obj)
+    @SuppressWarnings("unused")
+	public void addData(String par1Str, Object par2Obj)
     {
         Object var3 = this.syncLock;
 
@@ -114,19 +115,20 @@ public class PlayerUsageSnooper
         }
     }
 
-    public Map getCurrentStats()
+    @SuppressWarnings("unused")
+	public Map<String, String> getCurrentStats()
     {
-        LinkedHashMap var1 = new LinkedHashMap();
+        LinkedHashMap<String, String> var1 = new LinkedHashMap<String, String>();
         Object var2 = this.syncLock;
 
         synchronized (this.syncLock)
         {
             this.addMemoryStatsToSnooper();
-            Iterator var3 = this.dataMap.entrySet().iterator();
+            Iterator<Entry<String, Object>> var3 = this.dataMap.entrySet().iterator();
 
             while (var3.hasNext())
             {
-                Entry var4 = (Entry)var3.next();
+                Entry<String, Object> var4 = (Entry<String, Object>)var3.next();
                 var1.put(var4.getKey(), var4.getValue().toString());
             }
 
@@ -159,7 +161,7 @@ public class PlayerUsageSnooper
         return par0PlayerUsageSnooper.syncLock;
     }
 
-    static Map getDataMapFor(PlayerUsageSnooper par0PlayerUsageSnooper)
+    static Map<String, Object> getDataMapFor(PlayerUsageSnooper par0PlayerUsageSnooper)
     {
         return par0PlayerUsageSnooper.dataMap;
     }

@@ -10,7 +10,7 @@ import net.minecraft.world.WorldSavedData;
 
 public class ScoreboardSaveData extends WorldSavedData
 {
-    private Scoreboard field_96507_a;
+    private Scoreboard theScoreboard;
     private NBTTagCompound field_96506_b;
 
     public ScoreboardSaveData()
@@ -25,7 +25,7 @@ public class ScoreboardSaveData extends WorldSavedData
 
     public void func_96499_a(Scoreboard par1Scoreboard)
     {
-        this.field_96507_a = par1Scoreboard;
+        this.theScoreboard = par1Scoreboard;
 
         if (this.field_96506_b != null)
         {
@@ -38,7 +38,7 @@ public class ScoreboardSaveData extends WorldSavedData
      */
     public void readFromNBT(NBTTagCompound par1NBTTagCompound)
     {
-        if (this.field_96507_a == null)
+        if (this.theScoreboard == null)
         {
             this.field_96506_b = par1NBTTagCompound;
         }
@@ -64,7 +64,7 @@ public class ScoreboardSaveData extends WorldSavedData
         for (int var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
         {
             NBTTagCompound var3 = (NBTTagCompound)par1NBTTagList.tagAt(var2);
-            ScorePlayerTeam var4 = this.field_96507_a.func_96527_f(var3.getString("Name"));
+            ScorePlayerTeam var4 = this.theScoreboard.assembleTeam(var3.getString("Name"));
             var4.setDisplayName(var3.getString("DisplayName"));
             var4.setTeamPrefix(var3.getString("Prefix"));
             var4.setTeamSuffix(var3.getString("Suffix"));
@@ -87,7 +87,7 @@ public class ScoreboardSaveData extends WorldSavedData
     {
         for (int var3 = 0; var3 < par2NBTTagList.tagCount(); ++var3)
         {
-            this.field_96507_a.func_96521_a(((NBTTagString)par2NBTTagList.tagAt(var3)).data, par1ScorePlayerTeam);
+            this.theScoreboard.addPlayerToTeam(((NBTTagString)par2NBTTagList.tagAt(var3)).data, par1ScorePlayerTeam);
         }
     }
 
@@ -98,8 +98,8 @@ public class ScoreboardSaveData extends WorldSavedData
             if (par1NBTTagCompound.hasKey("slot_" + var2))
             {
                 String var3 = par1NBTTagCompound.getString("slot_" + var2);
-                ScoreObjective var4 = this.field_96507_a.getObjective(var3);
-                this.field_96507_a.func_96530_a(var2, var4);
+                ScoreObjective var4 = this.theScoreboard.getObjective(var3);
+                this.theScoreboard.func_96530_a(var2, var4);
             }
         }
     }
@@ -109,8 +109,8 @@ public class ScoreboardSaveData extends WorldSavedData
         for (int var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
         {
             NBTTagCompound var3 = (NBTTagCompound)par1NBTTagList.tagAt(var2);
-            ScoreObjectiveCriteria var4 = (ScoreObjectiveCriteria)ScoreObjectiveCriteria.field_96643_a.get(var3.getString("CriteriaName"));
-            ScoreObjective var5 = this.field_96507_a.func_96535_a(var3.getString("Name"), var4);
+            ScoreObjectiveCriteria var4 = (ScoreObjectiveCriteria)ScoreObjectiveCriteria.nameToCriteriaMap.get(var3.getString("CriteriaName"));
+            ScoreObjective var5 = this.theScoreboard.func_96535_a(var3.getString("Name"), var4);
             var5.setDisplayName(var3.getString("DisplayName"));
         }
     }
@@ -120,8 +120,8 @@ public class ScoreboardSaveData extends WorldSavedData
         for (int var2 = 0; var2 < par1NBTTagList.tagCount(); ++var2)
         {
             NBTTagCompound var3 = (NBTTagCompound)par1NBTTagList.tagAt(var2);
-            ScoreObjective var4 = this.field_96507_a.getObjective(var3.getString("Objective"));
-            Score var5 = this.field_96507_a.func_96529_a(var3.getString("Name"), var4);
+            ScoreObjective var4 = this.theScoreboard.getObjective(var3.getString("Objective"));
+            Score var5 = this.theScoreboard.func_96529_a(var3.getString("Name"), var4);
             var5.func_96647_c(var3.getInteger("Score"));
         }
     }
@@ -131,7 +131,7 @@ public class ScoreboardSaveData extends WorldSavedData
      */
     public void writeToNBT(NBTTagCompound par1NBTTagCompound)
     {
-        if (this.field_96507_a == null)
+        if (this.theScoreboard == null)
         {
             MinecraftServer.getServer().getLogAgent().logWarning("Tried to save scoreboard without having a scoreboard...");
         }
@@ -147,8 +147,8 @@ public class ScoreboardSaveData extends WorldSavedData
     protected NBTTagList func_96496_a()
     {
         NBTTagList var1 = new NBTTagList();
-        Collection var2 = this.field_96507_a.func_96525_g();
-        Iterator var3 = var2.iterator();
+        Collection<ScorePlayerTeam> var2 = this.theScoreboard.getScorePlayerTeams();
+        Iterator<ScorePlayerTeam> var3 = var2.iterator();
 
         while (var3.hasNext())
         {
@@ -161,7 +161,7 @@ public class ScoreboardSaveData extends WorldSavedData
             var5.setBoolean("AllowFriendlyFire", var4.func_96665_g());
             var5.setBoolean("SeeFriendlyInvisibles", var4.func_98297_h());
             NBTTagList var6 = new NBTTagList();
-            Iterator var7 = var4.getMembershipCollection().iterator();
+            Iterator<String> var7 = var4.getMembershipCollection().iterator();
 
             while (var7.hasNext())
             {
@@ -183,7 +183,7 @@ public class ScoreboardSaveData extends WorldSavedData
 
         for (int var4 = 0; var4 < 3; ++var4)
         {
-            ScoreObjective var5 = this.field_96507_a.func_96539_a(var4);
+            ScoreObjective var5 = this.theScoreboard.func_96539_a(var4);
 
             if (var5 != null)
             {
@@ -201,8 +201,8 @@ public class ScoreboardSaveData extends WorldSavedData
     protected NBTTagList func_96505_b()
     {
         NBTTagList var1 = new NBTTagList();
-        Collection var2 = this.field_96507_a.getScoreObjectives();
-        Iterator var3 = var2.iterator();
+        Collection<ScoreObjective> var2 = this.theScoreboard.getScoreObjectives();
+        Iterator<ScoreObjective> var3 = var2.iterator();
 
         while (var3.hasNext())
         {
@@ -220,7 +220,7 @@ public class ScoreboardSaveData extends WorldSavedData
     protected NBTTagList func_96503_e()
     {
         NBTTagList var1 = new NBTTagList();
-        Collection var2 = this.field_96507_a.func_96528_e();
+        Collection var2 = this.theScoreboard.func_96528_e();
         Iterator var3 = var2.iterator();
 
         while (var3.hasNext())

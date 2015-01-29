@@ -13,21 +13,21 @@ import net.minecraft.util.MathHelper;
 public abstract class Container
 {
     /** the list of all items(stacks) for the corresponding slot */
-    public List inventoryItemStacks = new ArrayList();
+    public List<ItemStack> inventoryItemStacks = new ArrayList<ItemStack>();
 
     /** the list of all slots in the inventory */
-    public List inventorySlots = new ArrayList();
+    public List<Slot> inventorySlots = new ArrayList<Slot>();
     public int windowId = 0;
     private short transactionID = 0;
     private int field_94535_f = -1;
     private int field_94536_g = 0;
-    private final Set field_94537_h = new HashSet();
+    private final Set<Slot> field_94537_h = new HashSet<Slot>();
 
     /**
      * list of all people that need to be notified when this craftinventory changes
      */
-    protected List crafters = new ArrayList();
-    private Set playerList = new HashSet();
+    protected List<ICrafting> crafters = new ArrayList<ICrafting>();
+    private Set<EntityPlayer> playerList = new HashSet<EntityPlayer>();
 
     /**
      * the slot is assumed empty
@@ -36,7 +36,7 @@ public abstract class Container
     {
         par1Slot.slotNumber = this.inventorySlots.size();
         this.inventorySlots.add(par1Slot);
-        this.inventoryItemStacks.add((Object)null);
+        this.inventoryItemStacks.add(null);
         return par1Slot;
     }
 
@@ -65,9 +65,9 @@ public abstract class Container
     /**
      * returns a list if itemStacks, for each slot.
      */
-    public List getInventory()
+    public List<ItemStack> getInventory()
     {
-        ArrayList var1 = new ArrayList();
+        ArrayList<ItemStack> var1 = new ArrayList<ItemStack>();
 
         for (int var2 = 0; var2 < this.inventorySlots.size(); ++var2)
         {
@@ -186,7 +186,7 @@ public abstract class Container
                 {
                     var17 = var6.getItemStack().copy();
                     var9 = var6.getItemStack().stackSize;
-                    Iterator var10 = this.field_94537_h.iterator();
+                    Iterator<Slot> var10 = this.field_94537_h.iterator();
 
                     while (var10.hasNext())
                     {

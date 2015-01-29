@@ -21,7 +21,7 @@ public class DedicatedServerListenThread extends NetworkListenThread
     public void stopListening()
     {
         super.stopListening();
-        this.theServerListenThread.func_71768_b();
+        this.theServerListenThread.closeServerSocket();
         this.theServerListenThread.interrupt();
     }
 

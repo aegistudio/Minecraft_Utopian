@@ -2,10 +2,11 @@ package net.minecraft.util;
 
 import net.minecraft.entity.EntityLiving;
 
+@SuppressWarnings("unused")
 public class CombatEntry
 {
     private final DamageSource field_94569_a;
-    private final int field_94567_b;
+	private final int field_94567_b;
     private final int field_94568_c;
     private final int field_94565_d;
     private final String field_94566_e;

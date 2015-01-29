@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 
 public class CombatTracker
 {
-    private final List field_94556_a = new ArrayList();
+    private final List<CombatEntry> field_94556_a = new ArrayList<CombatEntry>();
     private final EntityLiving field_94554_b;
     private int field_94555_c = 0;
     private boolean field_94552_d = false;
@@ -57,7 +57,7 @@ public class CombatTracker
         this.field_94552_d |= var4.func_94559_f();
     }
 
-    public String func_94546_b()
+    public String translateDeathMessage()
     {
         if (this.field_94556_a.size() == 0)
         {
@@ -66,12 +66,12 @@ public class CombatTracker
         else
         {
             CombatEntry var1 = this.func_94544_f();
-            CombatEntry var2 = (CombatEntry)this.field_94556_a.get(this.field_94556_a.size() - 1);
+            CombatEntry combatEntry = (CombatEntry)this.field_94556_a.get(this.field_94556_a.size() - 1);
             String var3 = "";
-            String var4 = var2.func_94558_h();
-            Entity var5 = var2.func_94560_a().getEntity();
+            String var4 = combatEntry.func_94558_h();
+            Entity var5 = combatEntry.func_94560_a().getEntity();
 
-            if (var1 != null && var2.func_94560_a() == DamageSource.fall)
+            if (var1 != null && combatEntry.func_94560_a() == DamageSource.fall)
             {
                 String var6 = var1.func_94558_h();
 
@@ -116,7 +116,7 @@ public class CombatTracker
             }
             else
             {
-                var3 = var2.func_94560_a().getDeathMessage(this.field_94554_b);
+                var3 = combatEntry.func_94560_a().getDeathMessage(this.field_94554_b);
             }
 
             return var3;
@@ -129,7 +129,7 @@ public class CombatTracker
         EntityPlayer var2 = null;
         int var3 = 0;
         int var4 = 0;
-        Iterator var5 = this.field_94556_a.iterator();
+        Iterator<CombatEntry> var5 = this.field_94556_a.iterator();
 
         while (var5.hasNext())
         {

@@ -4,7 +4,7 @@ import java.util.Comparator;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChunkCoordinates;
 
-public class PlayerPositionComparator implements Comparator
+public class PlayerPositionComparator implements Comparator<EntityPlayerMP>
 {
     private final ChunkCoordinates theChunkCoordinates;
 
@@ -23,8 +23,8 @@ public class PlayerPositionComparator implements Comparator
         return var3 < var5 ? -1 : (var3 > var5 ? 1 : 0);
     }
 
-    public int compare(Object par1Obj, Object par2Obj)
+    public int compare(EntityPlayerMP par1Obj, EntityPlayerMP par2Obj)
     {
-        return this.comparePlayers((EntityPlayerMP)par1Obj, (EntityPlayerMP)par2Obj);
+        return this.comparePlayers(par1Obj, par2Obj);
     }
 }

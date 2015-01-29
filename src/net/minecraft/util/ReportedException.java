@@ -2,6 +2,7 @@ package net.minecraft.util;
 
 import net.minecraft.crash.CrashReport;
 
+@SuppressWarnings("serial")
 public class ReportedException extends RuntimeException
 {
     /** Instance of CrashReport. */

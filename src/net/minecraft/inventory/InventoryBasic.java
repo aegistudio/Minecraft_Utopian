@@ -9,7 +9,7 @@ public class InventoryBasic implements IInventory
     private String inventoryTitle;
     private int slotsCount;
     private ItemStack[] inventoryContents;
-    private List field_70480_d;
+    private List<IInvBasic> inventoryBasics;
     private boolean field_94051_e;
 
     public InventoryBasic(String par1Str, boolean par2, int par3)
@@ -136,11 +136,11 @@ public class InventoryBasic implements IInventory
      */
     public void onInventoryChanged()
     {
-        if (this.field_70480_d != null)
+        if (this.inventoryBasics != null)
         {
-            for (int var1 = 0; var1 < this.field_70480_d.size(); ++var1)
+            for (int var1 = 0; var1 < this.inventoryBasics.size(); ++var1)
             {
-                ((IInvBasic)this.field_70480_d.get(var1)).onInventoryChanged(this);
+                ((IInvBasic)this.inventoryBasics.get(var1)).onInventoryChanged(this);
             }
         }
     }

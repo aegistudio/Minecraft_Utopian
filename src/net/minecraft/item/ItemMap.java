@@ -337,7 +337,7 @@ public class ItemMap extends ItemMapBase
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4)
     {
         MapData var5 = this.getMapData(par1ItemStack, par2EntityPlayer.worldObj);
 

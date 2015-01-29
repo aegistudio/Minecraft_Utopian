@@ -12,7 +12,7 @@ public abstract class NetworkListenThread
 {
     /** Reference to the MinecraftServer object. */
     private final MinecraftServer mcServer;
-    private final List connections = Collections.synchronizedList(new ArrayList());
+    private final List<NetServerHandler> connections = Collections.synchronizedList(new ArrayList<NetServerHandler>());
 
     /** Whether the network listener object is listening. */
     public volatile boolean isListening = false;

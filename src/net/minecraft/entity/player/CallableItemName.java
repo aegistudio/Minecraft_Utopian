@@ -3,7 +3,7 @@ package net.minecraft.entity.player;
 import java.util.concurrent.Callable;
 import net.minecraft.item.ItemStack;
 
-class CallableItemName implements Callable
+class CallableItemName implements Callable<String>
 {
     final ItemStack theItemStack;
 
@@ -20,7 +20,7 @@ class CallableItemName implements Callable
         return this.theItemStack.getDisplayName();
     }
 
-    public Object call()
+    public String call()
     {
         return this.callItemDisplayName();
     }

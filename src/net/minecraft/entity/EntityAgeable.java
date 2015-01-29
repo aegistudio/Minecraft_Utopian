@@ -27,7 +27,7 @@ public abstract class EntityAgeable extends EntityCreature
 
         if (var2 != null && var2.itemID == Item.monsterPlacer.itemID && !this.worldObj.isRemote)
         {
-            Class var3 = EntityList.getClassFromID(var2.getItemDamage());
+            Class<? extends Entity> var3 = EntityList.getClassFromID(var2.getItemDamage());
 
             if (var3 != null && var3.isAssignableFrom(this.getClass()))
             {

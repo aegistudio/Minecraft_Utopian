@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.event.AWTEventListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
@@ -1041,7 +1040,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
      */
     private void updateDebugProfilerName(int par1)
     {
-        List var2 = this.mcProfiler.getProfilingData(this.debugProfilerName);
+        List<ProfilerResult> var2 = this.mcProfiler.getProfilingData(this.debugProfilerName);
 
         if (var2 != null && !var2.isEmpty())
         {
@@ -1080,7 +1079,7 @@ public abstract class Minecraft implements Runnable, IPlayerUsage
     {
         if (this.mcProfiler.profilingEnabled)
         {
-            List var3 = this.mcProfiler.getProfilingData(this.debugProfilerName);
+            List<ProfilerResult> var3 = this.mcProfiler.getProfilingData(this.debugProfilerName);
             ProfilerResult var4 = (ProfilerResult)var3.remove(0);
             GL11.glClear(GL11.GL_DEPTH_BUFFER_BIT);
             GL11.glMatrixMode(GL11.GL_PROJECTION);

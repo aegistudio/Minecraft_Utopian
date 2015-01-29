@@ -3,7 +3,7 @@ package net.minecraft.crash;
 import java.util.concurrent.Callable;
 import net.minecraft.world.gen.layer.IntCache;
 
-class CallableIntCache implements Callable
+class CallableIntCache implements Callable<String>
 {
     final CrashReport theCrashReport;
 
@@ -17,7 +17,7 @@ class CallableIntCache implements Callable
         return IntCache.func_85144_b();
     }
 
-    public Object call()
+    public String call()
     {
         return this.func_85083_a();
     }

@@ -232,7 +232,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals
         else
         {
             float var1 = 8.0F;
-            List var2;
+            List<Entity> var2;
             int var3;
             EntityAnimal var4;
 

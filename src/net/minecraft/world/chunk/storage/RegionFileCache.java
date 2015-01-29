@@ -11,23 +11,23 @@ import java.util.Map;
 public class RegionFileCache
 {
     /** A map containing Files as keys and RegionFiles as values */
-    private static final Map regionsByFilename = new HashMap();
+    private static final Map<File, RegionFile> regionsByFilename = new HashMap<File, RegionFile>();
 
     public static synchronized RegionFile createOrLoadRegionFile(File par0File, int par1, int par2)
     {
-        File var3 = new File(par0File, "region");
-        File var4 = new File(var3, "r." + (par1 >> 5) + "." + (par2 >> 5) + ".mca");
-        RegionFile var5 = (RegionFile)regionsByFilename.get(var4);
+        File regionRootFolder = new File(par0File, "region");
+        File regionFile = new File(regionRootFolder, "r." + (par1 >> 5) + "." + (par2 >> 5) + ".mca");
+        RegionFile mappedRegionFile = (RegionFile)regionsByFilename.get(regionFile);
 
-        if (var5 != null)
+        if (mappedRegionFile != null)
         {
-            return var5;
+            return mappedRegionFile;
         }
         else
         {
-            if (!var3.exists())
+            if (!regionRootFolder.exists())
             {
-                var3.mkdirs();
+                regionRootFolder.mkdirs();
             }
 
             if (regionsByFilename.size() >= 256)
@@ -35,9 +35,9 @@ public class RegionFileCache
                 clearRegionFileReferences();
             }
 
-            RegionFile var6 = new RegionFile(var4);
-            regionsByFilename.put(var4, var6);
-            return var6;
+            RegionFile newRegionFile = new RegionFile(regionFile);
+            regionsByFilename.put(regionFile, newRegionFile);
+            return newRegionFile;
         }
     }
 
@@ -46,7 +46,7 @@ public class RegionFileCache
      */
     public static synchronized void clearRegionFileReferences()
     {
-        Iterator var0 = regionsByFilename.values().iterator();
+        Iterator<RegionFile> var0 = regionsByFilename.values().iterator();
 
         while (var0.hasNext())
         {

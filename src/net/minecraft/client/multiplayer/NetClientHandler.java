@@ -1600,7 +1600,7 @@ public class NetClientHandler extends NetHandler
 
         if (par1Packet206SetObjective.change == 0)
         {
-            var3 = var2.func_96535_a(par1Packet206SetObjective.objectiveName, ScoreObjectiveCriteria.field_96641_b);
+            var3 = var2.func_96535_a(par1Packet206SetObjective.objectiveName, ScoreObjectiveCriteria.criteriaDummy);
             var3.setDisplayName(par1Packet206SetObjective.objectiveDisplayName);
         }
         else
@@ -1665,11 +1665,11 @@ public class NetClientHandler extends NetHandler
 
         if (packet209SetPlayerTeam.mode == 0)
         {
-            var3 = scoreboard.func_96527_f(packet209SetPlayerTeam.teamName);
+            var3 = scoreboard.assembleTeam(packet209SetPlayerTeam.teamName);
         }
         else
         {
-            var3 = scoreboard.func_96508_e(packet209SetPlayerTeam.teamName);
+            var3 = scoreboard.getPlayerTeamByName(packet209SetPlayerTeam.teamName);
         }
 
         if (packet209SetPlayerTeam.mode == 0 || packet209SetPlayerTeam.mode == 2)
@@ -1690,7 +1690,7 @@ public class NetClientHandler extends NetHandler
             while (names.hasNext())
             {
                 name = (String)names.next();
-                scoreboard.func_96521_a(name, var3);
+                scoreboard.addPlayerToTeam(name, var3);
             }
         }
 
@@ -1707,7 +1707,7 @@ public class NetClientHandler extends NetHandler
 
         if (packet209SetPlayerTeam.mode == 1)
         {
-            scoreboard.func_96511_d(var3);
+            scoreboard.disassembleTeam(var3);
         }
     }
 

@@ -31,11 +31,11 @@ public class AnvilSaveConverter extends SaveFormatOld
         super(par1File);
     }
 
-    public List getSaveList() throws AnvilConverterException
+    public List<SaveFormatComparator> getSaveList() throws AnvilConverterException
     {
         if (this.savesDirectory != null && this.savesDirectory.exists() && this.savesDirectory.isDirectory())
         {
-            ArrayList var1 = new ArrayList();
+            ArrayList<SaveFormatComparator> var1 = new ArrayList<SaveFormatComparator>();
             File[] var2 = this.savesDirectory.listFiles();
             File[] var3 = var2;
             int var4 = var2.length;
@@ -103,31 +103,24 @@ public class AnvilSaveConverter extends SaveFormatOld
     /**
      * Converts the specified map to the new map format. Args: worldName, loadingScreen
      */
-    public boolean convertMapFormat(String par1Str, IProgressUpdate par2IProgressUpdate)
+    public boolean convertMapFormat(String root, IProgressUpdate par2IProgressUpdate)
     {
         par2IProgressUpdate.setLoadingProgress(0);
-        ArrayList var3 = new ArrayList();
-        ArrayList var4 = new ArrayList();
-        ArrayList var5 = new ArrayList();
-        File var6 = new File(this.savesDirectory, par1Str);
-        File var7 = new File(var6, "DIM-1");
-        File var8 = new File(var6, "DIM1");
+        ArrayList<File> surfaceConversion = new ArrayList<File>();
+        ArrayList<File> netherConversion = new ArrayList<File>();
+        ArrayList<File> endConversion = new ArrayList<File>();
+        File rootDir = new File(this.savesDirectory, root);
+        File netherDir = new File(rootDir, "DIM-1");
+        File endDir = new File(rootDir, "DIM1");
         MinecraftServer.getServer().getLogAgent().logInfo("Scanning folders...");
-        this.addRegionFilesToCollection(var6, var3);
+        this.addRegionFilesToCollection(rootDir, surfaceConversion);
 
-        if (var7.exists())
-        {
-            this.addRegionFilesToCollection(var7, var4);
-        }
+        if (netherDir.exists()) this.addRegionFilesToCollection(netherDir, netherConversion);
+        if (endDir.exists()) this.addRegionFilesToCollection(endDir, endConversion);
 
-        if (var8.exists())
-        {
-            this.addRegionFilesToCollection(var8, var5);
-        }
-
-        int var9 = var3.size() + var4.size() + var5.size();
-        MinecraftServer.getServer().getLogAgent().logInfo("Total conversion count is " + var9);
-        WorldInfo var10 = this.getWorldInfo(par1Str);
+        int totalConversionCount = surfaceConversion.size() + netherConversion.size() + endConversion.size();
+        MinecraftServer.getServer().getLogAgent().logInfo("Total conversion count is " + totalConversionCount);
+        WorldInfo var10 = this.getWorldInfo(root);
         Object var11 = null;
 
         if (var10.getTerrainType() == WorldType.FLAT)
@@ -139,9 +132,9 @@ public class AnvilSaveConverter extends SaveFormatOld
             var11 = new WorldChunkManager(var10.getSeed(), var10.getTerrainType());
         }
 
-        this.convertFile(new File(var6, "region"), var3, (WorldChunkManager)var11, 0, var9, par2IProgressUpdate);
-        this.convertFile(new File(var7, "region"), var4, new WorldChunkManagerHell(BiomeGenBase.hell, 1.0F, 0.0F), var3.size(), var9, par2IProgressUpdate);
-        this.convertFile(new File(var8, "region"), var5, new WorldChunkManagerHell(BiomeGenBase.sky, 0.5F, 0.0F), var3.size() + var4.size(), var9, par2IProgressUpdate);
+        this.convertFile(new File(rootDir, "region"), surfaceConversion, (WorldChunkManager)var11, 0, totalConversionCount, par2IProgressUpdate);
+        this.convertFile(new File(netherDir, "region"), netherConversion, new WorldChunkManagerHell(BiomeGenBase.hell, 1.0F, 0.0F), surfaceConversion.size(), totalConversionCount, par2IProgressUpdate);
+        this.convertFile(new File(endDir, "region"), endConversion, new WorldChunkManagerHell(BiomeGenBase.sky, 0.5F, 0.0F), surfaceConversion.size() + netherConversion.size(), totalConversionCount, par2IProgressUpdate);
         var10.setSaveVersion(19133);
 
         if (var10.getTerrainType() == WorldType.DEFAULT_1_1)
@@ -149,8 +142,8 @@ public class AnvilSaveConverter extends SaveFormatOld
             var10.setTerrainType(WorldType.DEFAULT);
         }
 
-        this.createFile(par1Str);
-        ISaveHandler var12 = this.getSaveLoader(par1Str, false);
+        this.createFile(root);
+        ISaveHandler var12 = this.getSaveLoader(root, false);
         var12.saveWorldInfo(var10);
         return true;
     }
@@ -186,9 +179,9 @@ public class AnvilSaveConverter extends SaveFormatOld
         }
     }
 
-    private void convertFile(File par1File, Iterable par2Iterable, WorldChunkManager par3WorldChunkManager, int par4, int par5, IProgressUpdate par6IProgressUpdate)
+    private void convertFile(File par1File, Iterable<File> par2Iterable, WorldChunkManager par3WorldChunkManager, int par4, int par5, IProgressUpdate par6IProgressUpdate)
     {
-        Iterator var7 = par2Iterable.iterator();
+        Iterator<File> var7 = par2Iterable.iterator();
 
         while (var7.hasNext())
         {
@@ -263,14 +256,11 @@ public class AnvilSaveConverter extends SaveFormatOld
     /**
      * filters the files in the par1 directory, and adds them to the par2 collections
      */
-    private void addRegionFilesToCollection(File par1File, Collection par2Collection)
+    private void addRegionFilesToCollection(File regionParentDir, Collection<File> par2Collection)
     {
-        File var3 = new File(par1File, "region");
-        File[] var4 = var3.listFiles(new AnvilSaveConverterFileFilter(this));
+        File regionFolder = new File(regionParentDir, "region");
+        File[] files = regionFolder.listFiles(new AnvilSaveConverterFileFilter(this));
 
-        if (var4 != null)
-        {
-            Collections.addAll(par2Collection, var4);
-        }
+        if (files != null) Collections.addAll(par2Collection, files);
     }
 }

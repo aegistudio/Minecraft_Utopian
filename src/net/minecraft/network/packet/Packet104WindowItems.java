@@ -18,7 +18,7 @@ public class Packet104WindowItems extends Packet
 
     public Packet104WindowItems() {}
 
-    public Packet104WindowItems(int par1, List par2List)
+    public Packet104WindowItems(int par1, List<ItemStack> par2List)
     {
         this.windowId = par1;
         this.itemStack = new ItemStack[par2List.size()];

@@ -595,7 +595,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 
         if (this.getHealth() > 0)
         {
-            List var3 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0D, 0.5D, 1.0D));
+            List<Entity> var3 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(1.0D, 0.5D, 1.0D));
 
             if (var3 != null)
             {
@@ -680,12 +680,12 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
     public void addToPlayerScore(Entity par1Entity, int par2)
     {
         this.addScore(par2);
-        Collection var3 = this.getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96640_e);
+        Collection var3 = this.getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.criteriaTotalKillCount);
 
         if (par1Entity instanceof EntityPlayer)
         {
             this.addStat(StatList.playerKillsStat, 1);
-            var3.addAll(this.getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96639_d));
+            var3.addAll(this.getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.criteriaPlayerKillCount));
         }
         else
         {
@@ -1027,8 +1027,8 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 
             if (!(par1EntityLiving instanceof EntityPlayer) || this.func_96122_a((EntityPlayer)par1EntityLiving))
             {
-                List var6 = this.worldObj.getEntitiesWithinAABB(EntityWolf.class, AxisAlignedBB.getAABBPool().getAABB(this.posX, this.posY, this.posZ, this.posX + 1.0D, this.posY + 1.0D, this.posZ + 1.0D).expand(16.0D, 4.0D, 16.0D));
-                Iterator var4 = var6.iterator();
+                List<Entity> var6 = this.worldObj.getEntitiesWithinAABB(EntityWolf.class, AxisAlignedBB.getAABBPool().getAABB(this.posX, this.posY, this.posZ, this.posX + 1.0D, this.posY + 1.0D, this.posZ + 1.0D).expand(16.0D, 4.0D, 16.0D));
+                Iterator<Entity> var4 = var6.iterator();
 
                 while (var4.hasNext())
                 {
@@ -1389,7 +1389,7 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
 
             double var4 = 8.0D;
             double var6 = 5.0D;
-            List var8 = this.worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getAABBPool().getAABB((double)par1 - var4, (double)par2 - var6, (double)par3 - var4, (double)par1 + var4, (double)par2 + var6, (double)par3 + var4));
+            List<Entity> var8 = this.worldObj.getEntitiesWithinAABB(EntityMob.class, AxisAlignedBB.getAABBPool().getAABB((double)par1 - var4, (double)par2 - var6, (double)par3 - var4, (double)par1 + var4, (double)par2 + var6, (double)par3 + var4));
 
             if (!var8.isEmpty())
             {

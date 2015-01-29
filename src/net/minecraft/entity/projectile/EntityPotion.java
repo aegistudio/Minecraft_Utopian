@@ -2,6 +2,8 @@ package net.minecraft.entity.projectile;
 
 import java.util.Iterator;
 import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -94,16 +96,16 @@ public class EntityPotion extends EntityThrowable
     {
         if (!this.worldObj.isRemote)
         {
-            List var2 = Item.potion.getEffects(this.potionDamage);
+            List<PotionEffect> var2 = Item.potion.getEffects(this.potionDamage);
 
             if (var2 != null && !var2.isEmpty())
             {
                 AxisAlignedBB var3 = this.boundingBox.expand(4.0D, 2.0D, 4.0D);
-                List var4 = this.worldObj.getEntitiesWithinAABB(EntityLiving.class, var3);
+                List<Entity> var4 = this.worldObj.getEntitiesWithinAABB(EntityLiving.class, var3);
 
                 if (var4 != null && !var4.isEmpty())
                 {
-                    Iterator var5 = var4.iterator();
+                    Iterator<Entity> var5 = var4.iterator();
 
                     while (var5.hasNext())
                     {
@@ -119,7 +121,7 @@ public class EntityPotion extends EntityThrowable
                                 var9 = 1.0D;
                             }
 
-                            Iterator var11 = var2.iterator();
+                            Iterator<PotionEffect> var11 = var2.iterator();
 
                             while (var11.hasNext())
                             {

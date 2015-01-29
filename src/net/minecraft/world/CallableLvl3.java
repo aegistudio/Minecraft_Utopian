@@ -2,7 +2,7 @@ package net.minecraft.world;
 
 import java.util.concurrent.Callable;
 
-class CallableLvl3 implements Callable
+class CallableLvl3 implements Callable<String>
 {
     /** Reference to the World object. */
     final World theWorld;
@@ -20,7 +20,7 @@ class CallableLvl3 implements Callable
         return this.theWorld.chunkProvider.makeString();
     }
 
-    public Object call()
+    public String call()
     {
         return this.getChunkProvider();
     }

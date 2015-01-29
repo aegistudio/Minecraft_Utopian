@@ -4,9 +4,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
+
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.WatchableObject;
 import net.minecraft.util.MathHelper;
 
 public class Packet24MobSpawn extends Packet
@@ -40,7 +42,7 @@ public class Packet24MobSpawn extends Packet
 
     /** Indexed metadata for Mob, terminated by 0x7F */
     private DataWatcher metaData;
-    private List metadata;
+    private List<WatchableObject> metadata;
 
     public Packet24MobSpawn() {}
 
@@ -149,7 +151,7 @@ public class Packet24MobSpawn extends Packet
         return 26;
     }
 
-    public List getMetadata()
+    public List<WatchableObject> getMetadata()
     {
         if (this.metadata == null)
         {

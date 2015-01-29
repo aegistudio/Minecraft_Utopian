@@ -173,7 +173,7 @@ public abstract class EntityLiving extends Entity
     private int revengeTimer = 0;
     private EntityLiving lastAttackingEntity = null;
     public int arrowHitTimer = 0;
-    protected HashMap activePotionsMap = new HashMap();
+    protected HashMap<Integer, PotionEffect> activePotionsMap = new HashMap<Integer, PotionEffect>();
 
     /** Whether the DataWatcher needs to be updated with the active potions */
     private boolean potionsNeedUpdate = true;
@@ -403,7 +403,7 @@ public abstract class EntityLiving extends Entity
     /**
      * Returns true if this entity can attack entities of the specified class.
      */
-    public boolean canAttackClass(Class par1Class)
+    public boolean canAttackClass(Class<? extends Entity> par1Class)
     {
         return EntityCreeper.class != par1Class && EntityGhast.class != par1Class;
     }
@@ -1617,7 +1617,7 @@ public abstract class EntityLiving extends Entity
         if (!this.activePotionsMap.isEmpty())
         {
             var6 = new NBTTagList();
-            Iterator var7 = this.activePotionsMap.values().iterator();
+            Iterator<PotionEffect> var7 = this.activePotionsMap.values().iterator();
 
             while (var7.hasNext())
             {
@@ -1839,8 +1839,8 @@ public abstract class EntityLiving extends Entity
 
         if (!this.worldObj.isRemote && this.canPickUpLoot() && !this.dead && this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"))
         {
-            List var2 = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(1.0D, 0.0D, 1.0D));
-            Iterator var12 = var2.iterator();
+            List<Entity> var2 = this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.boundingBox.expand(1.0D, 0.0D, 1.0D));
+            Iterator<Entity> var12 = var2.iterator();
 
             while (var12.hasNext())
             {
@@ -1930,7 +1930,7 @@ public abstract class EntityLiving extends Entity
 
     protected void func_85033_bc()
     {
-        List var1 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.20000000298023224D, 0.0D, 0.20000000298023224D));
+        List<Entity> var1 = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(0.20000000298023224D, 0.0D, 0.20000000298023224D));
 
         if (var1 != null && !var1.isEmpty())
         {
@@ -2367,7 +2367,7 @@ public abstract class EntityLiving extends Entity
 
     protected void updatePotionEffects()
     {
-        Iterator var1 = this.activePotionsMap.keySet().iterator();
+        Iterator<Integer> var1 = this.activePotionsMap.keySet().iterator();
 
         while (var1.hasNext())
         {
@@ -2460,7 +2460,7 @@ public abstract class EntityLiving extends Entity
 
     public void clearActivePotions()
     {
-        Iterator var1 = this.activePotionsMap.keySet().iterator();
+        Iterator<Integer> var1 = this.activePotionsMap.keySet().iterator();
 
         while (var1.hasNext())
         {
@@ -2475,7 +2475,7 @@ public abstract class EntityLiving extends Entity
         }
     }
 
-    public Collection getActivePotionEffects()
+    public Collection<PotionEffect> getActivePotionEffects()
     {
         return this.activePotionsMap.values();
     }

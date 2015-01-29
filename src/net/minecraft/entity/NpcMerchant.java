@@ -5,10 +5,11 @@ import net.minecraft.inventory.InventoryMerchant;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 
+@SuppressWarnings("unused")
 public class NpcMerchant implements IMerchant
 {
     /** Instance of Merchants Inventory. */
-    private InventoryMerchant theMerchantInventory;
+	private InventoryMerchant theMerchantInventory;
 
     /** This merchant's current player customer. */
     private EntityPlayer customer;

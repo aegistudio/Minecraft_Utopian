@@ -23,7 +23,7 @@ public class CrashReport
     private final CrashReportCategory field_85061_c = new CrashReportCategory(this, "System Details");
 
     /** Holds the keys and values of all crash report sections. */
-    private final List crashReportSections = new ArrayList();
+    private final List<CrashReportCategory> crashReportSections = new ArrayList<CrashReportCategory>();
 
     /** File of crash report. */
     private File crashReportFile = null;
@@ -99,7 +99,7 @@ public class CrashReport
             par1StringBuilder.append("\n");
         }
 
-        Iterator var6 = this.crashReportSections.iterator();
+        Iterator<CrashReportCategory> var6 = this.crashReportSections.iterator();
 
         while (var6.hasNext())
         {

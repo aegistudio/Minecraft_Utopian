@@ -1,8 +1,10 @@
 package net.minecraft.creativetab;
 
 import java.util.List;
+
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 final class CreativeTabMisc extends CreativeTabs
 {
@@ -22,7 +24,7 @@ final class CreativeTabMisc extends CreativeTabs
     /**
      * only shows items which have tabToDisplayOn == this
      */
-    public void displayAllReleventItems(List par1List)
+    public void displayAllReleventItems(List<ItemStack> par1List)
     {
         super.displayAllReleventItems(par1List);
         this.func_92116_a(par1List, new EnumEnchantmentType[] {EnumEnchantmentType.all});

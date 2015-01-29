@@ -2,6 +2,8 @@ package net.minecraft.entity.ai;
 
 import java.util.Iterator;
 import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.passive.EntityVillager;
 
@@ -33,7 +35,7 @@ public class EntityAIFollowGolem extends EntityAIBase
         }
         else
         {
-            List var1 = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.boundingBox.expand(6.0D, 2.0D, 6.0D));
+            List<Entity> var1 = this.theVillager.worldObj.getEntitiesWithinAABB(EntityIronGolem.class, this.theVillager.boundingBox.expand(6.0D, 2.0D, 6.0D));
 
             if (var1.isEmpty())
             {
@@ -41,7 +43,7 @@ public class EntityAIFollowGolem extends EntityAIBase
             }
             else
             {
-                Iterator var2 = var1.iterator();
+                Iterator<Entity> var2 = var1.iterator();
 
                 while (var2.hasNext())
                 {

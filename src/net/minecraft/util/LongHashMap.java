@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+@SuppressWarnings("unused")
 public class LongHashMap
 {
     /** the array of all elements in the hash */
@@ -19,7 +20,7 @@ public class LongHashMap
     private final float percentUseable = 0.75F;
 
     /** count of times elements have been added/removed */
-    private transient volatile int modCount;
+	private transient volatile int modCount;
 
     /**
      * returns the hashed key given the original key

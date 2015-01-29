@@ -76,7 +76,7 @@ public class ServerCommandManager extends CommandHandler implements IAdminComman
 
         if (var5)
         {
-            Iterator var6 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
+            Iterator<EntityPlayerMP> var6 = MinecraftServer.getServer().getConfigurationManager().playerEntityList.iterator();
 
             while (var6.hasNext())
             {

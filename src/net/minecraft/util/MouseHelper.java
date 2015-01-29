@@ -1,13 +1,16 @@
 package net.minecraft.util;
 
 import java.awt.Component;
+
 import net.minecraft.client.settings.GameSettings;
+
 import org.lwjgl.input.Mouse;
 
+@SuppressWarnings("unused")
 public class MouseHelper
 {
     private final Component windowComponent;
-    private final GameSettings field_85184_d;
+	private final GameSettings field_85184_d;
 
     /** Mouse delta X this frame */
     public int deltaX;

@@ -1,6 +1,6 @@
 package net.minecraft.profiler;
 
-public final class ProfilerResult implements Comparable
+public final class ProfilerResult implements Comparable<ProfilerResult>
 {
     public double field_76332_a;
     public double field_76330_b;
@@ -23,8 +23,8 @@ public final class ProfilerResult implements Comparable
         return (this.field_76331_c.hashCode() & 11184810) + 4473924;
     }
 
-    public int compareTo(Object par1Obj)
+    public int compareTo(ProfilerResult result)
     {
-        return this.func_76328_a((ProfilerResult)par1Obj);
+        return this.func_76328_a((ProfilerResult)result);
     }
 }

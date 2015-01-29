@@ -1,6 +1,6 @@
 package net.minecraft.util;
 
-public class ChunkCoordinates implements Comparable
+public class ChunkCoordinates implements Comparable<ChunkCoordinates>
 {
     public int posX;
 
@@ -47,7 +47,7 @@ public class ChunkCoordinates implements Comparable
     /**
      * Compare the coordinate with another coordinate
      */
-    public int compareChunkCoordinate(ChunkCoordinates par1ChunkCoordinates)
+    public int compareTo(ChunkCoordinates par1ChunkCoordinates)
     {
         return this.posY == par1ChunkCoordinates.posY ? (this.posZ == par1ChunkCoordinates.posZ ? this.posX - par1ChunkCoordinates.posX : this.posZ - par1ChunkCoordinates.posZ) : this.posY - par1ChunkCoordinates.posY;
     }
@@ -76,10 +76,5 @@ public class ChunkCoordinates implements Comparable
     public float getDistanceSquaredToChunkCoordinates(ChunkCoordinates par1ChunkCoordinates)
     {
         return this.getDistanceSquared(par1ChunkCoordinates.posX, par1ChunkCoordinates.posY, par1ChunkCoordinates.posZ);
-    }
-
-    public int compareTo(Object par1Obj)
-    {
-        return this.compareChunkCoordinate((ChunkCoordinates)par1Obj);
     }
 }

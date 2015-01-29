@@ -19,7 +19,7 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
     private PathEntity entityPathNavigate;
     private VillageDoorInfo doorInfo;
     private boolean isNocturnal;
-    private List doorList = new ArrayList();
+    private List<VillageDoorInfo> doorList = new ArrayList<VillageDoorInfo>();
 
     public EntityAIMoveThroughVillage(EntityCreature par1EntityCreature, float par2, boolean par3)
     {
@@ -127,8 +127,8 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
     {
         VillageDoorInfo var2 = null;
         int var3 = Integer.MAX_VALUE;
-        List var4 = par1Village.getVillageDoorInfoList();
-        Iterator var5 = var4.iterator();
+        List<VillageDoorInfo> var4 = par1Village.getVillageDoorInfoList();
+        Iterator<VillageDoorInfo> var5 = var4.iterator();
 
         while (var5.hasNext())
         {
@@ -147,7 +147,7 @@ public class EntityAIMoveThroughVillage extends EntityAIBase
 
     private boolean func_75413_a(VillageDoorInfo par1VillageDoorInfo)
     {
-        Iterator var2 = this.doorList.iterator();
+        Iterator<VillageDoorInfo> var2 = this.doorList.iterator();
         VillageDoorInfo var3;
 
         do

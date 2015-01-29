@@ -3,7 +3,7 @@ package net.minecraft.network;
 import java.util.concurrent.Callable;
 import net.minecraft.network.packet.Packet;
 
-class CallablePacketClass implements Callable
+class CallablePacketClass implements Callable<String>
 {
     final Packet thePacket;
 
@@ -20,7 +20,7 @@ class CallablePacketClass implements Callable
         return this.thePacket.getClass().getCanonicalName();
     }
 
-    public Object call()
+    public String call()
     {
         return this.getPacketClass();
     }

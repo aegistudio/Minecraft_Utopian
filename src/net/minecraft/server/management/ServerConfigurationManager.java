@@ -56,15 +56,15 @@ public abstract class ServerConfigurationManager
     private final MinecraftServer mcServer;
 
     /** A list of player entities that exist on this server. */
-    public final List playerEntityList = new ArrayList();
+    public final List<EntityPlayerMP> playerEntityList = new ArrayList<EntityPlayerMP>();
     private final BanList bannedPlayers = new BanList(new File("banned-players.txt"));
     private final BanList bannedIPs = new BanList(new File("banned-ips.txt"));
 
     /** A set containing the OPs. */
-    private Set ops = new HashSet();
+    private Set<String> ops = new HashSet<String>();
 
     /** The Set of all whitelisted players. */
-    private Set whiteListedPlayers = new HashSet();
+    private Set<String> whiteListedPlayers = new HashSet<String>();
 
     /** Reference to the PlayerNBTManager object. */
     private IPlayerFileData playerNBTManagerObj;
@@ -129,7 +129,7 @@ public abstract class ServerConfigurationManager
             par2EntityPlayerMP.requestTexturePackLoad(this.mcServer.getTexturePack(), this.mcServer.textureSize());
         }
 
-        Iterator var8 = par2EntityPlayerMP.getActivePotionEffects().iterator();
+        Iterator<PotionEffect> var8 = par2EntityPlayerMP.getActivePotionEffects().iterator();
 
         while (var8.hasNext())
         {
@@ -156,7 +156,7 @@ public abstract class ServerConfigurationManager
     protected void func_96456_a(ServerScoreboard par1ServerScoreboard, EntityPlayerMP par2EntityPlayerMP)
     {
         HashSet var3 = new HashSet();
-        Iterator var4 = par1ServerScoreboard.func_96525_g().iterator();
+        Iterator var4 = par1ServerScoreboard.getScorePlayerTeams().iterator();
 
         while (var4.hasNext())
         {
@@ -457,7 +457,7 @@ public abstract class ServerConfigurationManager
         par1EntityPlayerMP.theItemInWorldManager.setWorld(var5);
         this.updateTimeAndWeatherForPlayer(par1EntityPlayerMP, var5);
         this.syncPlayerInventory(par1EntityPlayerMP);
-        Iterator var6 = par1EntityPlayerMP.getActivePotionEffects().iterator();
+        Iterator<PotionEffect> var6 = par1EntityPlayerMP.getActivePotionEffects().iterator();
 
         while (var6.hasNext())
         {
@@ -672,7 +672,7 @@ public abstract class ServerConfigurationManager
 
     public EntityPlayerMP getPlayerForUsername(String par1Str)
     {
-        Iterator var2 = this.playerEntityList.iterator();
+        Iterator<EntityPlayerMP> var2 = this.playerEntityList.iterator();
         EntityPlayerMP var3;
 
         do
@@ -692,7 +692,7 @@ public abstract class ServerConfigurationManager
     /**
      * Find all players in a specified range and narrowing down by other parameters
      */
-    public List findPlayers(ChunkCoordinates par1ChunkCoordinates, int par2, int par3, int par4, int par5, int par6, int par7, Map par8Map, String par9Str, String par10Str)
+    public List<EntityPlayerMP> findPlayers(ChunkCoordinates par1ChunkCoordinates, int par2, int par3, int par4, int par5, int par6, int par7, Map map, String par9Str, String par10Str)
     {
         if (this.playerEntityList.isEmpty())
         {
@@ -700,7 +700,7 @@ public abstract class ServerConfigurationManager
         }
         else
         {
-            Object var11 = new ArrayList();
+            List<EntityPlayerMP> playerList = new ArrayList<EntityPlayerMP>();
             boolean var12 = par4 < 0;
             int var13 = par2 * par2;
             int var14 = par3 * par3;
@@ -708,7 +708,7 @@ public abstract class ServerConfigurationManager
 
             for (int var15 = 0; var15 < this.playerEntityList.size(); ++var15)
             {
-                EntityPlayerMP var16 = (EntityPlayerMP)this.playerEntityList.get(var15);
+                EntityPlayerMP player = (EntityPlayerMP)this.playerEntityList.get(var15);
                 boolean var17;
 
                 if (par9Str != null)
@@ -720,7 +720,7 @@ public abstract class ServerConfigurationManager
                         par9Str = par9Str.substring(1);
                     }
 
-                    if (var17 == par9Str.equalsIgnoreCase(var16.getEntityName()))
+                    if (var17 == par9Str.equalsIgnoreCase(player.getEntityName()))
                     {
                         continue;
                     }
@@ -735,7 +735,7 @@ public abstract class ServerConfigurationManager
                         par10Str = par10Str.substring(1);
                     }
 
-                    ScorePlayerTeam var18 = var16.getTeam();
+                    ScorePlayerTeam var18 = player.getTeam();
                     String var19 = var18 == null ? "" : var18.getDefaultName();
 
                     if (var17 == par10Str.equalsIgnoreCase(var19))
@@ -746,7 +746,7 @@ public abstract class ServerConfigurationManager
 
                 if (par1ChunkCoordinates != null && (par2 > 0 || par3 > 0))
                 {
-                    float var20 = par1ChunkCoordinates.getDistanceSquaredToChunkCoordinates(var16.getPlayerCoordinates());
+                    float var20 = par1ChunkCoordinates.getDistanceSquaredToChunkCoordinates(player.getPlayerCoordinates());
 
                     if (par2 > 0 && var20 < (float)var13 || par3 > 0 && var20 > (float)var14)
                     {
@@ -754,28 +754,28 @@ public abstract class ServerConfigurationManager
                     }
                 }
 
-                if (this.func_96457_a(var16, par8Map) && (par5 == EnumGameType.NOT_SET.getID() || par5 == var16.theItemInWorldManager.getGameType().getID()) && (par6 <= 0 || var16.experienceLevel >= par6) && var16.experienceLevel <= par7)
+                if (this.func_96457_a(player, map) && (par5 == EnumGameType.NOT_SET.getID() || par5 == player.theItemInWorldManager.getGameType().getID()) && (par6 <= 0 || player.experienceLevel >= par6) && player.experienceLevel <= par7)
                 {
-                    ((List)var11).add(var16);
+                    playerList.add(player);
                 }
             }
 
             if (par1ChunkCoordinates != null)
             {
-                Collections.sort((List)var11, new PlayerPositionComparator(par1ChunkCoordinates));
+                Collections.sort(playerList, new PlayerPositionComparator(par1ChunkCoordinates));
             }
 
             if (var12)
             {
-                Collections.reverse((List)var11);
+                Collections.reverse(playerList);
             }
 
             if (par4 > 0)
             {
-                var11 = ((List)var11).subList(0, Math.min(par4, ((List)var11).size()));
+                playerList = (playerList).subList(0, Math.min(par4, playerList.size()));
             }
 
-            return (List)var11;
+            return playerList;
         }
     }
 
@@ -893,12 +893,12 @@ public abstract class ServerConfigurationManager
     /**
      * Returns the whitelisted players.
      */
-    public Set getWhiteListedPlayers()
+    public Set<String> getWhiteListedPlayers()
     {
         return this.whiteListedPlayers;
     }
 
-    public Set getOps()
+    public Set<String> getOps()
     {
         return this.ops;
     }
@@ -965,10 +965,10 @@ public abstract class ServerConfigurationManager
         this.whiteListEnforced = par1;
     }
 
-    public List getPlayerList(String par1Str)
+    public List<EntityPlayerMP> getPlayerList(String par1Str)
     {
-        ArrayList var2 = new ArrayList();
-        Iterator var3 = this.playerEntityList.iterator();
+        ArrayList<EntityPlayerMP> var2 = new ArrayList<EntityPlayerMP>();
+        Iterator<EntityPlayerMP> var3 = this.playerEntityList.iterator();
 
         while (var3.hasNext())
         {

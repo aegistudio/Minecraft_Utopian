@@ -33,7 +33,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryMerchant;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemInWorldManager;
 import net.minecraft.item.ItemInfoContainer;
 import net.minecraft.item.ItemMapBase;
@@ -111,10 +110,10 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     public double managedPosZ;
 
     /** LinkedList that holds the loaded chunks. */
-    public final List loadedChunks = new LinkedList();
+    public final List<ChunkCoordIntPair> loadedChunks = new LinkedList<ChunkCoordIntPair>();
 
     /** entities added to this list will  be packet29'd to the player */
-    public final List destroyedItemsNetCache = new LinkedList();
+    public final List<Integer> destroyedItemsNetCache = new LinkedList<Integer>();
 
     /** set to getHealth */
     private int lastHealth = -99999999;
@@ -254,7 +253,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         {
             int var1 = Math.min(this.destroyedItemsNetCache.size(), 127);
             int[] var2 = new int[var1];
-            Iterator var3 = this.destroyedItemsNetCache.iterator();
+            Iterator<Integer> var3 = this.destroyedItemsNetCache.iterator();
             int var4 = 0;
 
             while (var3.hasNext() && var4 < var1)
@@ -268,9 +267,9 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
 
         if (!this.loadedChunks.isEmpty())
         {
-            ArrayList var6 = new ArrayList();
-            Iterator var7 = this.loadedChunks.iterator();
-            ArrayList var8 = new ArrayList();
+            ArrayList<Chunk> var6 = new ArrayList<Chunk>();
+            Iterator<ChunkCoordIntPair> var7 = this.loadedChunks.iterator();
+            ArrayList<TileEntity> var8 = new ArrayList<TileEntity>();
 
             while (var7.hasNext() && var6.size() < 5)
             {
@@ -287,7 +286,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
             if (!var6.isEmpty())
             {
                 this.playerNetServerHandler.sendPacketToPlayer(new Packet56MapChunks(var6));
-                Iterator var11 = var8.iterator();
+                Iterator<?> var11 = var8.iterator();
 
                 while (var11.hasNext())
                 {
@@ -309,8 +308,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
     public void setEntityHealth(int par1)
     {
         super.setEntityHealth(par1);
-        Collection var2 = this.getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96638_f);
-        Iterator var3 = var2.iterator();
+        Collection<ScoreObjective> var2 = this.getWorldScoreboard().func_96520_a(ScoreObjectiveCriteria.criteriaHealth);
+        Iterator<ScoreObjective> var3 = var2.iterator();
 
         while (var3.hasNext())
         {
@@ -359,7 +358,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         {
             CrashReport var2 = CrashReport.makeCrashReport(var4, "Ticking player");
             CrashReportCategory var3 = var2.makeCategory("Player being ticked");
-            this.func_85029_a(var3);
+            this.addEntityInfoToCrashReport(var3);
             throw new ReportedException(var2);
         }
     }
@@ -369,14 +368,14 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
      */
     public void onDeath(DamageSource par1DamageSource)
     {
-        this.mcServer.getConfigurationManager().sendChatMsg(this.field_94063_bt.func_94546_b());
+        this.mcServer.getConfigurationManager().sendChatMsg(this.field_94063_bt.translateDeathMessage());
 
         if (!this.worldObj.getGameRules().getGameRuleBooleanValue("keepInventory"))
         {
             this.inventory.dropAllItems();
         }
 
-        Collection var2 = this.worldObj.getScoreboard().func_96520_a(ScoreObjectiveCriteria.field_96642_c);
+        Collection var2 = this.worldObj.getScoreboard().func_96520_a(ScoreObjectiveCriteria.criteriaDeathCount);
         Iterator var3 = var2.iterator();
 
         while (var3.hasNext())
@@ -734,7 +733,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting
         this.sendContainerAndContentsToPlayer(par1Container, par1Container.getInventory());
     }
 
-    public void sendContainerAndContentsToPlayer(Container par1Container, List par2List)
+    public void sendContainerAndContentsToPlayer(Container par1Container, List<ItemStack> par2List)
     {
         this.playerNetServerHandler.sendPacketToPlayer(new Packet104WindowItems(par1Container.windowId, par2List));
         this.playerNetServerHandler.sendPacketToPlayer(new Packet103SetSlot(-1, -1, this.inventory.getItemStack()));

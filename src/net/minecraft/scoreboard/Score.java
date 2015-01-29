@@ -87,6 +87,6 @@ public class Score
 
     public void func_96651_a(List par1List)
     {
-        this.func_96647_c(this.scoreObjective.getCriteria().func_96635_a(par1List));
+        this.func_96647_c(this.scoreObjective.getCriteria().calculateScore(par1List));
     }
 }

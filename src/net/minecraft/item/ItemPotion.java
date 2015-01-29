@@ -23,8 +23,8 @@ import net.minecraft.world.World;
 public class ItemPotion extends Item
 {
     /** maps potion damage values to lists of effect names */
-    private HashMap effectCache = new HashMap();
-    private static final Map field_77835_b = new LinkedHashMap();
+    private HashMap<Integer, List<PotionEffect>> effectCache = new HashMap<Integer, List<PotionEffect>>();
+    private static final Map<List<PotionEffect>, Integer> field_77835_b = new LinkedHashMap<List<PotionEffect>, Integer>();
     private Icon field_94591_c;
     private Icon field_94590_d;
     private Icon field_94592_ct;
@@ -41,11 +41,11 @@ public class ItemPotion extends Item
     /**
      * Returns a list of potion effects for the specified itemstack.
      */
-    public List getEffects(ItemStack par1ItemStack)
+    public List<PotionEffect> getEffects(ItemStack par1ItemStack)
     {
         if (par1ItemStack.hasTagCompound() && par1ItemStack.getTagCompound().hasKey("CustomPotionEffects"))
         {
-            ArrayList var6 = new ArrayList();
+            ArrayList<PotionEffect> var6 = new ArrayList<PotionEffect>();
             NBTTagList var3 = par1ItemStack.getTagCompound().getTagList("CustomPotionEffects");
 
             for (int var4 = 0; var4 < var3.tagCount(); ++var4)
@@ -58,7 +58,7 @@ public class ItemPotion extends Item
         }
         else
         {
-            List var2 = (List)this.effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
+            List<PotionEffect> var2 = this.effectCache.get(Integer.valueOf(par1ItemStack.getItemDamage()));
 
             if (var2 == null)
             {
@@ -73,9 +73,9 @@ public class ItemPotion extends Item
     /**
      * Returns a list of effects for the specified potion damage value.
      */
-    public List getEffects(int par1)
+    public List<PotionEffect> getEffects(int par1)
     {
-        List var2 = (List)this.effectCache.get(Integer.valueOf(par1));
+        List<PotionEffect> var2 = this.effectCache.get(Integer.valueOf(par1));
 
         if (var2 == null)
         {
@@ -95,11 +95,11 @@ public class ItemPotion extends Item
 
         if (!par2World.isRemote)
         {
-            List var4 = this.getEffects(par1ItemStack);
+            List<PotionEffect> var4 = this.getEffects(par1ItemStack);
 
             if (var4 != null)
             {
-                Iterator var5 = var4.iterator();
+                Iterator<PotionEffect> var5 = var4.iterator();
 
                 while (var5.hasNext())
                 {
@@ -216,11 +216,11 @@ public class ItemPotion extends Item
 
     public boolean isEffectInstant(int par1)
     {
-        List var2 = this.getEffects(par1);
+        List<PotionEffect> var2 = this.getEffects(par1);
 
         if (var2 != null && !var2.isEmpty())
         {
-            Iterator var3 = var2.iterator();
+            Iterator<PotionEffect> var3 = var2.iterator();
             PotionEffect var4;
 
             do
@@ -257,7 +257,7 @@ public class ItemPotion extends Item
                 var2 = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
             }
 
-            List var3 = Item.potion.getEffects(par1ItemStack);
+            List<PotionEffect> var3 = Item.potion.getEffects(par1ItemStack);
             String var4;
 
             if (var3 != null && !var3.isEmpty())
@@ -277,15 +277,15 @@ public class ItemPotion extends Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4)
     {
         if (par1ItemStack.getItemDamage() != 0)
         {
-            List var5 = Item.potion.getEffects(par1ItemStack);
+            List<PotionEffect> var5 = Item.potion.getEffects(par1ItemStack);
 
             if (var5 != null && !var5.isEmpty())
             {
-                Iterator var9 = var5.iterator();
+                Iterator<PotionEffect> var9 = var5.iterator();
 
                 while (var9.hasNext())
                 {
@@ -322,14 +322,14 @@ public class ItemPotion extends Item
 
     public boolean hasEffect(ItemStack par1ItemStack)
     {
-        List var2 = this.getEffects(par1ItemStack);
+        List<PotionEffect> var2 = this.getEffects(par1ItemStack);
         return var2 != null && !var2.isEmpty();
     }
 
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
      */
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List)
     {
         super.getSubItems(par1, par2CreativeTabs, par3List);
         int var5;
@@ -367,7 +367,7 @@ public class ItemPotion extends Item
                             }
                         }
 
-                        List var9 = PotionHelper.getPotionEffects(var8, false);
+                        List<PotionEffect> var9 = PotionHelper.getPotionEffects(var8, false);
 
                         if (var9 != null && !var9.isEmpty())
                         {
@@ -378,7 +378,7 @@ public class ItemPotion extends Item
             }
         }
 
-        Iterator var10 = field_77835_b.values().iterator();
+        Iterator<Integer> var10 = field_77835_b.values().iterator();
 
         while (var10.hasNext())
         {

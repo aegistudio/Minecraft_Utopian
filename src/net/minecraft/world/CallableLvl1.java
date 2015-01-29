@@ -2,10 +2,9 @@ package net.minecraft.world;
 
 import java.util.concurrent.Callable;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 
-class CallableLvl1 implements Callable
+class CallableLvl1 implements Callable<String>
 {
     final int field_85179_a;
 
@@ -31,7 +30,7 @@ class CallableLvl1 implements Callable
         }
     }
 
-    public Object call()
+    public String call()
     {
         return this.getWorldEntitiesAsString();
     }

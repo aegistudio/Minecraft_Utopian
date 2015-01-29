@@ -1,9 +1,11 @@
 package net.minecraft.item;
 
 import java.util.List;
+
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySelectorArmoredMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +24,7 @@ final class BehaviorDispenseArmor extends BehaviorDefaultDispenseItem
         int var5 = par1IBlockSource.getYInt() + var3.getFrontOffsetY();
         int var6 = par1IBlockSource.getZInt() + var3.getFrontOffsetZ();
         AxisAlignedBB var7 = AxisAlignedBB.getAABBPool().getAABB((double)var4, (double)var5, (double)var6, (double)(var4 + 1), (double)(var5 + 1), (double)(var6 + 1));
-        List var8 = par1IBlockSource.getWorld().selectEntitiesWithinAABB(EntityLiving.class, var7, new EntitySelectorArmoredMob(par2ItemStack));
+        List<Entity> var8 = par1IBlockSource.getWorld().selectEntitiesWithinAABB(EntityLiving.class, var7, new EntitySelectorArmoredMob(par2ItemStack));
 
         if (var8.size() > 0)
         {

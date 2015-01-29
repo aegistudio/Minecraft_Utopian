@@ -1,17 +1,20 @@
 package net.minecraft.creativetab;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnumEnchantmentType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemInfoContainer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BiMap;
 import net.minecraft.util.StringTranslate;
 
 public class CreativeTabs
 {
-    public static final CreativeTabs[] creativeTabArray = new CreativeTabs[12];
+    public static final Map<Integer, CreativeTabs> creativeTabArray = new BiMap<CreativeTabs>(8, 2);
     public static final CreativeTabs tabBlock = new CreativeTabBlock(0, "buildingBlocks");
     public static final CreativeTabs tabDecorations = new CreativeTabDeco(1, "decorations");
     public static final CreativeTabs tabRedstone = new CreativeTabRedstone(2, "redstone");
@@ -38,7 +41,18 @@ public class CreativeTabs
     {
         this.tabIndex = par1;
         this.tabLabel = par2Str;
-        creativeTabArray[par1] = this;
+        creativeTabArray.put(par1, this);
+    }
+    
+    public CreativeTabs(String par2Str)
+    {
+    	this(getLastUnusedCreativeTab(), par2Str);
+    }
+    
+    public static int getLastUnusedCreativeTab()
+    {
+    	for(int i = 0; i < 0x00FF; i ++) if(creativeTabArray.get(i) == null) return i;
+    	return -1;
     }
 
     public int getTabIndex()
@@ -125,7 +139,7 @@ public class CreativeTabs
     /**
      * only shows items which have tabToDisplayOn == this
      */
-    public void displayAllReleventItems(List par1List)
+    public void displayAllReleventItems(List<ItemStack> par1List)
     {
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
         Item[] var2 = whocallhim.getRegisteredItems();
@@ -139,7 +153,7 @@ public class CreativeTabs
         }
     }
 
-    public void func_92116_a(List par1List, EnumEnchantmentType ... par2ArrayOfEnumEnchantmentType)
+    public void func_92116_a(List<ItemStack> par1List, EnumEnchantmentType ... par2ArrayOfEnumEnchantmentType)
     {
         Enchantment[] var3 = Enchantment.enchantmentsList;
         int var4 = var3.length;

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -26,8 +27,8 @@ import net.minecraft.world.storage.ThreadedFileIOBase;
 
 public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
 {
-    private List chunksToRemove = new ArrayList();
-    private Set pendingAnvilChunksCoordinates = new HashSet();
+    private List<AnvilChunkLoaderPending> chunksToRemove = new ArrayList<AnvilChunkLoaderPending>();
+    private Set<ChunkCoordIntPair> pendingAnvilChunksCoordinates = new HashSet<ChunkCoordIntPair>();
     private Object syncLockObject = new Object();
 
     /** Save directory for chunks using the Anvil format */
@@ -41,7 +42,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
     /**
      * Loads the specified(XZ) chunk into the specified world.
      */
-    public Chunk loadChunk(World par1World, int par2, int par3) throws IOException
+    @SuppressWarnings("unused")
+	public Chunk loadChunk(World par1World, int par2, int par3) throws IOException
     {
         NBTTagCompound var4 = null;
         ChunkCoordIntPair var5 = new ChunkCoordIntPair(par2, par3);
@@ -126,7 +128,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         }
     }
 
-    protected void addChunkToPending(ChunkCoordIntPair par1ChunkCoordIntPair, NBTTagCompound par2NBTTagCompound)
+    @SuppressWarnings("unused")
+	protected void addChunkToPending(ChunkCoordIntPair par1ChunkCoordIntPair, NBTTagCompound par2NBTTagCompound)
     {
         Object var3 = this.syncLockObject;
 
@@ -153,7 +156,8 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
     /**
      * Returns a boolean stating if the write was unsuccessful.
      */
-    public boolean writeNextIO()
+    @SuppressWarnings("unused")
+	public boolean writeNextIO()
     {
         AnvilChunkLoaderPending var1 = null;
         Object var2 = this.syncLockObject;
@@ -267,7 +271,7 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         par3NBTTagCompound.setByteArray("Biomes", par1Chunk.getBiomeArray());
         par1Chunk.hasEntities = false;
         NBTTagList var16 = new NBTTagList();
-        Iterator var18;
+        Iterator<?> var18;
 
         for (var8 = 0; var8 < par1Chunk.entityLists.length; ++var8)
         {
@@ -299,13 +303,13 @@ public class AnvilChunkLoader implements IChunkLoader, IThreadedFileIO
         }
 
         par3NBTTagCompound.setTag("TileEntities", var17);
-        List var20 = par2World.getPendingBlockUpdates(par1Chunk, false);
+        List<NextTickListEntry> var20 = par2World.getPendingBlockUpdates(par1Chunk, false);
 
         if (var20 != null)
         {
             long var19 = par2World.getTotalWorldTime();
             NBTTagList var12 = new NBTTagList();
-            Iterator var13 = var20.iterator();
+            Iterator<NextTickListEntry> var13 = var20.iterator();
 
             while (var13.hasNext())
             {

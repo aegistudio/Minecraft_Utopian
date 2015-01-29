@@ -20,11 +20,11 @@ public class PotionHelper
     public static final String glowstoneEffect;
     public static final String gunpowderEffect;
     public static final String goldenCarrotEffect;
-    private static final HashMap potionRequirements = new HashMap();
+    private static final HashMap<Integer, String> potionRequirements = new HashMap<Integer, String>();
 
     /** Potion effect amplifier map */
-    private static final HashMap potionAmplifiers = new HashMap();
-    private static final HashMap field_77925_n;
+    private static final HashMap<Integer, String> potionAmplifiers = new HashMap<Integer, String>();
+    private static final HashMap<Integer, Integer> field_77925_n;
 
     /** An array of possible potion prefix names, as translation IDs. */
     private static final String[] potionPrefixes;
@@ -61,7 +61,7 @@ public class PotionHelper
     /**
      * Given a {@link Collection}<{@link PotionEffect}> will return an Integer color.
      */
-    public static int calcPotionLiquidColor(Collection par0Collection)
+    public static int calcPotionLiquidColor(Collection<PotionEffect> par0Collection)
     {
         int var1 = 3694022;
 
@@ -71,7 +71,7 @@ public class PotionHelper
             float var3 = 0.0F;
             float var4 = 0.0F;
             float var5 = 0.0F;
-            Iterator var6 = par0Collection.iterator();
+            Iterator<PotionEffect> var6 = par0Collection.iterator();
 
             while (var6.hasNext())
             {
@@ -98,9 +98,9 @@ public class PotionHelper
         }
     }
 
-    public static boolean func_82817_b(Collection par0Collection)
+    public static boolean func_82817_b(Collection<PotionEffect> par0Collection)
     {
-        Iterator var1 = par0Collection.iterator();
+        Iterator<PotionEffect> var1 = par0Collection.iterator();
         PotionEffect var2;
 
         do
@@ -371,9 +371,9 @@ public class PotionHelper
     /**
      * Returns a list of effects for the specified potion damage value.
      */
-    public static List getPotionEffects(int par0, boolean par1)
+    public static List<PotionEffect> getPotionEffects(int par0, boolean par1)
     {
-        ArrayList var2 = null;
+        ArrayList<PotionEffect> var2 = null;
         Potion[] var3 = Potion.potionTypes;
         int var4 = var3.length;
 
@@ -422,7 +422,7 @@ public class PotionHelper
 
                         if (var2 == null)
                         {
-                            var2 = new ArrayList();
+                            var2 = new ArrayList<PotionEffect>();
                         }
 
                         PotionEffect var11 = new PotionEffect(var6.getId(), var8, var9);
@@ -602,7 +602,7 @@ public class PotionHelper
         potionAmplifiers.put(Integer.valueOf(Potion.poison.getId()), "5");
         redstoneEffect = "-5+6-7";
         gunpowderEffect = "+14&13-13";
-        field_77925_n = new HashMap();
+        field_77925_n = new HashMap<Integer, Integer>();
         potionPrefixes = new String[] {"potion.prefix.mundane", "potion.prefix.uninteresting", "potion.prefix.bland", "potion.prefix.clear", "potion.prefix.milky", "potion.prefix.diffuse", "potion.prefix.artless", "potion.prefix.thin", "potion.prefix.awkward", "potion.prefix.flat", "potion.prefix.bulky", "potion.prefix.bungling", "potion.prefix.buttered", "potion.prefix.smooth", "potion.prefix.suave", "potion.prefix.debonair", "potion.prefix.thick", "potion.prefix.elegant", "potion.prefix.fancy", "potion.prefix.charming", "potion.prefix.dashing", "potion.prefix.refined", "potion.prefix.cordial", "potion.prefix.sparkling", "potion.prefix.potent", "potion.prefix.foul", "potion.prefix.odorless", "potion.prefix.rank", "potion.prefix.harsh", "potion.prefix.acrid", "potion.prefix.gross", "potion.prefix.stinky"};
     }
 }

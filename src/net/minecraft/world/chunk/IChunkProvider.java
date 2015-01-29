@@ -1,10 +1,12 @@
 package net.minecraft.world.chunk;
 
 import java.util.List;
+
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.SpawnListEntry;
 
 public interface IChunkProvider
 {
@@ -53,7 +55,7 @@ public interface IChunkProvider
     /**
      * Returns a list of creatures of the specified type that can spawn at the given location.
      */
-    List getPossibleCreatures(EnumCreatureType var1, int var2, int var3, int var4);
+    List<SpawnListEntry> getPossibleCreatures(EnumCreatureType var1, int var2, int var3, int var4);
 
     /**
      * Returns the location of the closest structure of the specified type. If not found returns null.

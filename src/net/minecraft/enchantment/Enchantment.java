@@ -207,7 +207,7 @@ public abstract class Enchantment
 
     static
     {
-        ArrayList var0 = new ArrayList();
+        ArrayList<Enchantment> var0 = new ArrayList<Enchantment>();
         Enchantment[] var1 = enchantmentsList;
         int var2 = var1.length;
 

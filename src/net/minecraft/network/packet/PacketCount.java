@@ -9,15 +9,16 @@ public class PacketCount
     public static boolean allowCounting = true;
 
     /** A count of the total number of each packet sent grouped by IDs. */
-    private static final Map packetCountForID = new HashMap();
+    private static final Map<Integer, Long> packetCountForID = new HashMap<Integer, Long>();
 
     /** A count of the total size of each packet sent grouped by IDs. */
-    private static final Map sizeCountForID = new HashMap();
+    private static final Map<Integer, Long> sizeCountForID = new HashMap<Integer, Long>();
 
     /** Used to make threads queue to add packets */
     private static final Object lock = new Object();
 
-    public static void countPacket(int par0, long par1)
+    @SuppressWarnings("unused")
+	public static void countPacket(int par0, long par1)
     {
         if (allowCounting)
         {

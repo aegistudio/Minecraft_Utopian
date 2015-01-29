@@ -76,9 +76,9 @@ public class ServerScoreboard extends Scoreboard
         this.func_96551_b();
     }
 
-    public void func_96521_a(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
+    public void addPlayerToTeam(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
     {
-        super.func_96521_a(par1Str, par2ScorePlayerTeam);
+        super.addPlayerToTeam(par1Str, par2ScorePlayerTeam);
         this.field_96555_a.getConfigurationManager().sendPacketToAllPlayers(new Packet209SetPlayerTeam(par2ScorePlayerTeam, Arrays.asList(new String[] {par1Str}), 3));
         this.func_96551_b();
     }
@@ -171,7 +171,7 @@ public class ServerScoreboard extends Scoreboard
             }
         }
 
-        Iterator var5 = this.func_96534_i(par1ScoreObjective).iterator();
+        Iterator var5 = this.getSortedScoresByObjective(par1ScoreObjective).iterator();
 
         while (var5.hasNext())
         {

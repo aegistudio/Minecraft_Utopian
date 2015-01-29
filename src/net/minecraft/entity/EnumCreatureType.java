@@ -17,7 +17,7 @@ public enum EnumCreatureType
      * The root class of creatures associated with this EnumCreatureType (IMobs for aggressive creatures, EntityAnimals
      * for friendly ones)
      */
-    private final Class creatureClass;
+    private final Class<?> creatureClass;
     private final int maxNumberOfCreature;
     private final Material creatureMaterial;
 
@@ -27,7 +27,7 @@ public enum EnumCreatureType
     /** Whether this creature type is an animal. */
     private final boolean isAnimal;
 
-    private EnumCreatureType(Class par3Class, int par4, Material par5Material, boolean par6, boolean par7)
+    private EnumCreatureType(Class<?> par3Class, int par4, Material par5Material, boolean par6, boolean par7)
     {
         this.creatureClass = par3Class;
         this.maxNumberOfCreature = par4;
@@ -36,7 +36,7 @@ public enum EnumCreatureType
         this.isAnimal = par7;
     }
 
-    public Class getCreatureClass()
+    public Class<?> getCreatureClass()
     {
         return this.creatureClass;
     }

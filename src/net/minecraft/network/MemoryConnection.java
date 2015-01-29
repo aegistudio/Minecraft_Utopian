@@ -12,7 +12,7 @@ import net.minecraft.network.packet.Packet;
 public class MemoryConnection implements INetworkManager
 {
     private static final SocketAddress mySocketAddress = new InetSocketAddress("127.0.0.1", 0);
-    private final List readPacketCache = Collections.synchronizedList(new ArrayList());
+    private final List<Packet> readPacketCache = Collections.synchronizedList(new ArrayList<Packet>());
     private final ILogAgent field_98214_c;
     private MemoryConnection pairedConnection;
     private NetHandler myNetHandler;
@@ -147,15 +147,15 @@ public class MemoryConnection implements INetworkManager
     /**
      * acts immiditally if isWritePacket, otherwise adds it to the readCache to be processed next tick
      */
-    public void processOrCachePacket(Packet par1Packet)
+    public void processOrCachePacket(Packet packet)
     {
-        if (par1Packet.canProcessAsync() && this.myNetHandler.canProcessPacketsAsync())
+        if (packet.canProcessAsync() && this.myNetHandler.canProcessPacketsAsync())
         {
-            par1Packet.processPacket(this.myNetHandler);
+            packet.processPacket(this.myNetHandler);
         }
         else
         {
-            this.readPacketCache.add(par1Packet);
+            this.readPacketCache.add(packet);
         }
     }
 }

@@ -4,12 +4,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet;
 
-public class MerchantRecipeList extends ArrayList
+@SuppressWarnings("serial")
+public class MerchantRecipeList extends ArrayList<MerchantRecipe>
 {
     public MerchantRecipeList() {}
 

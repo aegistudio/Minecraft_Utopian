@@ -20,7 +20,8 @@ public class CommandServerSaveAll extends CommandBase
         return 4;
     }
 
-    public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    @SuppressWarnings("unused")
+	public void processCommand(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         MinecraftServer var3 = MinecraftServer.getServer();
         par1ICommandSender.sendChatToPlayer(par1ICommandSender.translateString("commands.save.start", new Object[0]));

@@ -46,7 +46,7 @@ public class ItemEnchantedBook extends Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4)
     {
         super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
         NBTTagList var5 = this.func_92110_g(par1ItemStack);
@@ -110,7 +110,7 @@ public class ItemEnchantedBook extends Item
         return var2;
     }
 
-    public void func_92113_a(Enchantment par1Enchantment, List par2List)
+    public void func_92113_a(Enchantment par1Enchantment, List<ItemStack> par2List)
     {
         for (int var3 = par1Enchantment.getMinLevel(); var3 <= par1Enchantment.getMaxLevel(); ++var3)
         {

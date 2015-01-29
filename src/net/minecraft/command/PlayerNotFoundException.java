@@ -1,5 +1,6 @@
 package net.minecraft.command;
 
+@SuppressWarnings("serial")
 public class PlayerNotFoundException extends CommandException
 {
     public PlayerNotFoundException()

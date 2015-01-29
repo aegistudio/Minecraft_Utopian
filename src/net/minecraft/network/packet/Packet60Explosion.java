@@ -15,7 +15,7 @@ public class Packet60Explosion extends Packet
     public double explosionY;
     public double explosionZ;
     public float explosionSize;
-    public List chunkPositionRecords;
+    public List<ChunkPosition> chunkPositionRecords;
 
     /** X velocity of the player being pushed by the explosion */
     private float playerVelocityX;
@@ -28,13 +28,13 @@ public class Packet60Explosion extends Packet
 
     public Packet60Explosion() {}
 
-    public Packet60Explosion(double par1, double par3, double par5, float par7, List par8List, Vec3 par9Vec3)
+    public Packet60Explosion(double par1, double par3, double par5, float par7, List<ChunkPosition> par8List, Vec3 par9Vec3)
     {
         this.explosionX = par1;
         this.explosionY = par3;
         this.explosionZ = par5;
         this.explosionSize = par7;
-        this.chunkPositionRecords = new ArrayList(par8List);
+        this.chunkPositionRecords = new ArrayList<ChunkPosition>(par8List);
 
         if (par9Vec3 != null)
         {
@@ -54,7 +54,7 @@ public class Packet60Explosion extends Packet
         this.explosionZ = par1DataInputStream.readDouble();
         this.explosionSize = par1DataInputStream.readFloat();
         int var2 = par1DataInputStream.readInt();
-        this.chunkPositionRecords = new ArrayList(var2);
+        this.chunkPositionRecords = new ArrayList<ChunkPosition>(var2);
         int var3 = (int)this.explosionX;
         int var4 = (int)this.explosionY;
         int var5 = (int)this.explosionZ;
@@ -85,7 +85,7 @@ public class Packet60Explosion extends Packet
         int var2 = (int)this.explosionX;
         int var3 = (int)this.explosionY;
         int var4 = (int)this.explosionZ;
-        Iterator var5 = this.chunkPositionRecords.iterator();
+        Iterator<ChunkPosition> var5 = this.chunkPositionRecords.iterator();
 
         while (var5.hasNext())
         {

@@ -87,7 +87,7 @@ public class CommandServerWhitelist extends CommandBase
     /**
      * Adds the strings available in this command to the given list of tab completion options.
      */
-    public List addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
+    public List<String> addTabCompletionOptions(ICommandSender par1ICommandSender, String[] par2ArrayOfStr)
     {
         if (par2ArrayOfStr.length == 1)
         {
@@ -100,7 +100,7 @@ public class CommandServerWhitelist extends CommandBase
                 if (par2ArrayOfStr[0].equals("add"))
                 {
                     String[] var3 = MinecraftServer.getServer().getConfigurationManager().getAvailablePlayerDat();
-                    ArrayList var4 = new ArrayList();
+                    ArrayList<String> var4 = new ArrayList<String>();
                     String var5 = par2ArrayOfStr[par2ArrayOfStr.length - 1];
                     String[] var6 = var3;
                     int var7 = var3.length;

@@ -1,6 +1,5 @@
 package net.minecraft.item;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockHalfSlab;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.entity.player.EntityPlayer;

@@ -178,7 +178,7 @@ public class ContainerEnchantment extends Container
         {
             if (!this.worldPointer.isRemote)
             {
-                List var4 = EnchantmentHelper.buildEnchantmentList(this.rand, var3, this.enchantLevels[par2]);
+                List<EnchantmentData> var4 = EnchantmentHelper.buildEnchantmentList(this.rand, var3, this.enchantLevels[par2]);
                 boolean var5 = var3.itemID == Item.book.itemID;
 
                 if (var4 != null)

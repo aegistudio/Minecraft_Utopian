@@ -261,7 +261,7 @@ public class ServerCommandScoreboard extends CommandBase
     protected ScorePlayerTeam getTeam(String par1Str)
     {
         Scoreboard var2 = this.getScoreboardFromWorldServer();
-        ScorePlayerTeam var3 = var2.func_96508_e(par1Str);
+        ScorePlayerTeam var3 = var2.getPlayerTeamByName(par1Str);
 
         if (var3 == null)
         {
@@ -281,11 +281,11 @@ public class ServerCommandScoreboard extends CommandBase
         String var4 = par2ArrayOfStr[par3++];
         String var5 = par2ArrayOfStr[par3++];
         Scoreboard var6 = this.getScoreboardFromWorldServer();
-        ScoreObjectiveCriteria var7 = (ScoreObjectiveCriteria)ScoreObjectiveCriteria.field_96643_a.get(var5);
+        ScoreObjectiveCriteria var7 = (ScoreObjectiveCriteria)ScoreObjectiveCriteria.nameToCriteriaMap.get(var5);
 
         if (var7 == null)
         {
-            String[] var10 = (String[])ScoreObjectiveCriteria.field_96643_a.keySet().toArray(new String[0]);
+            String[] var10 = (String[])ScoreObjectiveCriteria.nameToCriteriaMap.keySet().toArray(new String[0]);
             throw new WrongUsageException("commands.scoreboard.objectives.add.wrongType", new Object[] {joinNiceString(var10)});
         }
         else if (var6.getObjective(var4) != null)
@@ -327,7 +327,7 @@ public class ServerCommandScoreboard extends CommandBase
         String var4 = par2ArrayOfStr[par3++];
         Scoreboard var5 = this.getScoreboardFromWorldServer();
 
-        if (var5.func_96508_e(var4) != null)
+        if (var5.getPlayerTeamByName(var4) != null)
         {
             throw new CommandException("commands.scoreboard.teams.add.alreadyExists", new Object[] {var4});
         }
@@ -337,7 +337,7 @@ public class ServerCommandScoreboard extends CommandBase
         }
         else
         {
-            ScorePlayerTeam var6 = var5.func_96527_f(var4);
+            ScorePlayerTeam var6 = var5.assembleTeam(var4);
 
             if (par2ArrayOfStr.length > par3)
             {
@@ -431,7 +431,7 @@ public class ServerCommandScoreboard extends CommandBase
     {
         Scoreboard var4 = this.getScoreboardFromWorldServer();
         ScorePlayerTeam var5 = this.getTeam(par2ArrayOfStr[par3++]);
-        var4.func_96511_d(var5);
+        var4.disassembleTeam(var5);
         notifyAdmins(par1ICommandSender, "commands.scoreboard.teams.remove.success", new Object[] {var5.getDefaultName()});
     }
 
@@ -457,7 +457,7 @@ public class ServerCommandScoreboard extends CommandBase
         }
         else
         {
-            Collection var8 = var4.func_96525_g();
+            Collection var8 = var4.getScorePlayerTeams();
 
             if (var8.size() <= 0)
             {
@@ -481,14 +481,14 @@ public class ServerCommandScoreboard extends CommandBase
     protected void joinTeam(ICommandSender par1ICommandSender, String[] par2ArrayOfStr, int par3)
     {
         Scoreboard var4 = this.getScoreboardFromWorldServer();
-        ScorePlayerTeam var5 = var4.func_96508_e(par2ArrayOfStr[par3++]);
+        ScorePlayerTeam var5 = var4.getPlayerTeamByName(par2ArrayOfStr[par3++]);
         HashSet var6 = new HashSet();
         String var7;
 
         if (par1ICommandSender instanceof EntityPlayer && par3 == par2ArrayOfStr.length)
         {
             var7 = getCommandSenderAsPlayer(par1ICommandSender).getEntityName();
-            var4.func_96521_a(var7, var5);
+            var4.addPlayerToTeam(var7, var5);
             var6.add(var7);
         }
         else
@@ -496,7 +496,7 @@ public class ServerCommandScoreboard extends CommandBase
             while (par3 < par2ArrayOfStr.length)
             {
                 var7 = func_96332_d(par1ICommandSender, par2ArrayOfStr[par3++]);
-                var4.func_96521_a(var7, var5);
+                var4.addPlayerToTeam(var7, var5);
                 var6.add(var7);
             }
         }
@@ -756,7 +756,7 @@ public class ServerCommandScoreboard extends CommandBase
                 {
                     if (par2ArrayOfStr.length == 4)
                     {
-                        return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, ScoreObjectiveCriteria.field_96643_a.keySet());
+                        return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, ScoreObjectiveCriteria.nameToCriteriaMap.keySet());
                     }
                 }
                 else if (par2ArrayOfStr[1].equalsIgnoreCase("remove"))
@@ -817,7 +817,7 @@ public class ServerCommandScoreboard extends CommandBase
                 {
                     if (par2ArrayOfStr.length == 3)
                     {
-                        return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, this.getScoreboardFromWorldServer().func_96531_f());
+                        return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, this.getScoreboardFromWorldServer().getScorePlayerTeamNames());
                     }
 
                     if (par2ArrayOfStr.length >= 4)
@@ -838,7 +838,7 @@ public class ServerCommandScoreboard extends CommandBase
                         {
                             if (par2ArrayOfStr.length == 3)
                             {
-                                return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, this.getScoreboardFromWorldServer().func_96531_f());
+                                return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, this.getScoreboardFromWorldServer().getScorePlayerTeamNames());
                             }
 
                             if (par2ArrayOfStr.length == 4)
@@ -862,7 +862,7 @@ public class ServerCommandScoreboard extends CommandBase
                     }
                     else if (par2ArrayOfStr.length == 3)
                     {
-                        return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, this.getScoreboardFromWorldServer().func_96531_f());
+                        return getListOfStringsFromIterableMatchingLastWord(par2ArrayOfStr, this.getScoreboardFromWorldServer().getScorePlayerTeamNames());
                     }
                 }
             }

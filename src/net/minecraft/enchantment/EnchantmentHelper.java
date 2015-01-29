@@ -68,9 +68,9 @@ public class EnchantmentHelper
     /**
      * Return the enchantments for the specified stack.
      */
-    public static Map getEnchantments(ItemStack par0ItemStack)
+    public static Map<Integer, Integer> getEnchantments(ItemStack par0ItemStack)
     {
-        LinkedHashMap var1 = new LinkedHashMap();
+        LinkedHashMap<Integer, Integer> var1 = new LinkedHashMap<Integer, Integer>();
         NBTTagList var2 = par0ItemStack.itemID == Item.enchantedBook.itemID ? Item.enchantedBook.func_92110_g(par0ItemStack) : par0ItemStack.getEnchantmentTagList();
 
         if (var2 != null)
@@ -89,10 +89,10 @@ public class EnchantmentHelper
     /**
      * Set the enchantments for the specified stack.
      */
-    public static void setEnchantments(Map par0Map, ItemStack par1ItemStack)
+    public static void setEnchantments(Map<Integer, Integer> par0Map, ItemStack par1ItemStack)
     {
         NBTTagList var2 = new NBTTagList();
-        Iterator var3 = par0Map.keySet().iterator();
+        Iterator<Integer> var3 = par0Map.keySet().iterator();
 
         while (var3.hasNext())
         {
@@ -333,7 +333,7 @@ public class EnchantmentHelper
      */
     public static ItemStack addRandomEnchantment(Random par0Random, ItemStack par1ItemStack, int par2)
     {
-        List var3 = buildEnchantmentList(par0Random, par1ItemStack, par2);
+        List<EnchantmentData> var3 = buildEnchantmentList(par0Random, par1ItemStack, par2);
         boolean var4 = par1ItemStack.itemID == Item.book.itemID;
 
         if (var4)
@@ -343,7 +343,7 @@ public class EnchantmentHelper
 
         if (var3 != null)
         {
-            Iterator var5 = var3.iterator();
+            Iterator<EnchantmentData> var5 = var3.iterator();
 
             while (var5.hasNext())
             {
@@ -367,7 +367,7 @@ public class EnchantmentHelper
      * Create a list of random EnchantmentData (enchantments) that can be added together to the ItemStack, the 3rd
      * parameter is the total enchantability level.
      */
-    public static List buildEnchantmentList(Random par0Random, ItemStack par1ItemStack, int par2)
+    public static List<EnchantmentData> buildEnchantmentList(Random par0Random, ItemStack par1ItemStack, int par2)
     {
         Item var3 = par1ItemStack.getItem();
         int var4 = var3.getItemEnchantability();
@@ -389,27 +389,27 @@ public class EnchantmentHelper
                 var7 = 1;
             }
 
-            ArrayList var8 = null;
-            Map var9 = mapEnchantmentData(var7, par1ItemStack);
+            ArrayList<EnchantmentData> enchantmentDataList = null;
+            Map<Integer, EnchantmentData> enchantmentDataMap = mapEnchantmentData(var7, par1ItemStack);
 
-            if (var9 != null && !var9.isEmpty())
+            if (enchantmentDataMap != null && !enchantmentDataMap.isEmpty())
             {
-                EnchantmentData var10 = (EnchantmentData)WeightedRandom.getRandomItem(par0Random, var9.values());
+                EnchantmentData enchantmentData = (EnchantmentData)WeightedRandom.getRandomItem(par0Random, enchantmentDataMap.values());
 
-                if (var10 != null)
+                if (enchantmentData != null)
                 {
-                    var8 = new ArrayList();
-                    var8.add(var10);
+                    enchantmentDataList = new ArrayList<EnchantmentData>();
+                    enchantmentDataList.add(enchantmentData);
 
                     for (int var11 = var7; par0Random.nextInt(50) <= var11; var11 >>= 1)
                     {
-                        Iterator var12 = var9.keySet().iterator();
+                        Iterator<Integer> var12 = enchantmentDataMap.keySet().iterator();
 
                         while (var12.hasNext())
                         {
                             Integer var13 = (Integer)var12.next();
                             boolean var14 = true;
-                            Iterator var15 = var8.iterator();
+                            Iterator<EnchantmentData> var15 = enchantmentDataList.iterator();
 
                             while (true)
                             {
@@ -434,16 +434,16 @@ public class EnchantmentHelper
                             }
                         }
 
-                        if (!var9.isEmpty())
+                        if (!enchantmentDataMap.isEmpty())
                         {
-                            EnchantmentData var17 = (EnchantmentData)WeightedRandom.getRandomItem(par0Random, var9.values());
-                            var8.add(var17);
+                            EnchantmentData var17 = (EnchantmentData)WeightedRandom.getRandomItem(par0Random, enchantmentDataMap.values());
+                            enchantmentDataList.add(var17);
                         }
                     }
                 }
             }
 
-            return var8;
+            return enchantmentDataList;
         }
     }
 
@@ -451,10 +451,10 @@ public class EnchantmentHelper
      * Creates a 'Map' of EnchantmentData (enchantments) possible to add on the ItemStack and the enchantability level
      * passed.
      */
-    public static Map mapEnchantmentData(int par0, ItemStack par1ItemStack)
+    public static Map<Integer, EnchantmentData> mapEnchantmentData(int par0, ItemStack par1ItemStack)
     {
         Item var2 = par1ItemStack.getItem();
-        HashMap var3 = null;
+        HashMap<Integer, EnchantmentData> var3 = null;
         boolean var4 = par1ItemStack.itemID == Item.book.itemID;
         Enchantment[] var5 = Enchantment.enchantmentsList;
         int var6 = var5.length;
@@ -471,7 +471,7 @@ public class EnchantmentHelper
                     {
                         if (var3 == null)
                         {
-                            var3 = new HashMap();
+                            var3 = new HashMap<Integer, EnchantmentData>();
                         }
 
                         var3.put(Integer.valueOf(var8.effectId), new EnchantmentData(var8, var9));

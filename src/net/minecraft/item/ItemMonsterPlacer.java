@@ -3,7 +3,6 @@ package net.minecraft.item;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -142,9 +141,9 @@ public class ItemMonsterPlacer extends Item
     /**
      * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
      */
-    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List par3List)
+    public void getSubItems(int par1, CreativeTabs par2CreativeTabs, List<ItemStack> par3List)
     {
-        Iterator var4 = EntityList.entityEggs.values().iterator();
+        Iterator<EntityEggInfo> var4 = EntityList.entityEggs.values().iterator();
 
         while (var4.hasNext())
         {

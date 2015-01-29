@@ -1,6 +1,5 @@
 package net.minecraft.world.chunk.storage;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.world.chunk.NibbleArray;
 

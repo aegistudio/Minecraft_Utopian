@@ -96,7 +96,7 @@ public class ItemFireworkCharge extends Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4)
     {
         if (par1ItemStack.hasTagCompound())
         {
@@ -109,7 +109,7 @@ public class ItemFireworkCharge extends Item
         }
     }
 
-    public static void func_92107_a(NBTTagCompound par0NBTTagCompound, List par1List)
+    public static void func_92107_a(NBTTagCompound par0NBTTagCompound, List<String> par1List)
     {
         byte var2 = par0NBTTagCompound.getByte("Type");
 

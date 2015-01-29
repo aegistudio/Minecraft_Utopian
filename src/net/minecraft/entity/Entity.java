@@ -1542,7 +1542,7 @@ public abstract class Entity
         {
             CrashReport var3 = CrashReport.makeCrashReport(var5, "Saving entity NBT");
             CrashReportCategory var4 = var3.makeCategory("Entity being saved");
-            this.func_85029_a(var4);
+            this.addEntityInfoToCrashReport(var4);
             throw new ReportedException(var3);
         }
     }
@@ -1602,7 +1602,7 @@ public abstract class Entity
         {
             CrashReport var3 = CrashReport.makeCrashReport(var5, "Loading entity NBT");
             CrashReportCategory var4 = var3.makeCategory("Entity being loaded");
-            this.func_85029_a(var4);
+            this.addEntityInfoToCrashReport(var4);
             throw new ReportedException(var3);
         }
     }
@@ -2408,7 +2408,7 @@ public abstract class Entity
         return false;
     }
 
-    public void func_85029_a(CrashReportCategory par1CrashReportCategory)
+    public void addEntityInfoToCrashReport(CrashReportCategory par1CrashReportCategory)
     {
         par1CrashReportCategory.addCrashSectionCallable("Entity Type", new CallableEntityType(this));
         par1CrashReportCategory.addCrashSection("Entity ID", Integer.valueOf(this.entityId));

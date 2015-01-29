@@ -1,6 +1,7 @@
 package net.minecraft.item;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityHanging;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityPainting;
@@ -10,9 +11,9 @@ import net.minecraft.world.World;
 
 public class ItemHangingEntity extends Item
 {
-    private final Class hangingEntityClass;
+    private final Class<? extends Entity> hangingEntityClass;
 
-    public ItemHangingEntity(int par1, Class par2Class)
+    public ItemHangingEntity(int par1, Class<? extends Entity> par2Class)
     {
         super(par1);
         this.hangingEntityClass = par2Class;

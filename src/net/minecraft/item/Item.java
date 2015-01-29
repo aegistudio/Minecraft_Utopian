@@ -197,6 +197,9 @@ public class Item
     public static Item netherQuartz = (new Item(150)).setUnlocalizedName("netherquartz").setCreativeTab(CreativeTabs.tabMaterials);
     public static Item minecartTnt = (new ItemMinecart(151, 3)).setUnlocalizedName("minecartTnt");
     public static Item minecartHopper = (new ItemMinecart(152, 5)).setUnlocalizedName("minecartHopper");
+    
+    
+    
     public static Item record13 = (new ItemRecord(2000, "13")).setUnlocalizedName("record");
     public static Item recordCat = (new ItemRecord(2001, "cat")).setUnlocalizedName("record");
     public static Item recordBlocks = (new ItemRecord(2002, "blocks")).setUnlocalizedName("record");
@@ -576,7 +579,7 @@ public class Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {}
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4) {}
 
     public String getItemDisplayName(ItemStack par1ItemStack)
     {

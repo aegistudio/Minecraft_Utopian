@@ -103,7 +103,8 @@ public class Chunk
     private int queuedLightChecks;
     boolean field_76653_p;
 
-    public Chunk(World par1World, int par2, int par3)
+    @SuppressWarnings("unchecked")
+	public Chunk(World par1World, int par2, int par3)
     {
         this.storageArrays = new ExtendedBlockStorage[16];
         this.blockBiomeArray = new byte[256];
@@ -1259,7 +1260,8 @@ public class Chunk
     /**
      * Initialise this chunk with new binary data
      */
-    public void fillChunk(byte[] par1ArrayOfByte, int par2, int par3, boolean par4)
+    @SuppressWarnings("unused")
+	public void fillChunk(byte[] par1ArrayOfByte, int par2, int par3, boolean par4)
     {
         int var5 = 0;
         boolean var6 = !this.worldObj.provider.hasNoSky;

@@ -12,13 +12,13 @@ public class ScoreHealthCriteria extends ScoreDummyCriteria
         super(par1Str);
     }
 
-    public int func_96635_a(List par1List)
+    public int calculateScore(List<? extends EntityPlayer> par1List)
     {
         float var2 = 0.0F;
         int var5;
         float var6;
 
-        for (Iterator var3 = par1List.iterator(); var3.hasNext(); var2 += (float)var5 / var6)
+        for (Iterator<? extends EntityPlayer> var3 = par1List.iterator(); var3.hasNext(); var2 += (float)var5 / var6)
         {
             EntityPlayer var4 = (EntityPlayer)var3.next();
             var5 = var4.getHealth();

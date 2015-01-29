@@ -4,18 +4,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 public interface ScoreObjectiveCriteria
 {
-    Map field_96643_a = new HashMap();
-    ScoreObjectiveCriteria field_96641_b = new ScoreDummyCriteria("dummy");
-    ScoreObjectiveCriteria field_96642_c = new ScoreDummyCriteria("deathCount");
-    ScoreObjectiveCriteria field_96639_d = new ScoreDummyCriteria("playerKillCount");
-    ScoreObjectiveCriteria field_96640_e = new ScoreDummyCriteria("totalKillCount");
-    ScoreObjectiveCriteria field_96638_f = new ScoreHealthCriteria("health");
+    Map<String, ScoreObjectiveCriteria> nameToCriteriaMap = new HashMap<String, ScoreObjectiveCriteria>();
+    ScoreObjectiveCriteria criteriaDummy = new ScoreDummyCriteria("dummy");
+    ScoreObjectiveCriteria criteriaDeathCount = new ScoreDummyCriteria("deathCount");
+    ScoreObjectiveCriteria criteriaPlayerKillCount = new ScoreDummyCriteria("playerKillCount");
+    ScoreObjectiveCriteria criteriaTotalKillCount = new ScoreDummyCriteria("totalKillCount");
+    ScoreObjectiveCriteria criteriaHealth = new ScoreHealthCriteria("health");
 
     String func_96636_a();
 
-    int func_96635_a(List var1);
+    int calculateScore(List<? extends EntityPlayer> var1);
 
     boolean isReadOnly();
 }

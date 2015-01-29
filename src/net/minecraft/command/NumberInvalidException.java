@@ -1,5 +1,6 @@
 package net.minecraft.command;
 
+@SuppressWarnings("serial")
 public class NumberInvalidException extends CommandException
 {
     public NumberInvalidException()

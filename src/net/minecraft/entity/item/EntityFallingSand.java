@@ -160,7 +160,7 @@ public class EntityFallingSand extends Entity
                                 {
                                     NBTTagCompound var5 = new NBTTagCompound();
                                     var4.writeToNBT(var5);
-                                    Iterator var6 = this.fallingBlockTileEntityData.getTags().iterator();
+                                    Iterator<NBTBase> var6 = this.fallingBlockTileEntityData.getTags().iterator();
 
                                     while (var6.hasNext())
                                     {
@@ -207,9 +207,9 @@ public class EntityFallingSand extends Entity
 
             if (var2 > 0)
             {
-                ArrayList var3 = new ArrayList(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox));
+                ArrayList<Entity> var3 = new ArrayList<Entity>(this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox));
                 DamageSource var4 = this.blockID == Block.anvil.blockID ? DamageSource.anvil : DamageSource.fallingBlock;
-                Iterator var5 = var3.iterator();
+                Iterator<Entity> var5 = var3.iterator();
 
                 while (var5.hasNext())
                 {
@@ -323,9 +323,9 @@ public class EntityFallingSand extends Entity
         return false;
     }
 
-    public void func_85029_a(CrashReportCategory par1CrashReportCategory)
+    public void addEntityInfoToCrashReport(CrashReportCategory par1CrashReportCategory)
     {
-        super.func_85029_a(par1CrashReportCategory);
+        super.addEntityInfoToCrashReport(par1CrashReportCategory);
         par1CrashReportCategory.addCrashSection("Immitating block ID", Integer.valueOf(this.blockID));
         par1CrashReportCategory.addCrashSection("Immitating block data", Integer.valueOf(this.metadata));
     }

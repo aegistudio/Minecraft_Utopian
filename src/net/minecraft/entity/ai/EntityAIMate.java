@@ -3,6 +3,8 @@ package net.minecraft.entity.ai;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -85,10 +87,10 @@ public class EntityAIMate extends EntityAIBase
     private EntityAnimal getNearbyMate()
     {
         float var1 = 8.0F;
-        List var2 = this.theWorld.getEntitiesWithinAABB(this.theAnimal.getClass(), this.theAnimal.boundingBox.expand((double)var1, (double)var1, (double)var1));
+        List<Entity> var2 = this.theWorld.getEntitiesWithinAABB(this.theAnimal.getClass(), this.theAnimal.boundingBox.expand((double)var1, (double)var1, (double)var1));
         double var3 = Double.MAX_VALUE;
         EntityAnimal var5 = null;
-        Iterator var6 = var2.iterator();
+        Iterator<Entity> var6 = var2.iterator();
 
         while (var6.hasNext())
         {

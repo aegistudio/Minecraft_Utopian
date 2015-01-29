@@ -5,11 +5,10 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
-public class LowerStringMap implements Map
+public class LowerStringMap implements Map<String, BanEntry>
 {
-    private final Map internalMap = new LinkedHashMap();
+    private final Map<String, BanEntry> internalMap = new LinkedHashMap<String, BanEntry>();
 
     public int size()
     {
@@ -31,57 +30,60 @@ public class LowerStringMap implements Map
         return this.internalMap.containsKey(par1Obj);
     }
 
-    public Object get(Object par1Obj)
+    public BanEntry get(Object par1Obj)
     {
         return this.internalMap.get(par1Obj.toString().toLowerCase());
     }
-
+    
     /**
      * a map already defines a general put
      */
-    public Object putLower(String par1Str, Object par2Obj)
+    public BanEntry putLower(String par1Str, BanEntry par2Obj)
     {
         return this.internalMap.put(par1Str.toLowerCase(), par2Obj);
     }
 
-    public Object remove(Object par1Obj)
+    public BanEntry remove(Object par1Obj)
     {
         return this.internalMap.remove(par1Obj.toString().toLowerCase());
     }
-
-    public void putAll(Map par1Map)
-    {
-        Iterator var2 = par1Map.entrySet().iterator();
-
-        while (var2.hasNext())
-        {
-            Entry var3 = (Entry)var2.next();
-            this.putLower((String)var3.getKey(), var3.getValue());
-        }
-    }
-
+    
     public void clear()
     {
         this.internalMap.clear();
     }
 
-    public Set keySet()
+    public Set<String> keySet()
     {
         return this.internalMap.keySet();
     }
 
-    public Collection values()
+    public Collection<BanEntry> values()
     {
         return this.internalMap.values();
     }
 
-    public Set entrySet()
+    public Set<Entry<String, BanEntry>> entrySet()
     {
         return this.internalMap.entrySet();
     }
 
-    public Object put(Object par1Obj, Object par2Obj)
+    public BanEntry put(String par1Obj, BanEntry par2Obj)
     {
         return this.putLower((String)par1Obj, par2Obj);
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public void putAll(Map<? extends String, ? extends BanEntry> m)
+	{
+        Iterator<?> var2 = m.entrySet().iterator();
+
+        while (var2.hasNext())
+        {
+            Entry<? extends String, ? extends BanEntry> var3 = ((Entry<? extends String, ? extends BanEntry>) var2.next());
+            this.putLower((String)var3.getKey(), var3.getValue());
+        }
+	}
+
 }

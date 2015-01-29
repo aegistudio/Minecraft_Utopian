@@ -45,7 +45,7 @@ public class EntityTracker
     /**
      * List of tracked entities, used for iteration operations on tracked entities.
      */
-    private Set trackedEntities = new HashSet();
+    private Set<EntityTrackerEntry> trackedEntities = new HashSet<EntityTrackerEntry>();
     private IntHashMap trackedEntityIDs = new IntHashMap();
     private int entityViewDistance;
 
@@ -65,7 +65,7 @@ public class EntityTracker
         {
             this.addEntityToTracker(par1Entity, 512, 2);
             EntityPlayerMP var2 = (EntityPlayerMP)par1Entity;
-            Iterator var3 = this.trackedEntities.iterator();
+            Iterator<EntityTrackerEntry> var3 = this.trackedEntities.iterator();
 
             while (var3.hasNext())
             {
@@ -209,9 +209,9 @@ public class EntityTracker
             CrashReportCategory var7 = var6.makeCategory("Entity To Track");
             var7.addCrashSection("Tracking range", par2 + " blocks");
             var7.addCrashSectionCallable("Update interval", new CallableEntityTracker(this, par3));
-            par1Entity.func_85029_a(var7);
+            par1Entity.addEntityInfoToCrashReport(var7);
             CrashReportCategory var8 = var6.makeCategory("Entity That Is Already Tracked");
-            ((EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId)).myEntity.func_85029_a(var8);
+            ((EntityTrackerEntry)this.trackedEntityIDs.lookup(par1Entity.entityId)).myEntity.addEntityInfoToCrashReport(var8);
 
             try
             {
@@ -230,7 +230,7 @@ public class EntityTracker
         if (par1Entity instanceof EntityPlayerMP)
         {
             EntityPlayerMP var2 = (EntityPlayerMP)par1Entity;
-            Iterator var3 = this.trackedEntities.iterator();
+            Iterator<EntityTrackerEntry> var3 = this.trackedEntities.iterator();
 
             while (var3.hasNext())
             {
@@ -250,8 +250,8 @@ public class EntityTracker
 
     public void updateTrackedEntities()
     {
-        ArrayList var1 = new ArrayList();
-        Iterator var2 = this.trackedEntities.iterator();
+        ArrayList<EntityPlayerMP> var1 = new ArrayList<EntityPlayerMP>();
+        Iterator<EntityTrackerEntry> var2 = this.trackedEntities.iterator();
 
         while (var2.hasNext())
         {
@@ -267,7 +267,7 @@ public class EntityTracker
         for (int var6 = 0; var6 < var1.size(); ++var6)
         {
             EntityPlayerMP var7 = (EntityPlayerMP)var1.get(var6);
-            Iterator var4 = this.trackedEntities.iterator();
+            Iterator<EntityTrackerEntry> var4 = this.trackedEntities.iterator();
 
             while (var4.hasNext())
             {
@@ -309,7 +309,7 @@ public class EntityTracker
 
     public void removePlayerFromTrackers(EntityPlayerMP par1EntityPlayerMP)
     {
-        Iterator var2 = this.trackedEntities.iterator();
+        Iterator<EntityTrackerEntry> var2 = this.trackedEntities.iterator();
 
         while (var2.hasNext())
         {
@@ -320,7 +320,7 @@ public class EntityTracker
 
     public void func_85172_a(EntityPlayerMP par1EntityPlayerMP, Chunk par2Chunk)
     {
-        Iterator var3 = this.trackedEntities.iterator();
+        Iterator<EntityTrackerEntry> var3 = this.trackedEntities.iterator();
 
         while (var3.hasNext())
         {

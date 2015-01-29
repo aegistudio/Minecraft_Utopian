@@ -53,7 +53,7 @@ public class ItemBoat extends Item
             Vec3 var25 = par3EntityPlayer.getLook(var4);
             boolean var26 = false;
             float var27 = 1.0F;
-            List var28 = par2World.getEntitiesWithinAABBExcludingEntity(par3EntityPlayer, par3EntityPlayer.boundingBox.addCoord(var25.xCoord * var21, var25.yCoord * var21, var25.zCoord * var21).expand((double)var27, (double)var27, (double)var27));
+            List<Entity> var28 = par2World.getEntitiesWithinAABBExcludingEntity(par3EntityPlayer, par3EntityPlayer.boundingBox.addCoord(var25.xCoord * var21, var25.yCoord * var21, var25.zCoord * var21).expand((double)var27, (double)var27, (double)var27));
             int var29;
 
             for (var29 = 0; var29 < var28.size(); ++var29)

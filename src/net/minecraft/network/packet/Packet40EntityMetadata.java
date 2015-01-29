@@ -4,12 +4,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
+
 import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.WatchableObject;
 
 public class Packet40EntityMetadata extends Packet
 {
     public int entityId;
-    private List metadata;
+    private List<WatchableObject> metadata;
 
     public Packet40EntityMetadata() {}
 
@@ -61,7 +63,7 @@ public class Packet40EntityMetadata extends Packet
         return 5;
     }
 
-    public List getMetadata()
+    public List<WatchableObject> getMetadata()
     {
         return this.metadata;
     }

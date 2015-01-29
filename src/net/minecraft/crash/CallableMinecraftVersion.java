@@ -2,7 +2,7 @@ package net.minecraft.crash;
 
 import java.util.concurrent.Callable;
 
-class CallableMinecraftVersion implements Callable
+class CallableMinecraftVersion implements Callable<String>
 {
     /** Reference to the CrashReport object. */
     final CrashReport theCrashReport;
@@ -20,7 +20,7 @@ class CallableMinecraftVersion implements Callable
         return "X.X.X";
     }
 
-    public Object call()
+    public String call()
     {
         return this.minecraftVersion();
     }

@@ -834,19 +834,19 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
     /**
      * If par2Str begins with /, then it searches for commands, otherwise it returns players.
      */
-    public List getPossibleCompletions(ICommandSender par1ICommandSender, String par2Str)
+    public List<String> getPossibleCompletions(ICommandSender par1ICommandSender, String par2Str)
     {
-        ArrayList var3 = new ArrayList();
+        ArrayList<String> var3 = new ArrayList<String>();
 
         if (par2Str.startsWith("/"))
         {
             par2Str = par2Str.substring(1);
             boolean var10 = !par2Str.contains(" ");
-            List var11 = this.commandManager.getPossibleCommands(par1ICommandSender, par2Str);
+            List<String> var11 = this.commandManager.getPossibleCommands(par1ICommandSender, par2Str);
 
             if (var11 != null)
             {
-                Iterator var12 = var11.iterator();
+                Iterator<String> var12 = var11.iterator();
 
                 while (var12.hasNext())
                 {

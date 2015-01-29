@@ -72,7 +72,7 @@ public class PlayerSelector
 
         if (var2.matches())
         {
-            Map var3 = getArgumentMap(var2.group(2));
+            Map<String, String> var3 = getArgumentMap(var2.group(2));
             String var4 = var2.group(1);
             int var5 = getDefaultMinimumRange(var4);
             int var6 = getDefaultMaximumRange(var4);
@@ -81,7 +81,7 @@ public class PlayerSelector
             int var9 = getDefaultCount(var4);
             int var10 = EnumGameType.NOT_SET.getID();
             ChunkCoordinates var11 = par0ICommandSender.getPlayerCoordinates();
-            Map var12 = func_96560_a(var3);
+            Map<String, Integer> var12 = parseScoreMap(var3);
             String var13 = null;
             String var14 = null;
 
@@ -140,7 +140,7 @@ public class PlayerSelector
                 var13 = (String)var3.get("name");
             }
 
-            List var15;
+            List<EntityPlayerMP> var15;
 
             if (!var4.equals("p") && !var4.equals("a"))
             {
@@ -168,10 +168,10 @@ public class PlayerSelector
         }
     }
 
-    public static Map func_96560_a(Map par0Map)
+    public static Map<String, Integer> parseScoreMap(Map<String, String> par0Map)
     {
-        HashMap var1 = new HashMap();
-        Iterator var2 = par0Map.keySet().iterator();
+        HashMap<String, Integer> var1 = new HashMap<String, Integer>();
+        Iterator<String> var2 = par0Map.keySet().iterator();
 
         while (var2.hasNext())
         {
@@ -196,7 +196,7 @@ public class PlayerSelector
 
         if (var1.matches())
         {
-            Map var2 = getArgumentMap(var1.group(2));
+            Map<String, String> var2 = getArgumentMap(var1.group(2));
             String var3 = var1.group(1);
             int var4 = getDefaultCount(var3);
 
@@ -282,9 +282,9 @@ public class PlayerSelector
     /**
      * Parses the given argument string, turning it into a HashMap&lt;String, String&gt; of name-&gt;value.
      */
-    private static Map getArgumentMap(String par0Str)
+    private static Map<String, String> getArgumentMap(String par0Str)
     {
-        HashMap var1 = new HashMap();
+        HashMap<String, String> var1 = new HashMap<String, String>();
 
         if (par0Str == null)
         {

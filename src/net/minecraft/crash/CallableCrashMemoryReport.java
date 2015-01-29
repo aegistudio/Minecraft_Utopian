@@ -3,7 +3,7 @@ package net.minecraft.crash;
 import java.util.concurrent.Callable;
 import net.minecraft.util.AxisAlignedBB;
 
-class CallableCrashMemoryReport implements Callable
+class CallableCrashMemoryReport implements Callable<String>
 {
     final CrashReport theCrashReport;
 
@@ -26,7 +26,7 @@ class CallableCrashMemoryReport implements Callable
         return var1 + " (" + var2 + " bytes; " + var3 + " MB) allocated, " + var4 + " (" + var5 + " bytes; " + var6 + " MB) used";
     }
 
-    public Object call()
+    public String call()
     {
         return this.getMemoryReport();
     }

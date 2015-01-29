@@ -2,10 +2,9 @@ package net.minecraft.crash;
 
 import java.util.concurrent.Callable;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 
-final class CallableBlockType implements Callable
+final class CallableBlockType implements Callable<String>
 {
     final int blockID;
 
@@ -27,7 +26,7 @@ final class CallableBlockType implements Callable
         }
     }
 
-    public Object call()
+    public String call()
     {
         return this.callBlockType();
     }

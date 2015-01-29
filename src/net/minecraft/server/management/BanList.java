@@ -39,7 +39,7 @@ public class BanList
     /**
      * removes expired Bans before returning
      */
-    public Map getBannedList()
+    public Map<String, BanEntry> getBannedList()
     {
         this.removeExpiredBans();
         return this.theBanList;
@@ -72,7 +72,7 @@ public class BanList
 
     public void removeExpiredBans()
     {
-        Iterator var1 = this.theBanList.values().iterator();
+        Iterator<BanEntry> var1 = this.theBanList.values().iterator();
 
         while (var1.hasNext())
         {
@@ -150,7 +150,7 @@ public class BanList
                 var2.println();
             }
 
-            Iterator var3 = this.theBanList.values().iterator();
+            Iterator<BanEntry> var3 = this.theBanList.values().iterator();
 
             while (var3.hasNext())
             {

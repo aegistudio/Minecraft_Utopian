@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.NetworkListenThread;
 
 public class ServerListenThread extends Thread
 {
-    private final List pendingConnections = Collections.synchronizedList(new ArrayList());
+    private final List<NetLoginHandler> pendingConnections = Collections.synchronizedList(new ArrayList<NetLoginHandler>());
 
     /**
      * This map stores a list of InetAddresses and the last time which they connected at
@@ -35,32 +36,33 @@ public class ServerListenThread extends Thread
         this.myServerSocket.setPerformancePreferences(0, 2, 1);
     }
 
-    public void processPendingConnections()
+    @SuppressWarnings("unused")
+	public void processPendingConnections()
     {
-        List var1 = this.pendingConnections;
+        List<NetLoginHandler> var1 = this.pendingConnections;
 
         synchronized (this.pendingConnections)
         {
             for (int var2 = 0; var2 < this.pendingConnections.size(); ++var2)
             {
-                NetLoginHandler var3 = (NetLoginHandler)this.pendingConnections.get(var2);
+                NetLoginHandler netLoginHandler = (NetLoginHandler)this.pendingConnections.get(var2);
 
                 try
                 {
-                    var3.tryLogin();
+                    netLoginHandler.tryLogin();
                 }
                 catch (Exception var6)
                 {
-                    var3.raiseErrorAndDisconnect("Internal server error");
-                    this.myNetworkListenThread.getServer().getLogAgent().logWarningException("Failed to handle packet for " + var3.getUsernameAndAddress() + ": " + var6, var6);
+                    netLoginHandler.raiseErrorAndDisconnect("Internal server error");
+                    this.myNetworkListenThread.getServer().getLogAgent().logWarningException("Failed to handle packet for " + netLoginHandler.getUsernameAndAddress() + ": " + var6, var6);
                 }
 
-                if (var3.connectionComplete)
+                if (netLoginHandler.connectionComplete)
                 {
                     this.pendingConnections.remove(var2--);
                 }
 
-                var3.myTCPConnection.wakeThreads();
+                netLoginHandler.myTCPConnection.wakeThreads();
             }
         }
     }
@@ -71,9 +73,9 @@ public class ServerListenThread extends Thread
         {
             try
             {
-                Socket var1 = this.myServerSocket.accept();
-                NetLoginHandler var2 = new NetLoginHandler(this.myNetworkListenThread.getServer(), var1, "Connection #" + this.connectionCounter++);
-                this.addPendingConnection(var2);
+                Socket socket = this.myServerSocket.accept();
+                NetLoginHandler netLoginHandler = new NetLoginHandler(this.myNetworkListenThread.getServer(), socket, "Connection #" + this.connectionCounter++);
+                this.addPendingConnection(netLoginHandler);
             }
             catch (IOException var3)
             {
@@ -84,19 +86,20 @@ public class ServerListenThread extends Thread
         this.myNetworkListenThread.getServer().getLogAgent().logInfo("Closing listening thread");
     }
 
-    private void addPendingConnection(NetLoginHandler par1NetLoginHandler)
+    @SuppressWarnings("unused")
+	private void addPendingConnection(NetLoginHandler netLoginHandler)
     {
-        if (par1NetLoginHandler == null)
+        if (netLoginHandler == null)
         {
             throw new IllegalArgumentException("Got null pendingconnection!");
         }
         else
         {
-            List var2 = this.pendingConnections;
+            List<NetLoginHandler> var2 = this.pendingConnections;
 
             synchronized (this.pendingConnections)
             {
-                this.pendingConnections.add(par1NetLoginHandler);
+                this.pendingConnections.add(netLoginHandler);
             }
         }
     }
@@ -114,7 +117,7 @@ public class ServerListenThread extends Thread
         }
     }
 
-    public void func_71768_b()
+    public void closeServerSocket()
     {
         try
         {

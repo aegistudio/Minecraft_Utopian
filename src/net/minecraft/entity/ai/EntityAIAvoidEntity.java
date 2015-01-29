@@ -28,9 +28,9 @@ public class EntityAIAvoidEntity extends EntityAIBase
     private PathNavigate entityPathNavigate;
 
     /** The class of the entity we should avoid */
-    private Class targetEntityClass;
+    private Class<?> targetEntityClass;
 
-    public EntityAIAvoidEntity(EntityCreature par1EntityCreature, Class par2Class, float par3, float par4, float par5)
+    public EntityAIAvoidEntity(EntityCreature par1EntityCreature, Class<?> par2Class, float par3, float par4, float par5)
     {
         this.theEntity = par1EntityCreature;
         this.targetEntityClass = par2Class;
@@ -62,7 +62,7 @@ public class EntityAIAvoidEntity extends EntityAIBase
         }
         else
         {
-            List var1 = this.theEntity.worldObj.selectEntitiesWithinAABB(this.targetEntityClass, this.theEntity.boundingBox.expand((double)this.distanceFromEntity, 3.0D, (double)this.distanceFromEntity), this.field_98218_a);
+            List<Entity> var1 = this.theEntity.worldObj.selectEntitiesWithinAABB(this.targetEntityClass, this.theEntity.boundingBox.expand((double)this.distanceFromEntity, 3.0D, (double)this.distanceFromEntity), this.field_98218_a);
 
             if (var1.isEmpty())
             {

@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public interface ICrafting
 {
-    void sendContainerAndContentsToPlayer(Container var1, List var2);
+    void sendContainerAndContentsToPlayer(Container var1, List<ItemStack> var2);
 
     /**
      * Sends the contents of an inventory slot to the client-side Container. This doesn't have to match the actual

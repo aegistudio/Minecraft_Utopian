@@ -2,6 +2,8 @@ package net.minecraft.entity.ai;
 
 import java.util.Iterator;
 import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
@@ -46,8 +48,8 @@ public class EntityAIHurtByTarget extends EntityAITarget
 
         if (this.field_75312_a)
         {
-            List var1 = this.taskOwner.worldObj.getEntitiesWithinAABB(this.taskOwner.getClass(), AxisAlignedBB.getAABBPool().getAABB(this.taskOwner.posX, this.taskOwner.posY, this.taskOwner.posZ, this.taskOwner.posX + 1.0D, this.taskOwner.posY + 1.0D, this.taskOwner.posZ + 1.0D).expand((double)this.targetDistance, 10.0D, (double)this.targetDistance));
-            Iterator var2 = var1.iterator();
+            List<Entity> var1 = this.taskOwner.worldObj.getEntitiesWithinAABB(this.taskOwner.getClass(), AxisAlignedBB.getAABBPool().getAABB(this.taskOwner.posX, this.taskOwner.posY, this.taskOwner.posZ, this.taskOwner.posX + 1.0D, this.taskOwner.posY + 1.0D, this.taskOwner.posZ + 1.0D).expand((double)this.targetDistance, 10.0D, (double)this.targetDistance));
+            Iterator<Entity> var2 = var1.iterator();
 
             while (var2.hasNext())
             {

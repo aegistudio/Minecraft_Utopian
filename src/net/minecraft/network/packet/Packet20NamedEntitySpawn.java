@@ -4,7 +4,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
+
 import net.minecraft.entity.DataWatcher;
+import net.minecraft.entity.WatchableObject;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -35,7 +37,7 @@ public class Packet20NamedEntitySpawn extends Packet
     /** The current item the player is holding. */
     public int currentItem;
     private DataWatcher metadata;
-    private List metadataWatchableObjects;
+    private List<WatchableObject> metadataWatchableObjects;
 
     public Packet20NamedEntitySpawn() {}
 
@@ -101,7 +103,7 @@ public class Packet20NamedEntitySpawn extends Packet
         return 28;
     }
 
-    public List getWatchedMetadata()
+    public List<WatchableObject> getWatchedMetadata()
     {
         if (this.metadataWatchableObjects == null)
         {

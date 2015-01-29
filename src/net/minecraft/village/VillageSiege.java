@@ -109,8 +109,8 @@ public class VillageSiege
 
     private boolean func_75529_b()
     {
-        List var1 = this.worldObj.playerEntities;
-        Iterator var2 = var1.iterator();
+        List<EntityPlayer> var1 = this.worldObj.playerEntities;
+        Iterator<EntityPlayer> var2 = var1.iterator();
 
         while (var2.hasNext())
         {
@@ -132,7 +132,7 @@ public class VillageSiege
                         this.field_75538_h = var4.posY;
                         this.field_75539_i = var4.posZ + (int)((double)(MathHelper.sin(this.worldObj.rand.nextFloat() * (float)Math.PI * 2.0F) * var5) * 0.9D);
                         var6 = false;
-                        Iterator var8 = this.worldObj.villageCollectionObj.getVillageList().iterator();
+                        Iterator<Village> var8 = this.worldObj.villageCollectionObj.getVillageList().iterator();
 
                         while (var8.hasNext())
                         {

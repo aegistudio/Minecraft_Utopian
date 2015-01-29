@@ -1982,7 +1982,7 @@ public abstract class World implements IBlockAccess
                 }
                 else
                 {
-                    var2.func_85029_a(var5);
+                    var2.addEntityInfoToCrashReport(var5);
                 }
 
                 throw new ReportedException(var4);
@@ -2046,7 +2046,7 @@ public abstract class World implements IBlockAccess
                 {
                     var4 = CrashReport.makeCrashReport(var7, "Ticking entity");
                     var5 = var4.makeCategory("Entity being ticked");
-                    var2.func_85029_a(var5);
+                    var2.addEntityInfoToCrashReport(var5);
                     throw new ReportedException(var4);
                 }
             }
@@ -3453,7 +3453,7 @@ public abstract class World implements IBlockAccess
         return false;
     }
 
-    public List getPendingBlockUpdates(Chunk par1Chunk, boolean par2)
+    public List<NextTickListEntry> getPendingBlockUpdates(Chunk par1Chunk, boolean par2)
     {
         return null;
     }

@@ -2,7 +2,7 @@ package net.minecraft.world.storage;
 
 import net.minecraft.world.EnumGameType;
 
-public class SaveFormatComparator implements Comparable
+public class SaveFormatComparator implements Comparable<SaveFormatComparator>
 {
     /** the file name of this save */
     private final String fileName;
@@ -80,10 +80,5 @@ public class SaveFormatComparator implements Comparable
     public boolean getCheatsEnabled()
     {
         return this.cheatsEnabled;
-    }
-
-    public int compareTo(Object par1Obj)
-    {
-        return this.compareTo((SaveFormatComparator)par1Obj);
     }
 }

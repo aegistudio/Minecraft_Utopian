@@ -43,7 +43,7 @@ public class ItemFirework extends Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4)
     {
         if (par1ItemStack.hasTagCompound())
         {
@@ -63,7 +63,7 @@ public class ItemFirework extends Item
                     for (int var7 = 0; var7 < var6.tagCount(); ++var7)
                     {
                         NBTTagCompound var8 = (NBTTagCompound)var6.tagAt(var7);
-                        ArrayList var9 = new ArrayList();
+                        ArrayList<String> var9 = new ArrayList<String>();
                         ItemFireworkCharge.func_92107_a(var8, var9);
 
                         if (var9.size() > 0)

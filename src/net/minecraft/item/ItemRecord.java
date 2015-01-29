@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class ItemRecord extends Item
 {
     /** List of all record items and their names. */
-    private static final Map records = new HashMap();
+    private static final Map<String, ItemRecord> records = new HashMap<String, ItemRecord>();
 
     /** The name of the record. */
     public final String recordName;
@@ -65,7 +65,7 @@ public class ItemRecord extends Item
     /**
      * allows items to add custom lines of information to the mouseover description
      */
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4)
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List<String> par3List, boolean par4)
     {
         par3List.add(this.getRecordTitle());
     }

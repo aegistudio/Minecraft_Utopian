@@ -11,14 +11,14 @@ import java.util.Map;
 public class Scoreboard
 {
     /** Map of objective names to ScoreObjective objects. */
-    private final Map scoreObjectives = new HashMap();
+    private final Map<String, ScoreObjective> scoreObjectives = new HashMap<String, ScoreObjective>();
     private final Map field_96543_b = new HashMap();
     private final Map field_96544_c = new HashMap();
     private final ScoreObjective[] field_96541_d = new ScoreObjective[3];
-    private final Map field_96542_e = new HashMap();
+    private final Map<String, ScorePlayerTeam> teamNameToTeamMap = new HashMap<String, ScorePlayerTeam>();
 
     /** Map of usernames to ScorePlayerTeam objects. */
-    private final Map teamMemberships = new HashMap();
+    private final Map<String, ScorePlayerTeam> teamMemberships = new HashMap<String, ScorePlayerTeam>();
 
     /**
      * Returns a ScoreObjective for the objective name
@@ -81,9 +81,9 @@ public class Scoreboard
         return var4;
     }
 
-    public Collection func_96534_i(ScoreObjective par1ScoreObjective)
+    public Collection<Score> getSortedScoresByObjective(ScoreObjective par1ScoreObjective)
     {
-        ArrayList var2 = new ArrayList();
+        ArrayList<Score> scores = new ArrayList<Score>();
         Iterator var3 = this.field_96544_c.values().iterator();
 
         while (var3.hasNext())
@@ -91,17 +91,14 @@ public class Scoreboard
             Map var4 = (Map)var3.next();
             Score var5 = (Score)var4.get(par1ScoreObjective);
 
-            if (var5 != null)
-            {
-                var2.add(var5);
-            }
+            if (var5 != null) scores.add(var5);
         }
 
-        Collections.sort(var2, Score.scoreComparator);
-        return var2;
+        Collections.sort(scores, Score.scoreComparator);
+        return scores;
     }
 
-    public Collection getScoreObjectives()
+    public Collection<ScoreObjective> getScoreObjectives()
     {
         return this.scoreObjectives.values();
     }
@@ -192,32 +189,32 @@ public class Scoreboard
         return this.field_96541_d[par1];
     }
 
-    public ScorePlayerTeam func_96508_e(String par1Str)
+    public ScorePlayerTeam getPlayerTeamByName(String teamDefaultName)
     {
-        return (ScorePlayerTeam)this.field_96542_e.get(par1Str);
+        return (ScorePlayerTeam)this.teamNameToTeamMap.get(teamDefaultName);
     }
 
-    public ScorePlayerTeam func_96527_f(String par1Str)
+    public ScorePlayerTeam assembleTeam(String teamDefaultName)
     {
-        ScorePlayerTeam var2 = this.func_96508_e(par1Str);
+        ScorePlayerTeam playerTeam = this.getPlayerTeamByName(teamDefaultName);
 
-        if (var2 != null)
+        if (playerTeam != null)
         {
-            throw new IllegalArgumentException("An objective with the name \'" + par1Str + "\' already exists!");
+            throw new IllegalArgumentException("An objective with the name \'" + teamDefaultName + "\' already exists!");
         }
         else
         {
-            var2 = new ScorePlayerTeam(this, par1Str);
-            this.field_96542_e.put(par1Str, var2);
-            this.func_96523_a(var2);
-            return var2;
+            playerTeam = new ScorePlayerTeam(this, teamDefaultName);
+            this.teamNameToTeamMap.put(teamDefaultName, playerTeam);
+            this.func_96523_a(playerTeam);
+            return playerTeam;
         }
     }
 
-    public void func_96511_d(ScorePlayerTeam par1ScorePlayerTeam)
+    public void disassembleTeam(ScorePlayerTeam team)
     {
-        this.field_96542_e.remove(par1ScorePlayerTeam.getDefaultName());
-        Iterator var2 = par1ScorePlayerTeam.getMembershipCollection().iterator();
+        this.teamNameToTeamMap.remove(team.getDefaultName());
+        Iterator<String> var2 = team.getMembershipCollection().iterator();
 
         while (var2.hasNext())
         {
@@ -225,18 +222,18 @@ public class Scoreboard
             this.teamMemberships.remove(var3);
         }
 
-        this.func_96513_c(par1ScorePlayerTeam);
+        this.func_96513_c(team);
     }
 
-    public void func_96521_a(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
+    public void addPlayerToTeam(String username, ScorePlayerTeam team)
     {
-        if (this.getPlayersTeam(par1Str) != null)
+        if (this.getPlayersTeam(username) != null)
         {
-            this.func_96524_g(par1Str);
+            this.func_96524_g(username);
         }
 
-        this.teamMemberships.put(par1Str, par2ScorePlayerTeam);
-        par2ScorePlayerTeam.getMembershipCollection().add(par1Str);
+        this.teamMemberships.put(username, team);
+        team.getMembershipCollection().add(username);
     }
 
     public boolean func_96524_g(String par1Str)
@@ -258,35 +255,35 @@ public class Scoreboard
      * Removes the given username from the given ScorePlayerTeam. If the player is not on the team then an
      * IllegalStateException is thrown.
      */
-    public void removePlayerFromTeam(String par1Str, ScorePlayerTeam par2ScorePlayerTeam)
+    public void removePlayerFromTeam(String username, ScorePlayerTeam scorePlayerTeam)
     {
-        if (this.getPlayersTeam(par1Str) != par2ScorePlayerTeam)
+        if (this.getPlayersTeam(username) != scorePlayerTeam)
         {
-            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + par2ScorePlayerTeam.getDefaultName() + "\'.");
+            throw new IllegalStateException("Player is either on another team or not on any team. Cannot remove from team \'" + scorePlayerTeam.getDefaultName() + "\'.");
         }
         else
         {
-            this.teamMemberships.remove(par1Str);
-            par2ScorePlayerTeam.getMembershipCollection().remove(par1Str);
+            this.teamMemberships.remove(username);
+            scorePlayerTeam.getMembershipCollection().remove(username);
         }
     }
 
-    public Collection func_96531_f()
+    public Collection<String> getScorePlayerTeamNames()
     {
-        return this.field_96542_e.keySet();
+        return this.teamNameToTeamMap.keySet();
     }
 
-    public Collection func_96525_g()
+    public Collection<ScorePlayerTeam> getScorePlayerTeams()
     {
-        return this.field_96542_e.values();
+        return this.teamNameToTeamMap.values();
     }
 
     /**
      * Gets the ScorePlayerTeam object for the given username.
      */
-    public ScorePlayerTeam getPlayersTeam(String par1Str)
+    public ScorePlayerTeam getPlayersTeam(String username)
     {
-        return (ScorePlayerTeam)this.teamMemberships.get(par1Str);
+        return (ScorePlayerTeam)this.teamMemberships.get(username);
     }
 
     public void func_96522_a(ScoreObjective par1ScoreObjective) {}

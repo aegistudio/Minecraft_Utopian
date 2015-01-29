@@ -592,10 +592,10 @@ public final class ItemStack
     /**
      * Return a list of strings containing information about the item
      */
-    public List getTooltip(EntityPlayer par1EntityPlayer, boolean par2)
+    public List<String> getTooltip(EntityPlayer par1EntityPlayer, boolean par2)
     {
     	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
-        ArrayList var3 = new ArrayList();
+        ArrayList<String> var3 = new ArrayList<String>();
         Item var4 = whocallhim.getItem(this.itemID);
         String var5 = this.getDisplayName();
 

@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-class CallableJVMFlags implements Callable
+class CallableJVMFlags implements Callable<String>
 {
     /** Reference to the CrashReport object. */
     final CrashReport theCrashReport;
@@ -22,10 +22,10 @@ class CallableJVMFlags implements Callable
     public String getJVMFlagsAsString()
     {
         RuntimeMXBean var1 = ManagementFactory.getRuntimeMXBean();
-        List var2 = var1.getInputArguments();
+        List<String> var2 = var1.getInputArguments();
         int var3 = 0;
         StringBuilder var4 = new StringBuilder();
-        Iterator var5 = var2.iterator();
+        Iterator<String> var5 = var2.iterator();
 
         while (var5.hasNext())
         {
@@ -45,7 +45,7 @@ class CallableJVMFlags implements Callable
         return String.format("%d total; %s", new Object[] {Integer.valueOf(var3), var4.toString()});
     }
 
-    public Object call()
+    public String call()
     {
         return this.getJVMFlagsAsString();
     }

@@ -271,7 +271,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
             this.searchField.setTextColor(16777215);
             int var1 = selectedTabIndex;
             selectedTabIndex = -1;
-            this.setCurrentCreativeTab(CreativeTabs.creativeTabArray[var1]);
+            this.setCurrentCreativeTab(CreativeTabs.creativeTabArray.get(var1));
             this.field_82324_x = new CreativeCrafting(this.mc);
             this.mc.thePlayer.inventoryContainer.addCraftingToCrafters(this.field_82324_x);
         }
@@ -405,7 +405,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
      */
     protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        CreativeTabs var3 = CreativeTabs.creativeTabArray[selectedTabIndex];
+        CreativeTabs var3 = CreativeTabs.creativeTabArray.get(selectedTabIndex);
 
         if (var3.drawInForegroundOfTab())
         {
@@ -422,7 +422,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         {
             int var4 = par1 - this.guiLeft;
             int var5 = par2 - this.guiTop;
-            CreativeTabs[] var6 = CreativeTabs.creativeTabArray;
+            CreativeTabs[] var6 = CreativeTabs.creativeTabArray.values().toArray(new CreativeTabs[0]);
             int var7 = var6.length;
 
             for (int var8 = 0; var8 < var7; ++var8)
@@ -449,7 +449,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         {
             int var4 = par1 - this.guiLeft;
             int var5 = par2 - this.guiTop;
-            CreativeTabs[] var6 = CreativeTabs.creativeTabArray;
+            CreativeTabs[] var6 = CreativeTabs.creativeTabArray.values().toArray(new CreativeTabs[0]);
             int var7 = var6.length;
 
             for (int var8 = 0; var8 < var7; ++var8)
@@ -472,7 +472,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
      */
     private boolean needsScrollBars()
     {
-        return selectedTabIndex != CreativeTabs.tabInventory.getTabIndex() && CreativeTabs.creativeTabArray[selectedTabIndex].shouldHidePlayerInventory() && ((ContainerCreative)this.inventorySlots).hasMoreThan1PageOfItemsInList();
+        return selectedTabIndex != CreativeTabs.tabInventory.getTabIndex() && CreativeTabs.creativeTabArray.get(selectedTabIndex).shouldHidePlayerInventory() && ((ContainerCreative)this.inventorySlots).hasMoreThan1PageOfItemsInList();
     }
 
     private void setCurrentCreativeTab(CreativeTabs par1CreativeTabs)
@@ -646,7 +646,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer
         }
 
         super.drawScreen(par1, par2, par3);
-        CreativeTabs[] var11 = CreativeTabs.creativeTabArray;
+        CreativeTabs[] var11 = CreativeTabs.creativeTabArray.values().toArray(new CreativeTabs[0]);
         int var12 = var11.length;
 
         for (int var13 = 0; var13 < var12; ++var13)
@@ -675,8 +675,8 @@ public class GuiContainerCreative extends InventoryEffectRenderer
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderHelper.enableGUIStandardItemLighting();
-        CreativeTabs var4 = CreativeTabs.creativeTabArray[selectedTabIndex];
-        CreativeTabs[] var5 = CreativeTabs.creativeTabArray;
+        CreativeTabs var4 = CreativeTabs.creativeTabArray.get(selectedTabIndex);
+        CreativeTabs[] var5 = CreativeTabs.creativeTabArray.values().toArray(new CreativeTabs[0]);;
         int var6 = var5.length;
         int var7;
 

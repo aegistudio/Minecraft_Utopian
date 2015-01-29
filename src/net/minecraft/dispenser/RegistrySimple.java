@@ -6,7 +6,7 @@ import java.util.Map;
 public class RegistrySimple implements IRegistry
 {
     /** Objects registered on this registry. */
-    protected final Map registryObjects = new HashMap();
+    protected final Map<Object, Object> registryObjects = new HashMap<Object, Object>();
 
     public Object func_82594_a(Object par1Obj)
     {

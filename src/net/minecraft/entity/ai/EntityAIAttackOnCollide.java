@@ -20,10 +20,10 @@ public class EntityAIAttackOnCollide extends EntityAIBase
 
     /** The PathEntity of our entity. */
     PathEntity entityPathEntity;
-    Class classTarget;
+    Class<?> classTarget;
     private int field_75445_i;
 
-    public EntityAIAttackOnCollide(EntityLiving par1EntityLiving, Class par2Class, float par3, boolean par4)
+    public EntityAIAttackOnCollide(EntityLiving par1EntityLiving, Class<?> par2Class, float par3, boolean par4)
     {
         this(par1EntityLiving, par3, par4);
         this.classTarget = par2Class;

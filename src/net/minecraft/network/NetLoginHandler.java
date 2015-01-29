@@ -205,10 +205,10 @@ public class NetLoginHandler extends NetHandler
 
             if (par1Packet254ServerPing.readSuccessfully == 1)
             {
-                List var4 = Arrays.asList(new Serializable[] {Integer.valueOf(1), Integer.valueOf(61), this.mcServer.getMinecraftVersion(), this.mcServer.getMOTD(), Integer.valueOf(var2.getCurrentPlayerCount()), Integer.valueOf(var2.getMaxPlayers())});
+                List<Serializable> var4 = Arrays.asList(new Serializable[] {Integer.valueOf(1), Integer.valueOf(61), this.mcServer.getMinecraftVersion(), this.mcServer.getMOTD(), Integer.valueOf(var2.getCurrentPlayerCount()), Integer.valueOf(var2.getMaxPlayers())});
                 Object var6;
 
-                for (Iterator var5 = var4.iterator(); var5.hasNext(); var3 = var3 + var6.toString().replaceAll("\u0000", ""))
+                for (Iterator<Serializable> var5 = var4.iterator(); var5.hasNext(); var3 = var3 + var6.toString().replaceAll("\u0000", ""))
                 {
                     var6 = var5.next();
 

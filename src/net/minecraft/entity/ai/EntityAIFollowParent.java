@@ -2,6 +2,8 @@ package net.minecraft.entity.ai;
 
 import java.util.Iterator;
 import java.util.List;
+
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 
 public class EntityAIFollowParent extends EntityAIBase
@@ -29,10 +31,10 @@ public class EntityAIFollowParent extends EntityAIBase
         }
         else
         {
-            List var1 = this.childAnimal.worldObj.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.boundingBox.expand(8.0D, 4.0D, 8.0D));
+            List<Entity> var1 = this.childAnimal.worldObj.getEntitiesWithinAABB(this.childAnimal.getClass(), this.childAnimal.boundingBox.expand(8.0D, 4.0D, 8.0D));
             EntityAnimal var2 = null;
             double var3 = Double.MAX_VALUE;
-            Iterator var5 = var1.iterator();
+            Iterator<Entity> var5 = var1.iterator();
 
             while (var5.hasNext())
             {

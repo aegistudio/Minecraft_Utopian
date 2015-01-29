@@ -2,7 +2,7 @@ package net.minecraft.crash;
 
 import java.util.concurrent.Callable;
 
-class CallableJavaInfo2 implements Callable
+class CallableJavaInfo2 implements Callable<String>
 {
     /** Reference to the CrashReport object. */
     final CrashReport theCrashReport;
@@ -20,7 +20,7 @@ class CallableJavaInfo2 implements Callable
         return System.getProperty("java.vm.name") + " (" + System.getProperty("java.vm.info") + "), " + System.getProperty("java.vm.vendor");
     }
 
-    public Object call()
+    public String call()
     {
         return this.getJavaVMInfoAsString();
     }

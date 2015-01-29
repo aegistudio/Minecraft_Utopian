@@ -2,7 +2,7 @@ package net.minecraft.crash;
 
 import java.util.concurrent.Callable;
 
-final class CallableBlockDataValue implements Callable
+final class CallableBlockDataValue implements Callable<String>
 {
     final int field_85063_a;
 
@@ -24,7 +24,7 @@ final class CallableBlockDataValue implements Callable
         }
     }
 
-    public Object call()
+    public String call()
     {
         return this.callBlockDataValue();
     }

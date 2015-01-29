@@ -18,7 +18,14 @@ class GameRuleValue
     public void setValue(String par1Str)
     {
         this.valueString = par1Str;
-        this.valueBoolean = Boolean.parseBoolean(par1Str);
+        try
+        {
+        	this.valueBoolean = Boolean.parseBoolean(par1Str);
+        }
+        catch(Throwable var5)
+        {
+        	
+        }
 
         try
         {
@@ -26,7 +33,6 @@ class GameRuleValue
         }
         catch (NumberFormatException var4)
         {
-            ;
         }
 
         try
@@ -35,7 +41,6 @@ class GameRuleValue
         }
         catch (NumberFormatException var3)
         {
-            ;
         }
     }
 
@@ -53,5 +58,21 @@ class GameRuleValue
     public boolean getGameRuleBooleanValue()
     {
         return this.valueBoolean;
+    }
+    
+    /**
+     * Gets the GameRule's value as integer.
+     */
+    public int getGameRuleIntegerValue()
+    {
+        return this.valueInteger;
+    }
+    
+    /**
+     * Gets the GameRule's value as double.
+     */
+    public double getGameRuleDoubleValue()
+    {
+        return this.valueDouble;
     }
 }

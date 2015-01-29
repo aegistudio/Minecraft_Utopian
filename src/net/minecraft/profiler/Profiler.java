@@ -10,10 +10,10 @@ import java.util.Map;
 public class Profiler
 {
     /** List of parent sections */
-    private final List sectionList = new ArrayList();
+    private final List<String> sectionList = new ArrayList<String>();
 
     /** List of timestamps (System.nanoTime) */
-    private final List timestampList = new ArrayList();
+    private final List<Long> timestampList = new ArrayList<Long>();
 
     /** Flag profiling enabled */
     public boolean profilingEnabled = false;
@@ -22,7 +22,7 @@ public class Profiler
     private String profilingSection = "";
 
     /** Profiling map */
-    private final Map profilingMap = new HashMap();
+    private final Map<String, Long> profilingMap = new HashMap<String, Long>();
 
     /**
      * Clear profiling.
@@ -85,7 +85,7 @@ public class Profiler
     /**
      * Get profiling data
      */
-    public List getProfilingData(String par1Str)
+	public List<ProfilerResult> getProfilingData(String par1Str)
     {
         if (!this.profilingEnabled)
         {
@@ -95,7 +95,7 @@ public class Profiler
         {
             long var3 = this.profilingMap.containsKey("root") ? ((Long)this.profilingMap.get("root")).longValue() : 0L;
             long var5 = this.profilingMap.containsKey(par1Str) ? ((Long)this.profilingMap.get(par1Str)).longValue() : -1L;
-            ArrayList var7 = new ArrayList();
+            ArrayList<ProfilerResult> var7 = new ArrayList<ProfilerResult>();
 
             if (par1Str.length() > 0)
             {
@@ -103,7 +103,7 @@ public class Profiler
             }
 
             long var8 = 0L;
-            Iterator var10 = this.profilingMap.keySet().iterator();
+            Iterator<String> var10 = this.profilingMap.keySet().iterator();
 
             while (var10.hasNext())
             {
@@ -127,7 +127,7 @@ public class Profiler
                 var3 = var8;
             }
 
-            Iterator var20 = this.profilingMap.keySet().iterator();
+            Iterator<String> var20 = this.profilingMap.keySet().iterator();
             String var12;
 
             while (var20.hasNext())

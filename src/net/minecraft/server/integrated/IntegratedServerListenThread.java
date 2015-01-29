@@ -71,7 +71,7 @@ public class IntegratedServerListenThread extends NetworkListenThread
         if (this.myServerListenThread != null)
         {
             this.getIntegratedServer().getLogAgent().logInfo("Stopping server connection");
-            this.myServerListenThread.func_71768_b();
+            this.myServerListenThread.closeServerSocket();
             this.myServerListenThread.interrupt();
             this.myServerListenThread = null;
         }
