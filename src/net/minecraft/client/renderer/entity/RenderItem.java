@@ -12,7 +12,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.RenderBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemInfoContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;

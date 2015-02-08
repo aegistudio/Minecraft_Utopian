@@ -16,8 +16,8 @@ public class GuiSnooper extends GuiScreen
 
     /** Instance of GameSettings. */
     private final GameSettings snooperGameSettings;
-    private final List field_74098_c = new ArrayList();
-    private final List field_74096_d = new ArrayList();
+    private final List<String> snooperStatKey = new ArrayList<String>();
+    private final List<String> snooperStatValue = new ArrayList<String>();
 
     /** The Snooper title. */
     private String snooperTitle;
@@ -38,8 +38,8 @@ public class GuiSnooper extends GuiScreen
     {
         this.snooperTitle = StatCollector.translateToLocal("options.snooper.title");
         String var1 = StatCollector.translateToLocal("options.snooper.desc");
-        ArrayList var2 = new ArrayList();
-        Iterator var3 = this.fontRenderer.listFormattedStringToWidth(var1, this.width - 30).iterator();
+        ArrayList<String> var2 = new ArrayList<String>();
+        Iterator<String> var3 = this.fontRenderer.listFormattedStringToWidth(var1, this.width - 30).iterator();
 
         while (var3.hasNext())
         {
@@ -48,30 +48,30 @@ public class GuiSnooper extends GuiScreen
         }
 
         this.field_74101_n = (String[])var2.toArray(new String[0]);
-        this.field_74098_c.clear();
-        this.field_74096_d.clear();
+        this.snooperStatKey.clear();
+        this.snooperStatValue.clear();
         this.buttonList.add(this.buttonAllowSnooping = new GuiButton(1, this.width / 2 - 152, this.height - 30, 150, 20, this.snooperGameSettings.getKeyBinding(EnumOptions.SNOOPER_ENABLED)));
         this.buttonList.add(new GuiButton(2, this.width / 2 + 2, this.height - 30, 150, 20, StatCollector.translateToLocal("gui.done")));
         boolean var6 = this.mc.getIntegratedServer() != null && this.mc.getIntegratedServer().getPlayerUsageSnooper() != null;
-        Iterator var7 = (new TreeMap(this.mc.getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
-        Entry var5;
+        Iterator<Entry<String, String>> var7 = (new TreeMap<String, String>(this.mc.getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
+        Entry<String, String> statEntry;
 
         while (var7.hasNext())
         {
-            var5 = (Entry)var7.next();
-            this.field_74098_c.add((var6 ? "C " : "") + (String)var5.getKey());
-            this.field_74096_d.add(this.fontRenderer.trimStringToWidth((String)var5.getValue(), this.width - 220));
+            statEntry = var7.next();
+            this.snooperStatKey.add((var6 ? "C " : "") + (String)statEntry.getKey());
+            this.snooperStatValue.add(this.fontRenderer.trimStringToWidth((String)statEntry.getValue(), this.width - 220));
         }
 
         if (var6)
         {
-            var7 = (new TreeMap(this.mc.getIntegratedServer().getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
+            var7 = (new TreeMap<String, String>(this.mc.getIntegratedServer().getPlayerUsageSnooper().getCurrentStats())).entrySet().iterator();
 
             while (var7.hasNext())
             {
-                var5 = (Entry)var7.next();
-                this.field_74098_c.add("S " + (String)var5.getKey());
-                this.field_74096_d.add(this.fontRenderer.trimStringToWidth((String)var5.getValue(), this.width - 220));
+                statEntry = var7.next();
+                this.snooperStatKey.add("S " + (String)statEntry.getKey());
+                this.snooperStatValue.add(this.fontRenderer.trimStringToWidth((String)statEntry.getValue(), this.width - 220));
             }
         }
 
@@ -122,13 +122,13 @@ public class GuiSnooper extends GuiScreen
         super.drawScreen(par1, par2, par3);
     }
 
-    static List func_74095_a(GuiSnooper par0GuiSnooper)
+    static List<String> getSnooperStatKeys(GuiSnooper guiSnooper)
     {
-        return par0GuiSnooper.field_74098_c;
+        return guiSnooper.snooperStatKey;
     }
 
-    static List func_74094_b(GuiSnooper par0GuiSnooper)
+    static List<String> getSnooperStatValues(GuiSnooper guiSnooper)
     {
-        return par0GuiSnooper.field_74096_d;
+        return guiSnooper.snooperStatValue;
     }
 }

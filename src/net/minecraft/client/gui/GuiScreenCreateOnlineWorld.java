@@ -20,7 +20,7 @@ public class GuiScreenCreateOnlineWorld extends GuiScreen
 
     public GuiScreenCreateOnlineWorld(GuiScreen par1GuiScreen)
     {
-        super.buttonList = Collections.synchronizedList(new ArrayList());
+        super.buttonList = Collections.synchronizedList(new ArrayList<GuiButton>());
         this.field_96260_a = par1GuiScreen;
     }
 

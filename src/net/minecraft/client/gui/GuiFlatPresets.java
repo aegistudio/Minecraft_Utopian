@@ -20,7 +20,7 @@ public class GuiFlatPresets extends GuiScreen
     private static RenderItem presetIconRenderer = new RenderItem();
 
     /** List of defined flat world presets. */
-    private static final List presets = new ArrayList();
+    private static final List<GuiFlatPresetsItem> presets = new ArrayList<GuiFlatPresetsItem>();
     private final GuiCreateFlatWorld createFlatWorldGui;
     private String field_82300_d;
     private String field_82308_m;
@@ -136,13 +136,13 @@ public class GuiFlatPresets extends GuiScreen
      */
     private static void addPresetNoFeatures(String par0Str, int par1, BiomeGenBase par2BiomeGenBase, FlatLayerInfo ... par3ArrayOfFlatLayerInfo)
     {
-        addPreset(par0Str, par1, par2BiomeGenBase, (List)null, par3ArrayOfFlatLayerInfo);
+        addPreset(par0Str, par1, par2BiomeGenBase, (List<String>)null, par3ArrayOfFlatLayerInfo);
     }
 
     /**
      * Add a flat world preset.
      */
-    private static void addPreset(String par0Str, int par1, BiomeGenBase par2BiomeGenBase, List par3List, FlatLayerInfo ... par4ArrayOfFlatLayerInfo)
+    private static void addPreset(String par0Str, int par1, BiomeGenBase par2BiomeGenBase, List<String> par3List, FlatLayerInfo ... par4ArrayOfFlatLayerInfo)
     {
         FlatGeneratorInfo var5 = new FlatGeneratorInfo();
 
@@ -156,7 +156,7 @@ public class GuiFlatPresets extends GuiScreen
 
         if (par3List != null)
         {
-            Iterator var8 = par3List.iterator();
+            Iterator<String> var8 = par3List.iterator();
 
             while (var8.hasNext())
             {
@@ -179,7 +179,7 @@ public class GuiFlatPresets extends GuiScreen
     /**
      * Return the list of defined flat world presets.
      */
-    static List getPresets()
+    static List<GuiFlatPresetsItem> getPresets()
     {
         return presets;
     }

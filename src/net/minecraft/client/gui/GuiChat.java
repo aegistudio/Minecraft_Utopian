@@ -20,7 +20,7 @@ public class GuiChat extends GuiScreen
     private boolean field_73897_d = false;
     private boolean field_73905_m = false;
     private int field_73903_n = 0;
-    private List field_73904_o = new ArrayList();
+    private List<String> field_73904_o = new ArrayList<String>();
 
     /** used to pass around the URI to various dialogues and to the host os */
     private URI clickedURI = null;
@@ -211,7 +211,7 @@ public class GuiChat extends GuiScreen
     {
         try
         {
-            Class var2 = Class.forName("java.awt.Desktop");
+            Class<?> var2 = Class.forName("java.awt.Desktop");
             Object var3 = var2.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
             var2.getMethod("browse", new Class[] {URI.class}).invoke(var3, new Object[] {par1URI});
         }
@@ -259,7 +259,7 @@ public class GuiChat extends GuiScreen
         {
             StringBuilder var4 = new StringBuilder();
 
-            for (Iterator var5 = this.field_73904_o.iterator(); var5.hasNext(); var4.append(var3))
+            for (Iterator<String> var5 = this.field_73904_o.iterator(); var5.hasNext(); var4.append(var3))
             {
                 var3 = (String)var5.next();
 

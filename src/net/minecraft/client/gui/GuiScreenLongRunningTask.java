@@ -19,7 +19,7 @@ public class GuiScreenLongRunningTask extends GuiScreen
 
     public GuiScreenLongRunningTask(Minecraft par1Minecraft, GuiScreen par2GuiScreen, TaskLongRunning par3TaskLongRunning)
     {
-        super.buttonList = Collections.synchronizedList(new ArrayList());
+        super.buttonList = Collections.synchronizedList(new ArrayList<GuiButton>());
         this.mc = par1Minecraft;
         this.field_96215_c = par2GuiScreen;
         this.field_96214_r = par3TaskLongRunning;

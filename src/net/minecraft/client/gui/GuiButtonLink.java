@@ -14,7 +14,7 @@ public class GuiButtonLink extends GuiButton
         try
         {
             URI var2 = new URI(par1Str);
-            Class var3 = Class.forName("java.awt.Desktop");
+            Class<?> var3 = Class.forName("java.awt.Desktop");
             Object var4 = var3.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
             var3.getMethod("browse", new Class[] {URI.class}).invoke(var4, new Object[] {var2});
         }

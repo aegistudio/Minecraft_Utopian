@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import net.minecraft.client.mco.ExceptionMcoService;
 import net.minecraft.client.mco.McoClient;
@@ -40,10 +39,6 @@ class TaskWorldCreation extends TaskLongRunning
             this.func_96575_a(var4.field_96391_b);
         }
         catch (UnsupportedEncodingException var5)
-        {
-            ;
-        }
-        catch (IOException var6)
         {
             ;
         }

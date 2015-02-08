@@ -13,7 +13,7 @@ public class PlayerManager
     private final WorldServer theWorldServer;
 
     /** players in the current instance */
-    private final List players = new ArrayList();
+    private final List<EntityPlayerMP> players = new ArrayList<EntityPlayerMP>();
 
     /**
      * A map of chunk position (two ints concatenated into a long) to PlayerInstance
@@ -24,7 +24,7 @@ public class PlayerManager
      * contains a PlayerInstance for every chunk they can see. the "player instance" cotains a list of all players who
      * can also that chunk
      */
-    private final List chunkWatcherWithPlayers = new ArrayList();
+    private final List<PlayerInstance> chunkWatcherWithPlayers = new ArrayList<PlayerInstance>();
 
     /**
      * Number of chunks the server sends to the client. Valid 3<=x<=15. In server.properties.
@@ -291,7 +291,7 @@ public class PlayerManager
         return par0PlayerManager.playerInstances;
     }
 
-    static List getChunkWatchersWithPlayers(PlayerManager par0PlayerManager)
+    static List<PlayerInstance> getChunkWatchersWithPlayers(PlayerManager par0PlayerManager)
     {
         return par0PlayerManager.chunkWatcherWithPlayers;
     }

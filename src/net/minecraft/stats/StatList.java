@@ -22,13 +22,13 @@ import net.minecraft.util.StatCollector;
 public class StatList
 {
     /** Tracks one-off stats. */
-    protected static Map oneShotStats = new HashMap();
-    public static List allStats = new ArrayList();
-    public static List generalStats = new ArrayList();
-    public static List itemStats = new ArrayList();
+    protected static Map<Integer, StatBase> oneShotStats = new HashMap<Integer, StatBase>();
+    public static List<StatBase> allStats = new ArrayList<StatBase>();
+    public static List<StatBase> generalStats = new ArrayList<StatBase>();
+    public static List<StatBase> itemStats = new ArrayList<StatBase>();
 
     /** Tracks the number of times a given block or item has been mined. */
-    public static List objectMineStats = new ArrayList();
+    public static List<StatBase> objectMineStats = new ArrayList<StatBase>();
 
     /** times the game has been started */
     public static StatBase startGameStat = (new StatBasic(1000, "stat.startGame")).initIndependentStat().registerStat();
@@ -144,8 +144,8 @@ public class StatList
         {
         	ItemInfoContainer whocallhim = ItemInfoContainer.getItemInfoContainer();
         	
-            HashSet var0 = new HashSet();
-            Iterator var1 = CraftingManager.getInstance().getRecipeList().iterator();
+            HashSet<Integer> var0 = new HashSet<Integer>();
+            Iterator<?> var1 = CraftingManager.getInstance().getRecipeList().iterator();
 
             while (var1.hasNext())
             {
@@ -186,8 +186,6 @@ public class StatList
     /**
      * Initializes statistic fields related to minable items and blocks.
      */
-    
-    //XXX there should be some error here!
     private static Map<Integer, StatBase> initMinableStats(String par0Str, int par1)
     {
     	BlockInfoContainer whocallme = BlockInfoContainer.getBlockInfoContainer();
@@ -282,7 +280,7 @@ public class StatList
     {
         if (par0ArrayOfStatBase.get(par1) != null && par0ArrayOfStatBase.get(par2) == null)
         {
-            par0ArrayOfStatBase.put(par2, par0ArrayOfStatBase.get(par1));
+            par0ArrayOfStatBase.put(par2, (StatBase)(par0ArrayOfStatBase.get(par1)));
         }
         else
         {

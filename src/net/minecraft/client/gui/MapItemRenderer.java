@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
+
 import net.minecraft.block.material.MapColor;
 import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
@@ -9,14 +10,16 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.storage.MapCoord;
 import net.minecraft.world.storage.MapData;
+
 import org.lwjgl.opengl.GL11;
 
+@SuppressWarnings("unused")
 public class MapItemRenderer
 {
     private int[] intArray = new int[16384];
     private int bufferedImage;
     private GameSettings gameSettings;
-    private FontRenderer fontRenderer;
+	private FontRenderer fontRenderer;
 
     public MapItemRenderer(FontRenderer par1FontRenderer, GameSettings par2GameSettings, RenderEngine par3RenderEngine)
     {

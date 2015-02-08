@@ -9,7 +9,7 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
     private String field_98113_a;
     private String field_98111_b;
     private Object[] field_98112_c;
-    private List field_98110_d;
+    private List<String> field_98110_d;
     private final GuiScreen field_98114_n;
 
     public GuiScreenDisconnectedOnline(GuiScreen par1GuiScreen, String par2Str, String par3Str, Object ... par4ArrayOfObj)
@@ -67,7 +67,7 @@ public class GuiScreenDisconnectedOnline extends GuiScreen
 
         if (this.field_98110_d != null)
         {
-            for (Iterator var5 = this.field_98110_d.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
+            for (Iterator<String> var5 = this.field_98110_d.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
             {
                 String var6 = (String)var5.next();
                 this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);

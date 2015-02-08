@@ -8,7 +8,7 @@ public class LanServer
     private String lanServerIpPort;
 
     /** Last time this LanServer was seen. */
-    private long timeLastSeen;
+    protected long timeLastSeen;
 
     public LanServer(String par1Str, String par2Str)
     {

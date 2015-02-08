@@ -6,11 +6,10 @@ import java.util.TreeMap;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.StringTranslate;
 
-@SuppressWarnings("rawtypes")
 class GuiSlotLanguage extends GuiSlot
 {
-    private ArrayList language_slots;
-    private TreeMap language_list;
+    private ArrayList<String> language_slots;
+    private TreeMap<String, String> language_list;
 
     final GuiLanguage languageGui;
 
@@ -19,8 +18,8 @@ class GuiSlotLanguage extends GuiSlot
         super(par1GuiLanguage.mc, par1GuiLanguage.width, par1GuiLanguage.height, 32, par1GuiLanguage.height - 65 + 4, 18);
         this.languageGui = par1GuiLanguage;
         this.language_list = StringTranslate.getInstance().getLanguageList();
-        this.language_slots = new ArrayList();
-        Iterator language_list_iterator = this.language_list.keySet().iterator();
+        this.language_slots = new ArrayList<String>();
+        Iterator<String> language_list_iterator = this.language_list.keySet().iterator();
 
         while (language_list_iterator.hasNext())
         {

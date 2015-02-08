@@ -4,7 +4,8 @@ import java.util.Random;
 
 public class Particle
 {
-    private static Random rand = new Random();
+    @SuppressWarnings("unused")
+	private static Random rand = new Random();
     public double posX;
     public double posY;
     public double prevPosX;

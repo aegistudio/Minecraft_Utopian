@@ -2,7 +2,6 @@ package net.minecraft.client.entity;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemInfoContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChunkCoordinates;

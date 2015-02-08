@@ -5,7 +5,7 @@ import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatCrafting;
 import net.minecraft.stats.StatList;
 
-class SorterStatsBlock implements Comparator
+class SorterStatsBlock implements Comparator<StatCrafting>
 {
     final GuiStats statsGUI;
 
@@ -64,8 +64,8 @@ class SorterStatsBlock implements Comparator
         return var3 - var4;
     }
 
-    public int compare(Object par1Obj, Object par2Obj)
+    public int compare(StatCrafting par1StatCrafting, StatCrafting par2StatCrafting)
     {
-        return this.func_78334_a((StatCrafting)par1Obj, (StatCrafting)par2Obj);
+        return this.func_78334_a(par1StatCrafting, par2StatCrafting);
     }
 }

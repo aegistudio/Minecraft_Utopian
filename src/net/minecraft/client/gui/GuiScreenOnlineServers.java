@@ -36,7 +36,7 @@ public class GuiScreenOnlineServers extends GuiScreen
     private String field_96195_s = null;
     private McoServerList field_96194_t;
     private boolean field_96193_u;
-    private List field_96192_v = Collections.emptyList();
+    private List<McoServer> field_96192_v = Collections.emptyList();
     private volatile int field_96199_x;
     private Long field_102019_y;
     private int field_104044_y = 0;
@@ -99,7 +99,7 @@ public class GuiScreenOnlineServers extends GuiScreen
             while (var2.hasNext())
             {
                 McoServer var3 = (McoServer)var2.next();
-                Iterator var4 = this.field_96192_v.iterator();
+                Iterator<McoServer> var4 = this.field_96192_v.iterator();
 
                 while (var4.hasNext())
                 {

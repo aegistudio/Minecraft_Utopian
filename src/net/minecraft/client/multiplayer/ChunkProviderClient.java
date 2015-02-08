@@ -2,12 +2,14 @@ package net.minecraft.client.multiplayer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.util.LongHashMap;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -29,7 +31,7 @@ public class ChunkProviderClient implements IChunkProvider
      * This may have been intended to be an iterable version of all currently loaded chunks (MultiplayerChunkCache),
      * with identical contents to chunkMapping's values. However it is never actually added to.
      */
-    private List chunkListing = new ArrayList();
+    private List<Chunk> chunkListing = new ArrayList<Chunk>();
 
     /** Reference to the World object. */
     private World worldObj;
@@ -129,7 +131,7 @@ public class ChunkProviderClient implements IChunkProvider
     /**
      * Returns a list of creatures of the specified type that can spawn at the given location.
      */
-    public List getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
+    public List<SpawnListEntry> getPossibleCreatures(EnumCreatureType par1EnumCreatureType, int par2, int par3, int par4)
     {
         return null;
     }

@@ -59,7 +59,7 @@ public abstract class MinecraftServer implements ICommandSender, Runnable, IPlay
 
     /** The PlayerUsageSnooper instance. */
     private final PlayerUsageSnooper usageSnooper = new PlayerUsageSnooper("server", this);
-    private final File anvilFile;
+    protected final File anvilFile;
 
     /**
      * Collection of objects to update every tick. Type: List<IUpdatePlayerListBox>

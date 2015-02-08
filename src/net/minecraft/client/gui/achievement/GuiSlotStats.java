@@ -16,8 +16,8 @@ import org.lwjgl.input.Mouse;
 abstract class GuiSlotStats extends GuiSlot
 {
     protected int field_77262_g;
-    protected List field_77266_h;
-    protected Comparator field_77267_i;
+    protected List<StatCrafting> field_77266_h;
+    protected Comparator<StatCrafting> field_77267_i;
     protected int field_77264_j;
     protected int field_77265_k;
 

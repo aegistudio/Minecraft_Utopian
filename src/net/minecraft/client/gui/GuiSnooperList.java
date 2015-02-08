@@ -17,7 +17,7 @@ class GuiSnooperList extends GuiSlot
      */
     protected int getSize()
     {
-        return GuiSnooper.func_74095_a(this.snooperGui).size();
+        return GuiSnooper.getSnooperStatKeys(this.snooperGui).size();
     }
 
     /**
@@ -37,8 +37,8 @@ class GuiSnooperList extends GuiSlot
 
     protected void drawSlot(int par1, int par2, int par3, int par4, Tessellator par5Tessellator)
     {
-        this.snooperGui.fontRenderer.drawString((String)GuiSnooper.func_74095_a(this.snooperGui).get(par1), 10, par3, 16777215);
-        this.snooperGui.fontRenderer.drawString((String)GuiSnooper.func_74094_b(this.snooperGui).get(par1), 230, par3, 16777215);
+        this.snooperGui.fontRenderer.drawString((String)GuiSnooper.getSnooperStatKeys(this.snooperGui).get(par1), 10, par3, 16777215);
+        this.snooperGui.fontRenderer.drawString((String)GuiSnooper.getSnooperStatValues(this.snooperGui).get(par1), 230, par3, 16777215);
     }
 
     protected int getScrollBarX()

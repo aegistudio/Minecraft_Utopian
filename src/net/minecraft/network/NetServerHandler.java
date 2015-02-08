@@ -8,6 +8,9 @@ import java.util.Iterator;
 import java.util.Random;
 
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
+import net.aegistudio.minecraft.utopian.event.action.BlockBreakAction;
+import net.aegistudio.minecraft.utopian.event.action.BlockDamageAction;
+import net.aegistudio.minecraft.utopian.event.action.BlockStopDamageAction;
 import net.aegistudio.minecraft.utopian.event.action.ChatAction;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
@@ -401,7 +404,7 @@ public class NetServerHandler extends NetHandler
 
     public void handleBlockDig(Packet14BlockDig par1Packet14BlockDig)
     {
-        WorldServer var2 = this.mcServer.worldServerForDimension(this.playerEntity.dimension);
+        WorldServer world = this.mcServer.worldServerForDimension(this.playerEntity.dimension);
 
         if (par1Packet14BlockDig.status == 4)
         {
@@ -417,72 +420,95 @@ public class NetServerHandler extends NetHandler
         }
         else
         {
-            boolean var3 = false;
+            boolean shouldCheckPrecondition = false;
 
             if (par1Packet14BlockDig.status == 0)
             {
-                var3 = true;
+                shouldCheckPrecondition = true;
             }
 
             if (par1Packet14BlockDig.status == 1)
             {
-                var3 = true;
+                shouldCheckPrecondition = true;
             }
 
             if (par1Packet14BlockDig.status == 2)
             {
-                var3 = true;
+                shouldCheckPrecondition = true;
             }
 
-            int var4 = par1Packet14BlockDig.xPosition;
-            int var5 = par1Packet14BlockDig.yPosition;
-            int var6 = par1Packet14BlockDig.zPosition;
+            int block_X = par1Packet14BlockDig.xPosition;
+            int block_Y = par1Packet14BlockDig.yPosition;
+            int block_Z = par1Packet14BlockDig.zPosition;
 
-            if (var3)
+            if(shouldCheckPrecondition)
             {
-                double var7 = this.playerEntity.posX - ((double)var4 + 0.5D);
-                double var9 = this.playerEntity.posY - ((double)var5 + 0.5D) + 1.5D;
-                double var11 = this.playerEntity.posZ - ((double)var6 + 0.5D);
-                double var13 = var7 * var7 + var9 * var9 + var11 * var11;
+                double delta_X = this.playerEntity.posX - ((double)block_X + 0.5D);
+                double delta_Y = this.playerEntity.posY - ((double)block_Y + 0.5D) + 1.5D;
+                double delta_Z = this.playerEntity.posZ - ((double)block_Z + 0.5D);
+                double delta_SQ = delta_X * delta_X + delta_Y * delta_Y + delta_Z * delta_Z;
 
-                if (var13 > 36.0D)
-                {
-                    return;
-                }
+            	//Too far for the player to dig block.
+                if (delta_SQ > 36.0D) return;
 
-                if (var5 >= this.mcServer.getBuildLimit())
-                {
-                    return;
-                }
+                //Too high for the player to dig block.
+                if (block_Y >= this.mcServer.getBuildLimit()) return;
             }
 
             if (par1Packet14BlockDig.status == 0)
             {
-                if (!this.mcServer.func_96290_a(var2, var4, var5, var6, this.playerEntity))
+            	//XXX Begin Minecraft UtopianHook
+            	//XXX Hook BlockDamageAction
+            	{
+        	    	BlockDamageAction blockdamage_action = new BlockDamageAction(this.playerEntity, par1Packet14BlockDig.xPosition, par1Packet14BlockDig.yPosition, par1Packet14BlockDig.zPosition, par1Packet14BlockDig.face, true);
+        	    	EventHandlerRegistry.getInstance().invoke(blockdamage_action);
+        	    	if(blockdamage_action.isCancelled()) return;
+            	}
+            	//XXX End Of Minecraft UtopianHook
+            	
+                if (!this.mcServer.func_96290_a(world, block_X, block_Y, block_Z, this.playerEntity))
                 {
-                    this.playerEntity.theItemInWorldManager.onBlockClicked(var4, var5, var6, par1Packet14BlockDig.face);
+                    this.playerEntity.theItemInWorldManager.onBlockClicked(block_X, block_Y, block_Z, par1Packet14BlockDig.face);
                 }
                 else
                 {
-                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(var4, var5, var6, var2));
+                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(block_X, block_Y, block_Z, world));
                 }
             }
             else if (par1Packet14BlockDig.status == 2)
             {
-                this.playerEntity.theItemInWorldManager.uncheckedTryHarvestBlock(var4, var5, var6);
+            	//XXX Begin Minecraft UtopianHook
+            	//XXX Hook BlockBreakAction
+            	{
+        	    	BlockBreakAction blockbreak_action = new BlockBreakAction(this.playerEntity, par1Packet14BlockDig.xPosition, par1Packet14BlockDig.yPosition, par1Packet14BlockDig.zPosition, par1Packet14BlockDig.face, true);
+        	    	EventHandlerRegistry.getInstance().invoke(blockbreak_action);
+        	    	if(blockbreak_action.isCancelled()) return;
+            	}
+            	//XXX End Of Minecraft UtopianHook
+            	
+                this.playerEntity.theItemInWorldManager.uncheckedTryHarvestBlock(block_X, block_Y, block_Z);
 
-                if (var2.getBlockId(var4, var5, var6) != 0)
+                if (world.getBlockId(block_X, block_Y, block_Z) != 0)
                 {
-                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(var4, var5, var6, var2));
+                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(block_X, block_Y, block_Z, world));
                 }
             }
             else if (par1Packet14BlockDig.status == 1)
             {
-                this.playerEntity.theItemInWorldManager.cancelDestroyingBlock(var4, var5, var6);
+            	//XXX Begin Minecraft UtopianHook
+            	//XXX Hook BlockDamageAction
+            	{
+        	    	BlockStopDamageAction blockstopdamage_action = new BlockStopDamageAction(this.playerEntity, par1Packet14BlockDig.xPosition, par1Packet14BlockDig.yPosition, par1Packet14BlockDig.zPosition, par1Packet14BlockDig.face, true);
+        	    	EventHandlerRegistry.getInstance().invoke(blockstopdamage_action);
+        	    	if(blockstopdamage_action.isCancelled()) return;
+            	}
+            	//XXX End Of Minecraft UtopianHook
+            	
+                this.playerEntity.theItemInWorldManager.cancelDestroyingBlock(block_X, block_Y, block_Z);
 
-                if (var2.getBlockId(var4, var5, var6) != 0)
+                if (world.getBlockId(block_X, block_Y, block_Z) != 0)
                 {
-                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(var4, var5, var6, var2));
+                    this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(block_X, block_Y, block_Z, world));
                 }
             }
         }

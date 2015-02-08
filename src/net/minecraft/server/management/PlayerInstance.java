@@ -144,7 +144,7 @@ class PlayerInstance
                         if ((this.field_73260_f & 1 << var3) != 0)
                         {
                             var4 = var3 << 4;
-                            List var5 = PlayerManager.getWorldServer(this.thePlayerManager).getAllTileEntityInBox(var1, var4, var2, var1 + 16, var4 + 16, var2 + 16);
+                            List<TileEntity> var5 = PlayerManager.getWorldServer(this.thePlayerManager).getAllTileEntityInBox(var1, var4, var2, var1 + 16, var4 + 16, var2 + 16);
 
                             for (int var6 = 0; var6 < var5.size(); ++var6)
                             {
@@ -194,7 +194,7 @@ class PlayerInstance
         return par0PlayerInstance.chunkLocation;
     }
 
-    static List getPlayersInChunk(PlayerInstance par0PlayerInstance)
+    static List<EntityPlayerMP> getPlayersInChunk(PlayerInstance par0PlayerInstance)
     {
         return par0PlayerInstance.playersInChunk;
     }

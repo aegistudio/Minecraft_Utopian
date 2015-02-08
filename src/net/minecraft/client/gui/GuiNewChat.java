@@ -15,11 +15,11 @@ public class GuiNewChat extends Gui
     private final Minecraft mc;
 
     /** A list of messages previously sent through the chat GUI */
-    private final List sentMessages = new ArrayList();
+    private final List<String> sentMessages = new ArrayList<String>();
 
     /** Chat lines to be displayed in the chat box */
-    private final List chatLines = new ArrayList();
-    private final List field_96134_d = new ArrayList();
+    private final List<ChatLine> chatLines = new ArrayList<ChatLine>();
+    private final List<ChatLine> field_96134_d = new ArrayList<ChatLine>();
     private int field_73768_d = 0;
     private boolean field_73769_e = false;
 
@@ -168,7 +168,7 @@ public class GuiNewChat extends Gui
             this.deleteChatLine(par2);
         }
 
-        Iterator var7 = this.mc.fontRenderer.listFormattedStringToWidth(par1Str, MathHelper.floor_float((float)this.func_96126_f() / this.func_96131_h())).iterator();
+        Iterator<String> var7 = this.mc.fontRenderer.listFormattedStringToWidth(par1Str, MathHelper.floor_float((float)this.func_96126_f() / this.func_96131_h())).iterator();
 
         while (var7.hasNext())
         {
@@ -220,7 +220,7 @@ public class GuiNewChat extends Gui
     /**
      * Gets the list of messages previously sent through the chat GUI
      */
-    public List getSentMessages()
+    public List<String> getSentMessages()
     {
         return this.sentMessages;
     }
@@ -323,7 +323,7 @@ public class GuiNewChat extends Gui
      */
     public void deleteChatLine(int par1)
     {
-        Iterator var2 = this.field_96134_d.iterator();
+        Iterator<ChatLine> var2 = this.field_96134_d.iterator();
         ChatLine var3;
 
         do

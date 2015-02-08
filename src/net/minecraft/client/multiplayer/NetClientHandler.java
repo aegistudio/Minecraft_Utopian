@@ -45,6 +45,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.NpcMerchant;
+import net.minecraft.entity.WatchableObject;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -568,7 +569,7 @@ public class NetClientHandler extends NetHandler
 
         var10.setPositionAndRotation(var2, var4, var6, var8, var9);
         this.worldClient.addEntityToWorld(packet20NamedEntitySpawn.entityId, var10);
-        List var12 = packet20NamedEntitySpawn.getWatchedMetadata();
+        List<WatchableObject> var12 = packet20NamedEntitySpawn.getWatchedMetadata();
 
         if (var12 != null)
         {
@@ -930,7 +931,7 @@ public class NetClientHandler extends NetHandler
         var10.motionY = (double)((float)par1Packet24MobSpawn.velocityY / 8000.0F);
         var10.motionZ = (double)((float)par1Packet24MobSpawn.velocityZ / 8000.0F);
         this.worldClient.addEntityToWorld(par1Packet24MobSpawn.entityId, var10);
-        List var14 = par1Packet24MobSpawn.getMetadata();
+        List<WatchableObject> var14 = par1Packet24MobSpawn.getMetadata();
 
         if (var14 != null)
         {

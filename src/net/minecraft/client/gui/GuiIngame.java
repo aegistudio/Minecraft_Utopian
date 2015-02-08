@@ -551,7 +551,7 @@ public class GuiIngame extends Gui
         {
             this.mc.mcProfiler.startSection("playerList");
             NetClientHandler var39 = this.mc.thePlayer.sendQueue;
-            List var41 = var39.playerInfoList;
+            List<GuiPlayerInfo> var41 = var39.playerInfoList;
             var38 = var39.currentServerMaxPlayers;
             var37 = var38;
 
@@ -644,14 +644,14 @@ public class GuiIngame extends Gui
     private void func_96136_a(ScoreObjective par1ScoreObjective, int par2, int par3, FontRenderer par4FontRenderer)
     {
         Scoreboard var5 = par1ScoreObjective.getScoreboard();
-        Collection var6 = var5.getSortedScoresByObjective(par1ScoreObjective);
+        Collection<Score> var6 = var5.getSortedScoresByObjective(par1ScoreObjective);
 
         if (var6.size() <= 15)
         {
             int var7 = par4FontRenderer.getStringWidth(par1ScoreObjective.getDisplayName());
             String var11;
 
-            for (Iterator var8 = var6.iterator(); var8.hasNext(); var7 = Math.max(var7, par4FontRenderer.getStringWidth(var11)))
+            for (Iterator<Score> var8 = var6.iterator(); var8.hasNext(); var7 = Math.max(var7, par4FontRenderer.getStringWidth(var11)))
             {
                 Score var9 = (Score)var8.next();
                 ScorePlayerTeam var10 = var5.getPlayersTeam(var9.func_96653_e());
@@ -663,7 +663,7 @@ public class GuiIngame extends Gui
             byte var25 = 3;
             int var24 = par3 - var7 - var25;
             int var12 = 0;
-            Iterator var13 = var6.iterator();
+            Iterator<Score> var13 = var6.iterator();
 
             while (var13.hasNext())
             {

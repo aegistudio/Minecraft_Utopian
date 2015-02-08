@@ -90,7 +90,7 @@ public class Patch_GuiMainSplash implements Patch, ISplashLoader
 		return splashText;
 	}
 	
-	private static final HashMap<Integer, HashMap<Integer, String>> festival_text = new HashMap<Integer, HashMap<Integer, String>>();
+	protected static final HashMap<Integer, HashMap<Integer, String>> festival_text = new HashMap<Integer, HashMap<Integer, String>>();
 	
 	public static void putFestivalSplashText(int month, int day, String splash_text)
 	{
@@ -111,7 +111,9 @@ public class Patch_GuiMainSplash implements Patch, ISplashLoader
 	{
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-		return festival_text.get(calendar.get(Calendar.MONTH) + 1).get(calendar.get(Calendar.DAY_OF_MONTH));
+        HashMap<Integer, String> month = festival_text.get(calendar.get(Calendar.MONTH) + 1);
+        if(month == null) return null;
+		return month.get(calendar.get(Calendar.DAY_OF_MONTH));
 	}
 
 	private static final JSONObject patch_guimainsplash = new JSONObject();

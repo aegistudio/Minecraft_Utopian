@@ -2,7 +2,6 @@ package net.minecraft.client.gui;
 
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemInfoContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;

@@ -47,7 +47,7 @@ public class GuiGameOver extends GuiScreen
 
         GuiButton var2;
 
-        for (Iterator var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = false)
+        for (Iterator<GuiButton> var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = false)
         {
             var2 = (GuiButton)var1.next();
         }
@@ -118,7 +118,7 @@ public class GuiGameOver extends GuiScreen
 
         if (this.cooldownTimer == 20)
         {
-            for (Iterator var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = true)
+            for (Iterator<GuiButton> var1 = this.buttonList.iterator(); var1.hasNext(); var2.enabled = true)
             {
                 var2 = (GuiButton)var1.next();
             }

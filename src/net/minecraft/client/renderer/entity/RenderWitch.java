@@ -1,6 +1,5 @@
 package net.minecraft.client.renderer.entity;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelWitch;

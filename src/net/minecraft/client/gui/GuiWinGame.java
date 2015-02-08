@@ -17,7 +17,7 @@ public class GuiWinGame extends GuiScreen
     private int updateCounter = 0;
 
     /** List of lines on the ending poem and credits. */
-    private List lines;
+    private List<String> lines;
     private int field_73989_c = 0;
     private float field_73987_d = 0.5F;
 
@@ -70,7 +70,7 @@ public class GuiWinGame extends GuiScreen
     {
         if (this.lines == null)
         {
-            this.lines = new ArrayList();
+            this.lines = new ArrayList<String>();
 
             try
             {

@@ -12,7 +12,7 @@ public class GuiDisconnected extends GuiScreen
     /** The details about the error. */
     private String errorDetail;
     private Object[] field_74247_c;
-    private List field_74245_d;
+    private List<String> field_74245_d;
     private final GuiScreen field_98095_n;
 
     public GuiDisconnected(GuiScreen par1GuiScreen, String par2Str, String par3Str, Object ... par4ArrayOfObj)
@@ -70,7 +70,7 @@ public class GuiDisconnected extends GuiScreen
 
         if (this.field_74245_d != null)
         {
-            for (Iterator var5 = this.field_74245_d.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
+            for (Iterator<String> var5 = this.field_74245_d.iterator(); var5.hasNext(); var4 += this.fontRenderer.FONT_HEIGHT)
             {
                 String var6 = (String)var5.next();
                 this.drawCenteredString(this.fontRenderer, var6, this.width / 2, var4, 16777215);

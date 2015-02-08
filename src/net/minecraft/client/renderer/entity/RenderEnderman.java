@@ -2,7 +2,6 @@ package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockInfoContainer;
 import net.minecraft.client.model.ModelEnderman;
 import net.minecraft.client.renderer.OpenGlHelper;

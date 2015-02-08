@@ -2,7 +2,10 @@ package net.minecraft.client.multiplayer;
 
 import net.aegistudio.minecraft.utopian.event.EventHandlerRegistry;
 import net.aegistudio.minecraft.utopian.event.action.BlockActivateAction;
-import net.aegistudio.minecraft.utopian.event.action.BlockPlacingAction;
+import net.aegistudio.minecraft.utopian.event.action.BlockBreakAction;
+import net.aegistudio.minecraft.utopian.event.action.BlockDamageAction;
+import net.aegistudio.minecraft.utopian.event.action.BlockPlaceAction;
+import net.aegistudio.minecraft.utopian.event.action.BlockStopDamageAction;
 import net.aegistudio.minecraft.utopian.event.action.EntityAttackAction;
 import net.aegistudio.minecraft.utopian.event.action.EntityInteractAction;
 import net.minecraft.block.Block;
@@ -182,6 +185,15 @@ public class PlayerControllerMP
         {
             if (this.currentGameType.isCreative())
             {
+            	//XXX Begin Minecraft UtopianHook
+            	//XXX Hook BlockBreakAction
+            	{
+        	    	BlockBreakAction blockbreak_action = new BlockBreakAction(this.mc.thePlayer, x, y, z, side, false);
+        	    	EventHandlerRegistry.getInstance().invoke(blockbreak_action);
+        	    	if(blockbreak_action.isCancelled()) return;
+            	}
+            	//XXX End Of Minecraft UtopianHook
+            	
                 this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side));
                 clickBlockCreative(this.mc, this, x, y, z, side);
                 this.blockHitDelay = 5;
@@ -190,9 +202,27 @@ public class PlayerControllerMP
             {
                 if (this.isHittingBlock)
                 {
+                	//XXX Begin Minecraft UtopianHook
+                	//XXX Hook BlockDamageAction
+                	{
+            	    	BlockStopDamageAction blockstopdamage_action = new BlockStopDamageAction(this.mc.thePlayer, x, y, z, side, false);
+            	    	EventHandlerRegistry.getInstance().invoke(blockstopdamage_action);
+            	    	if(blockstopdamage_action.isCancelled()) return;
+                	}
+                	//XXX End Of Minecraft UtopianHook
+                	
                     this.netClientHandler.addToSendQueue(new Packet14BlockDig(1, this.currentBlockX, this.currentBlockY, this.currentblockZ, side));
                 }
 
+            	//XXX Begin Minecraft UtopianHook
+            	//XXX Hook BlockDamageAction
+            	{
+        	    	BlockDamageAction blockdamage_action = new BlockDamageAction(this.mc.thePlayer, x, y, z, side, false);
+        	    	EventHandlerRegistry.getInstance().invoke(blockdamage_action);
+        	    	if(blockdamage_action.isCancelled()) return;
+            	}
+            	//XXX End Of Minecraft UtopianHook
+                
                 this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side));
                 int var5 = this.mc.theWorld.getBlockId(x, y, z);
 
@@ -238,38 +268,47 @@ public class PlayerControllerMP
     /**
      * Called when a player damages a block and updates damage counters
      */
-    public void onPlayerDamageBlock(int par1, int par2, int par3, int par4)
+    public void onPlayerDamageBlock(int x, int y, int z, int side)
     {
         this.syncCurrentPlayItem();
-
+        
         if (this.blockHitDelay > 0)
         {
             --this.blockHitDelay;
         }
         else if (this.currentGameType.isCreative())
         {
-            this.blockHitDelay = 5;
-            this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, par1, par2, par3, par4));
-            clickBlockCreative(this.mc, this, par1, par2, par3, par4);
+        	//XXX Begin Minecraft UtopianHook
+        	//XXX Hook BlockBreakAction
+        	{
+    	    	BlockBreakAction blockbreak_action = new BlockBreakAction(this.mc.thePlayer, x, y, z, side, false);
+    	    	EventHandlerRegistry.getInstance().invoke(blockbreak_action);
+    	    	if(blockbreak_action.isCancelled()) return;
+        	}
+        	//XXX End Of Minecraft UtopianHook
+        	
+        	this.blockHitDelay = 5;
+            this.netClientHandler.addToSendQueue(new Packet14BlockDig(0, x, y, z, side));
+            clickBlockCreative(this.mc, this, x, y, z, side);
         }
         else
         {
-            if (this.sameToolAndBlock(par1, par2, par3))
+            if (this.sameToolAndBlock(x, y, z))
             {
-                int var5 = this.mc.theWorld.getBlockId(par1, par2, par3);
+                int blockId = this.mc.theWorld.getBlockId(x, y, z);
 
-                if (var5 == 0)
+                if (blockId == 0)
                 {
                     this.isHittingBlock = false;
                     return;
                 }
 
-                Block var6 = BlockInfoContainer.getBlockInfoContainer().getBlock(var5);
-                this.curBlockDamageMP += var6.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, par1, par2, par3);
-
-                if (this.stepSoundTickCounter % 4.0F == 0.0F && var6 != null)
+                Block block = BlockInfoContainer.getBlockInfoContainer().getBlock(blockId);
+                this.curBlockDamageMP += block.getPlayerRelativeBlockHardness(this.mc.thePlayer, this.mc.thePlayer.worldObj, x, y, z);
+                
+                if (this.stepSoundTickCounter % 4.0F == 0.0F && block != null)
                 {
-                    this.mc.sndManager.playSound(var6.stepSound.getStepSound(), (float)par1 + 0.5F, (float)par2 + 0.5F, (float)par3 + 0.5F, (var6.stepSound.getVolume() + 1.0F) / 8.0F, var6.stepSound.getPitch() * 0.5F);
+                    this.mc.sndManager.playSound(block.stepSound.getStepSound(), (float)x + 0.5F, (float)y + 0.5F, (float)z + 0.5F, (block.stepSound.getVolume() + 1.0F) / 8.0F, block.stepSound.getPitch() * 0.5F);
                 }
 
                 ++this.stepSoundTickCounter;
@@ -277,8 +316,18 @@ public class PlayerControllerMP
                 if (this.curBlockDamageMP >= 1.0F)
                 {
                     this.isHittingBlock = false;
-                    this.netClientHandler.addToSendQueue(new Packet14BlockDig(2, par1, par2, par3, par4));
-                    this.onPlayerDestroyBlock(par1, par2, par3, par4);
+                    
+                	//XXX Begin Minecraft UtopianHook
+                	//XXX Hook BlockBreakAction
+                	{
+            	    	BlockBreakAction blockbreak_action = new BlockBreakAction(this.mc.thePlayer, x, y, z, side, false);
+            	    	EventHandlerRegistry.getInstance().invoke(blockbreak_action);
+            	    	if(blockbreak_action.isCancelled()) return;
+                	}
+                	//XXX End Of Minecraft UtopianHook
+                    
+                    this.netClientHandler.addToSendQueue(new Packet14BlockDig(2, x, y, z, side));
+                    this.onPlayerDestroyBlock(x, y, z, side);
                     this.curBlockDamageMP = 0.0F;
                     this.stepSoundTickCounter = 0.0F;
                     this.blockHitDelay = 5;
@@ -288,7 +337,7 @@ public class PlayerControllerMP
             }
             else
             {
-                this.clickBlock(par1, par2, par3, par4);
+                this.clickBlock(x, y, z, side);
             }
         }
     }
@@ -325,11 +374,11 @@ public class PlayerControllerMP
      */
     private void syncCurrentPlayItem()
     {
-        int var1 = this.mc.thePlayer.inventory.currentItem;
+        int playerCurrentItem = this.mc.thePlayer.inventory.currentItem;
 
-        if (var1 != this.currentPlayerItem)
+        if (playerCurrentItem != this.currentPlayerItem)
         {
-            this.currentPlayerItem = var1;
+            this.currentPlayerItem = playerCurrentItem;
             this.netClientHandler.addToSendQueue(new Packet16BlockItemSwitch(this.currentPlayerItem));
         }
     }
@@ -366,7 +415,7 @@ public class PlayerControllerMP
         	//XXX Begin Minecraft UtopianHook
         	//XXX Hook BlockPlacingAction
         	{
-    	    	BlockPlacingAction blockplacing_action = new BlockPlacingAction(player, world, x, y, z, side, itemstack, false);
+    	    	BlockPlaceAction blockplacing_action = new BlockPlaceAction(player, world, x, y, z, side, itemstack, false);
     	    	EventHandlerRegistry.getInstance().invoke(blockplacing_action);
     	    	if(blockplacing_action.isCancelled()) return false;
         	}

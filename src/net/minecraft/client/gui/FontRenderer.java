@@ -830,9 +830,9 @@ public class FontRenderer
      */
     private void renderSplitString(String par1Str, int par2, int par3, int par4, boolean par5)
     {
-        List var6 = this.listFormattedStringToWidth(par1Str, par4);
+        List<String> var6 = this.listFormattedStringToWidth(par1Str, par4);
 
-        for (Iterator var7 = var6.iterator(); var7.hasNext(); par3 += this.FONT_HEIGHT)
+        for (Iterator<String> var7 = var6.iterator(); var7.hasNext(); par3 += this.FONT_HEIGHT)
         {
             String var8 = (String)var7.next();
             this.renderStringAligned(var8, par2, par3, par4, this.textColor, par5);
@@ -876,7 +876,7 @@ public class FontRenderer
     /**
      * Breaks a string into a list of pieces that will fit a specified width.
      */
-    public List listFormattedStringToWidth(String par1Str, int par2)
+    public List<String> listFormattedStringToWidth(String par1Str, int par2)
     {
         return Arrays.asList(this.wrapFormattedStringToWidth(par1Str, par2).split("\n"));
     }

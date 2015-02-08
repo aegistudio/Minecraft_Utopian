@@ -19,7 +19,7 @@ public class CraftingManager
     private static final CraftingManager instance = new CraftingManager();
 
     /** A list of all the recipes added */
-    private List recipes = new ArrayList();
+    private List<IRecipe> recipes = new ArrayList<IRecipe>();
 
     /**
      * Returns the static instance of this class
@@ -183,9 +183,9 @@ public class CraftingManager
             }
         }
 
-        HashMap var12;
+        HashMap<Character, ItemStack> var12;
 
-        for (var12 = new HashMap(); var4 < par2ArrayOfObj.length; var4 += 2)
+        for (var12 = new HashMap<Character, ItemStack>(); var4 < par2ArrayOfObj.length; var4 += 2)
         {
             Character var13 = (Character)par2ArrayOfObj[var4];
             ItemStack var14 = null;
@@ -230,7 +230,7 @@ public class CraftingManager
     @Intrude("addShapelessRecipe")
     void addShapelessRecipe(ItemStack par1ItemStack, Object ... par2ArrayOfObj)
     {
-        ArrayList var3 = new ArrayList();
+        ArrayList<ItemStack> var3 = new ArrayList<ItemStack>();
         Object[] var4 = par2ArrayOfObj;
         int var5 = par2ArrayOfObj.length;
 
@@ -323,7 +323,7 @@ public class CraftingManager
     /**
      * returns the List<> of all recipes
      */
-    public List getRecipeList()
+    public List<IRecipe> getRecipeList()
     {
         return this.recipes;
     }

@@ -11,7 +11,7 @@ public class AchievementMap
     public static AchievementMap instance = new AchievementMap();
 
     /** Maps a achievement id with it's unique GUID. */
-    private Map guidMap = new HashMap();
+    private Map<Integer, String> guidMap = new HashMap<Integer, String>();
 
     private AchievementMap()
     {

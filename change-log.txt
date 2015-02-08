@@ -1,5 +1,5 @@
 *********************************************
-*        Minecraft Utopian Change Log       *
+*       Minecraft Utopian Change Log        *
 *********************************************
 
 # 0.0.0.1 alpha
@@ -43,3 +43,12 @@
 - Events can be dedicated now.
 - Adding tile entity renderer helper into the API, making it possible to register new tile entity renderer, as well as removing existing ones.
 - Adding entity renderer helper into the API, making it possible to register new entity renderer, as well as removing existing ones.
+
+# 0.0.0.8 alpha
+- Fixed month defects in splash text patch.
+- Optimizing the classes of NBT by using table driven methods.
+- Fully rewritten the world decorator in the game.
+- It's now possible to add and remove world generators into the game. (Not including structure generator.)
+- Adding the expressive world generators which is specially designed for generating complex structure into API.
+- Reducing the warnings caused by generic types of the de-obfuscated code.
+- Continuing adding more block events into the API.

@@ -2,7 +2,9 @@ package net.minecraft.client.gui.achievement;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.stats.StatBase;
 import net.minecraft.stats.StatCrafting;
 import net.minecraft.stats.StatList;
 
@@ -15,8 +17,8 @@ class GuiSlotStatsItem extends GuiSlotStats
     {
         super(par1GuiStats);
         this.slotGuiStats = par1GuiStats;
-        this.field_77266_h = new ArrayList();
-        Iterator var2 = StatList.itemStats.iterator();
+        this.field_77266_h = new ArrayList<StatCrafting>();
+        Iterator<StatBase> var2 = StatList.itemStats.iterator();
 
         while (var2.hasNext())
         {
