@@ -462,7 +462,11 @@ public class NetServerHandler extends NetHandler
             	{
         	    	BlockDamageAction blockdamage_action = new BlockDamageAction(this.playerEntity, par1Packet14BlockDig.xPosition, par1Packet14BlockDig.yPosition, par1Packet14BlockDig.zPosition, par1Packet14BlockDig.face, true);
         	    	EventHandlerRegistry.getInstance().invoke(blockdamage_action);
-        	    	if(blockdamage_action.isCancelled()) return;
+        	    	if(blockdamage_action.isCancelled())
+        	    	{
+        	    		this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(block_X, block_Y, block_Z, world));
+        	    		return;
+        	    	}
             	}
             	//XXX End Of Minecraft UtopianHook
             	
@@ -482,7 +486,11 @@ public class NetServerHandler extends NetHandler
             	{
         	    	BlockBreakAction blockbreak_action = new BlockBreakAction(this.playerEntity, par1Packet14BlockDig.xPosition, par1Packet14BlockDig.yPosition, par1Packet14BlockDig.zPosition, par1Packet14BlockDig.face, true);
         	    	EventHandlerRegistry.getInstance().invoke(blockbreak_action);
-        	    	if(blockbreak_action.isCancelled()) return;
+        	    	if(blockbreak_action.isCancelled())
+        	    	{
+        	    		this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(block_X, block_Y, block_Z, world));
+        	    		return;
+        	    	}
             	}
             	//XXX End Of Minecraft UtopianHook
             	
@@ -500,7 +508,11 @@ public class NetServerHandler extends NetHandler
             	{
         	    	BlockStopDamageAction blockstopdamage_action = new BlockStopDamageAction(this.playerEntity, par1Packet14BlockDig.xPosition, par1Packet14BlockDig.yPosition, par1Packet14BlockDig.zPosition, par1Packet14BlockDig.face, true);
         	    	EventHandlerRegistry.getInstance().invoke(blockstopdamage_action);
-        	    	if(blockstopdamage_action.isCancelled()) return;
+        	    	if(blockstopdamage_action.isCancelled())
+        	    	{
+        	    		this.playerEntity.playerNetServerHandler.sendPacketToPlayer(new Packet53BlockChange(block_X, block_Y, block_Z, world));
+        	    		return;
+        	    	}
             	}
             	//XXX End Of Minecraft UtopianHook
             	
